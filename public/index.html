@@ -13,43 +13,41 @@
 <body>
     <div class="outerContainer">
         <div class="account container">
-            <form id="signup-form">
-
-                <label class="email">
-                    Email Address:
-                    <input type="text" name="email" placeholder="email" id="reg-email" />
-                </label>
-                <label class="username">
-                    Username:
-                    <input type="text" name="username" placeholder="username" id="reg-username" />
-                </label>
-                <label class="password">
-                    Password:
-                    <input type="password" name="password" placeholder="password" id="reg-password" />
+            <form id="signupForm">
+                <label>
+                    <input type="text" name="email" placeholder="Email" id="reg-email" />
                 </label>
                 <label>
-                    Profile Picture:
-                    <input type="file" value="Choose File" name="userImage" placeholder="file" class="button"
-                        id="userImage" />
+                    <input type="text" name="username" placeholder="Username" id="reg-username" />
                 </label>
+                <label>
+                    <input type="password" name="password" placeholder="Password" id="reg-password" />
+                </label>
+                <!-- <label>
+                    Profile Picture:
+                    <input type="file" value="Choose File" name="UserImage" placeholder="file" class="button"
+                        id="userImage" />
+                </label> -->
                 <div class="signup">
                     <div class="google-button">
                         <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
                     </div>
                     <div>
-                        <input type="submit" value="Sign Up" class="button" id="signup-button">
+                        <input type="submit" value="Sign Up" class="btn" id="signup-button">
                     </div>
                 </div>
                 <div>
                     Already a member?
-                    <button id="login">Login</button>
+                    <div class="btn" id="login" onclick="loginForm()">Login</div>
 
                 </div>
             </form>
         </div>
 
     </div>
+    <script src="./index.js"></script>
+    <script src="./forms.js"></script>
 </body>
-<script src="./index.js"></script>
+
 
 </html>
