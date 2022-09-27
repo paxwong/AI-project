@@ -9,18 +9,17 @@ function loginForm() {
         <input type="password" name="password" placeholder="Password" id="reg-password" />
     </label>
  
-    <div class="login">
-        <div class="google-button">
-            <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
-        </div>
-        <div>
-            <input type="submit" value="Login" class="button" id="login-button">
-        </div>
+    <div class="google-button">
+    <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
     </div>
     <div>
-        Not a member?
-        <div class="btn" id="login" onclick="signupForm()">Signup</div>
+    <input type="submit" value="Login" class="button" id="login-button">
     </div>
+  
+    <div>
+        Not a member?
+    </div>
+    <div class="btn" id="login" onclick="signupForm()">Signup</div>
     </form>
  `
 }
@@ -41,19 +40,18 @@ function signupForm() {
         <input type="file" value="Choose File" name="UserImage" placeholder="file" class="button"
             id="userImage" />
     </label> -->
-    <div class="signup">
+  
         <div class="google-button">
             <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
         </div>
         <div>
             <input type="submit" value="Sign Up" class="btn" id="signup-button">
         </div>
-    </div>
+   
     <div>
         Already a member?
-        <div class="btn" id="login" onclick="loginForm()">Login</div>
-
     </div>
+    <div class="btn" id="login" onclick="loginForm()">Login</div>
 </form>
     `
 }

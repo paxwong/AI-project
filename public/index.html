@@ -12,6 +12,7 @@
 
 <body>
     <div class="outerContainer">
+        <div class="header">WHATEVER WE ARE DOING</div>
         <div class="account container">
             <form id="signupForm">
                 <label>
@@ -28,19 +29,18 @@
                     <input type="file" value="Choose File" name="UserImage" placeholder="file" class="button"
                         id="userImage" />
                 </label> -->
-                <div class="signup">
-                    <div class="google-button">
-                        <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
-                    </div>
-                    <div>
-                        <input type="submit" value="Sign Up" class="btn" id="signup-button">
-                    </div>
+
+                <div class="google-button">
+                    <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
                 </div>
                 <div>
-                    Already a member?
-                    <div class="btn" id="login" onclick="loginForm()">Login</div>
-
+                    <input type="submit" value="Sign Up" class="btn" id="signup-button">
                 </div>
+
+                <div>
+                    Already a member?
+                </div>
+                <div class="btn" id="login" onclick="loginForm()">Login</div>
             </form>
         </div>
 
