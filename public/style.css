@@ -14,3 +14,42 @@
 #color3 {
     color: #DA0037
 }
+
+body {
+    background-color: #171717;
+}
+
+label {
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.signup {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.container {
+    padding: 5px;
+    margin: 5px;
+    background-color: #444444;
+    color: #EDEDED;
+    width: 400px;
+    border-radius: 10px;
+}
+
+input,
+button {
+    border-radius: 10px;
+    background-color: #EDEDED;
+    color: #444444;
+    margin: 10px;
+}

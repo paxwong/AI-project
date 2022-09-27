@@ -6,38 +6,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/ac1eb794af.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="outerContainer">
-        <div class="login container">
-            <form id="login-form">
-                <div>
-                    Login:
-                </div>
+        <div class="account container">
+            <form id="signup-form">
+
+                <label class="email">
+                    Email Address:
+                    <input type="text" name="email" placeholder="email" id="reg-email" />
+                </label>
                 <label class="username">
                     Username:
-                    <input type="text" name="username" placeholder="username" id="login-username" />
+                    <input type="text" name="username" placeholder="username" id="reg-username" />
                 </label>
-
-
                 <label class="password">
                     Password:
-                    <input type="password" name="password" placeholder="password" id="login-password" />
+                    <input type="password" name="password" placeholder="password" id="reg-password" />
                 </label>
-
-                <div class="loginBtn-container">
+                <label>
+                    Profile Picture:
+                    <input type="file" value="Choose File" name="userImage" placeholder="file" class="button"
+                        id="userImage" />
+                </label>
+                <div class="signup">
                     <div class="google-button">
                         <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
                     </div>
                     <div>
-                        <input type="submit" value="login" class="button" id="login-button">
+                        <input type="submit" value="Sign Up" class="button" id="signup-button">
                     </div>
+                </div>
+                <div>
+                    Already a member?
+                    <button id="login">Login</button>
+
                 </div>
             </form>
         </div>
-        <div class="register container"></div>
+
     </div>
 </body>
+<script src="./index.js"></script>
 
 </html>
