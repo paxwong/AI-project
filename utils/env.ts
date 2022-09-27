@@ -8,6 +8,6 @@ export let env = {
 	DB_USERNAME: process.env.DB_USERNAME || "postgres",
 	DB_PASSWORD: process.env.DB_PASSWORD || "postgres",
 	SESSION_SECRET: process.env.SESSION_SECRET || 'default secret',
-	// GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
+	// GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',yarn
 	// GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || ''
 }
