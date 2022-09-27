@@ -12,9 +12,9 @@ function loginForm() {
     <div class="google-button">
     <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
     </div>
-    <div>
-    <input type="submit" value="Login" class="button" id="login-button">
-    </div>
+   
+    <input type="submit" value="Login" class="btn" id="login-button">
+    
   
     <div>
         Not a member?
@@ -44,9 +44,9 @@ function signupForm() {
         <div class="google-button">
             <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
         </div>
-        <div>
+      
             <input type="submit" value="Sign Up" class="btn" id="signup-button">
-        </div>
+        
    
     <div>
         Already a member?
