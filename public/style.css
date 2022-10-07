@@ -17,9 +17,59 @@
 
 body {
     background-color: #171717;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(./img/background2.jpeg);
+    background-size: cover;
+    z-index: -1000;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-clip: content-box;
+}
+
+.color-background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(./img/background1.jpeg);
+    background-size: cover;
+    z-index: -1001;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    /* display: hidden; */
+}
+
+.cursor {
+    position: fixed;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    pointer-events: none;
+    left: -100px;
+    top: 50%;
+    mix-blend-mode: difference;
+    background-color: white;
+    background-position: 200px;
+    z-index: 10000;
+    border: 2px solid white;
+    height: 15vh;
+    width: 15vh;
+    transition: all 300ms ease-out;
 }
 
 .outerContainer {
+
     display: flex;
     margin: 20px;
     justify-content: center;
@@ -35,7 +85,16 @@ body {
     height: 400px;
     padding: 20px;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
+}
+
+.account {
+    position: absolute;
+    top: 30vh
 }
 
 form {
