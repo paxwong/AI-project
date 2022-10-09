@@ -1,5 +1,6 @@
 import express from 'express'
-import { userRoutes } from './routes/user_Route'
+import { userRoutes } from './routes/userRoute'
+import { postRoutes } from './routes/postRoute'
 
 
 export const app = express()
@@ -7,8 +8,9 @@ export const app = express()
 app.use(express.json())
 
 app.use('/user', userRoutes)
+app.use('/post', postRoutes)
 
-app.use(express.static('public')) 
+app.use(express.static('public'))
 
 
 app.listen(8080, () => {
