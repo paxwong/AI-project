@@ -1,6 +1,7 @@
 let accountContainer = document.querySelector('.account')
 function loginForm() {
     accountContainer.innerHTML = `
+    <div class="header">Welcome</div>
     <form id="loginForm">
     <label>
         <input type="text" name="email" placeholder="Email" id="reg-email" />
@@ -25,6 +26,7 @@ function loginForm() {
 }
 function signupForm() {
     accountContainer.innerHTML = `
+    <div class="header">Welcome</div>
     <form id="signupForm">
     <label>
         <input type="text" name="email" placeholder="Email" id="reg-email" />

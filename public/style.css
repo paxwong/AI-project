@@ -23,32 +23,63 @@ body {
     margin: 0;
 }
 
+
+
 .background {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-image: url(./img/background2.jpeg);
+    background-image: url(./img/background1.jpeg);
     background-size: cover;
     z-index: -1000;
     margin: 0;
     padding: 0;
     top: 0;
     left: 0;
-    background-clip: content-box;
+    /* -webkit-transition: background-image 1s ease-in-out;
+    transition: background-image 1s ease-in-out; */
+    -webkit-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+    /* visibility: hidden; */
 }
 
-.color-background {
+@keyframes bgcolor {
+    0% {
+        opacity: 100%;
+    }
+
+    25% {
+        opacity: 100%;
+    }
+
+    50% {
+        opacity: 50%;
+    }
+
+    75% {
+        opacity: 25%;
+    }
+
+    100% {
+        opacity: 0%;
+    }
+}
+
+.cursor-container {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-image: url(./img/background1.jpeg);
-    background-size: cover;
-    z-index: -1001;
+    z-index: -999;
     margin: 0;
     padding: 0;
     top: 0;
     left: 0;
-    /* display: hidden; */
+    background-color: white;
+    mix-blend-mode: saturation;
+    -webkit-animation: bgcolor 10s infinite;
+    animation: bgcolor 10s infinite;
+    /* -webkit-animation-direction: alternate;
+    animation-direction: alternate; */
 }
 
 .cursor {
@@ -61,11 +92,12 @@ body {
     mix-blend-mode: difference;
     background-color: white;
     background-position: 200px;
-    z-index: 10000;
+    z-index: 100000;
     border: 2px solid white;
     height: 15vh;
     width: 15vh;
-    transition: all 300ms ease-out;
+    transition: all 200ms ease-out;
+
 }
 
 .outerContainer {
@@ -109,6 +141,9 @@ input {
     height: 30px;
     margin: 10px;
     border-radius: 5px;
+    background-color: #171717;
+    color: #EDEDED;
+    box-shadow: none;
 }
 
 .btn {
@@ -117,7 +152,11 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #444444;
+    color: #EDEDED;
+}
+
+.btn:hover {
+    cursor: pointer;
 }
 
 
