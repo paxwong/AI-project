@@ -15,6 +15,30 @@
     color: #DA0037
 }
 
+@font-face {
+    font-family: hyperwave;
+    src: url(../font/Hyperwave.otf);
+}
+
+* {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+
+.title {
+
+    /* font-family: hyperwave; */
+    display: flex;
+    font-weight: 800;
+    font-size: 60px;
+}
+
+.wave {
+    font-family: hyperwave;
+    font-size: 100px;
+    animation: fontcolor 10s;
+}
+
 body {
     background-color: #171717;
     position: relative;
@@ -26,7 +50,8 @@ body {
     align-items: center;
 }
 
-@keyframes bgcolor {
+
+@keyframes fontcolor {
     0% {
         opacity: 100%;
     }
@@ -47,7 +72,7 @@ body {
     position: fixed;
     width: var(--X);
     height: var(--Y);
-    /* background-image: url(./img/background1.jpeg); */
+    background-image: url(./img/background1.jpeg);
     background-size: var(--X) var(--Y);
     z-index: -1001;
     margin: 0;
@@ -77,7 +102,7 @@ body {
     left: var(--cursorX);
     top: var(--cursorY);
     z-index: -100;
-    border: 2px solid white;
+    border: 1px solid white;
     height: 15vh;
     width: 15vh;
     padding: 0;
