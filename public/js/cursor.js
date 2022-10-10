@@ -20,7 +20,7 @@ var background = document.querySelector('.background-mask');
 var cursor = document.querySelector('.cursor');
 let x = 2
 function changeBackground() {
-  if (x > 3) {
+  if (x > 7) {
     x = 1
   }
   background.style.backgroundImage = `url('./img/background${x}.jpeg')`
@@ -29,10 +29,11 @@ function changeBackground() {
 
 }
 
-setInterval(changeBackground, 10000)
+setInterval(changeBackground, 5000)
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
   background.style.backgroundImage = `url('./img/background1.jpeg')`
-cursor.style.backgroundImage = `url('./img/background1.jpeg')`
+  cursor.style.backgroundImage = `url('./img/background1.jpeg')`
 }
 )
+
