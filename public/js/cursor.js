@@ -19,7 +19,7 @@ document.addEventListener('touchmove', update)
 var background = document.querySelector('.background-mask');
 var cursor = document.querySelector('.cursor');
 let x = 2
-function changeBackround() {
+function changeBackground() {
   if (x > 3) {
     x = 1
   }
@@ -29,4 +29,10 @@ function changeBackround() {
 
 }
 
-setInterval(changeBackround, 10000)
+setInterval(changeBackground, 10000)
+
+window.addEventListener('load', function() {
+  background.style.backgroundImage = `url('./img/background1.jpeg')`
+cursor.style.backgroundImage = `url('./img/background1.jpeg')`
+}
+)

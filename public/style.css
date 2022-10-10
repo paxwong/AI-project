@@ -47,7 +47,7 @@ body {
     position: fixed;
     width: var(--X);
     height: var(--Y);
-    background-image: url(./img/background1.jpeg);
+    /* background-image: url(./img/background1.jpeg); */
     background-size: var(--X) var(--Y);
     z-index: -1001;
     margin: 0;
@@ -67,7 +67,8 @@ body {
 
 .cursor {
     position: absolute;
-    background: url(./img/background1.jpeg) var(--cursorNegX) var(--cursorNegY);
+    /* background-image: url(./img/background1.jpeg) ; */
+    background-position: var(--cursorNegX) var(--cursorNegY);
     background-size: var(--X) var(--Y);
     background-repeat: no-repeat;
     border-radius: 50%;
