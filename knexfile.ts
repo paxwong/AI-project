@@ -1,35 +1,23 @@
 import type { Knex } from "knex";
-import dotenv from "dotenv";
-dotenv.config({
-  path: "../.env",
-});
-
+import { env } from './utils/env'
 // Update with your config settings.
 
 const config: { [key: string]: Knex.Config } = {
   development: {
-    debug: true,
     client: "postgresql",
     connection: {
-      database: "bad_project",
-      user: "postgres",
-      password: "postgres"
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
+      database: env.DB_NAME,
+      user: env.DB_USERNAME,
+      password: env.DB_PASSWORD
     }
   },
 
   staging: {
     client: "postgresql",
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      database: env.DB_NAME,
+      user: env.DB_USERNAME,
+      password: env.DB_PASSWORD
     },
     pool: {
       min: 2,
@@ -43,9 +31,9 @@ const config: { [key: string]: Knex.Config } = {
   production: {
     client: "postgresql",
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      database: "my_db",
+      user: "username",
+      password: "password"
     },
     pool: {
       min: 2,
