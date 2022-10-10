@@ -48,24 +48,19 @@ body {
         opacity: 100%;
     }
 
-    25% {
-        opacity: 100%;
-    }
+
 
     50% {
         opacity: 50%;
     }
 
-    75% {
-        opacity: 25%;
-    }
 
     100% {
         opacity: 0%;
     }
 }
 
-.cursor-container {
+.background-mask {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -78,8 +73,7 @@ body {
     mix-blend-mode: saturation;
     -webkit-animation: bgcolor 10s infinite;
     animation: bgcolor 10s infinite;
-    /* -webkit-animation-direction: alternate;
-    animation-direction: alternate; */
+
 }
 
 .cursor {
@@ -89,14 +83,14 @@ body {
     pointer-events: none;
     left: -100px;
     top: 50%;
-    mix-blend-mode: difference;
+    mix-blend-mode: saturation;
     background-color: white;
     background-position: 200px;
-    z-index: 100000;
+    z-index: -999;
     border: 2px solid white;
-    height: 15vh;
-    width: 15vh;
-    transition: all 200ms ease-out;
+    height: 20vh;
+    width: 20vh;
+    transition: all 100ms ease-out;
 
 }
 
@@ -111,7 +105,7 @@ body {
 
 .container {
     display: flex;
-    background-color: #444444;
+    background-color: #171717;
     color: #EDEDED;
     width: 300px;
     height: 400px;
@@ -126,7 +120,7 @@ body {
 
 .account {
     position: absolute;
-    top: 30vh
+    top: 24vh
 }
 
 form {
@@ -137,13 +131,52 @@ form {
     width: 100%;
 }
 
-input {
+.label-before,
+.field input:valid+label::before,
+.field input:focus+label::before {
+    line-height: 20px;
+    font-size: 16px;
+    top: -1px;
+    background: transparent;
+
+    padding: 0 6px;
+    left: 9px;
+}
+
+.field {
+    position: relative;
+}
+
+.field label::before {
+    content: attr(title);
+    position: absolute;
+    top: 0;
+    left: 15px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #777;
+    transition: 300ms all;
+}
+
+.field input:focus {
+    outline: 0;
+}
+
+.field input:valid+label::before {
+    content: attr(data-title);
+}
+
+
+.field input {
     height: 30px;
     margin: 10px;
-    border-radius: 5px;
     background-color: #171717;
     color: #EDEDED;
     box-shadow: none;
+    border-bottom-color: #444444;
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
 
 .btn {
@@ -152,6 +185,7 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: #444444;
     color: #EDEDED;
 }
 
