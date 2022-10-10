@@ -6,7 +6,6 @@ import { env } from "./utils/env";
 
 const config: { [key: string]: Knex.Config } = {
   development: {
-    debug: true,
     client: "postgresql",
     connection: {
       database: env.DB_NAME,
