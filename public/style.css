@@ -17,7 +17,7 @@
 
 @font-face {
     font-family: hyperwave;
-    src: url(../font/Hyperwave.otf);
+    src: url(./font/Hyperwave.otf);
 }
 
 * {
