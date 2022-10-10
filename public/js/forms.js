@@ -1,6 +1,8 @@
 let accountContainer = document.querySelector('.account')
 function loginForm() {
     accountContainer.innerHTML = `
+    <div class="title" id="title">Mang<div class="wave">A.I.</div>
+    </div>
     <div class="header">Welcome</div>
     <form id="loginForm">
 
@@ -15,9 +17,9 @@ function loginForm() {
                 </div>
 
                 <div class="google-button">
-                    <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
-                </div>
-                <br>
+                <a href="/connect/google" class="google"><i class="fa-brands fa-google"></i></a>
+            </div>
+          
                 <input type="submit" value="Login" class="btn" id="login-button">
 
                 <br>
@@ -31,6 +33,8 @@ function loginForm() {
 }
 function signupForm() {
     accountContainer.innerHTML = `
+    <div class="title" id="title">Mang<div class="wave">A.I.</div>
+    </div>
     <div class="header">Welcome</div>
     <form id="signupForm">
     <div class="field">
@@ -48,10 +52,10 @@ function signupForm() {
 </div>
 
   
-        <div class="google-button">
-            <a href="/connect/google" class="btn btn-success"><i class="fa-brands fa-google"></i></a>
-        </div>
-      <br>
+<div class="google-button">
+<a href="/connect/google" class="google"><i class="fa-brands fa-google"></i></a>
+</div>
+
             <input type="submit" value="Sign Up" class="btn" id="signup-button">
         
    <br>

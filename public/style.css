@@ -24,19 +24,29 @@
     font-family: 'Chakra Petch', sans-serif;
 }
 
+.google {
+    margin: 5px;
+    color: #EDEDED;
+}
 
 .title {
-
     /* font-family: hyperwave; */
     display: flex;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 60px;
 }
 
 .wave {
+
+    padding-left: 15px;
     font-family: hyperwave;
     font-size: 100px;
-    animation: fontcolor 10s;
+    background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fontcolor 1s linear infinite;
+
+
 }
 
 body {
@@ -53,19 +63,61 @@ body {
 
 @keyframes fontcolor {
     0% {
-        opacity: 100%;
+        background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    12.5% {
+        background: -webkit-linear-gradient(45deg, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    25% {
+        background: -webkit-linear-gradient(45deg, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
 
+    37.5% {
+        background: -webkit-linear-gradient(45deg, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
     50% {
-        opacity: 50%;
+        background: -webkit-linear-gradient(45deg, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
+    62.5% {
+        background: -webkit-linear-gradient(45deg, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    75% {
+        background: -webkit-linear-gradient(45deg, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    87.5% {
+        background: -webkit-linear-gradient(45deg, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
     100% {
-        opacity: 0%;
+        background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
+
+
 }
 
 .background-mask {
@@ -81,7 +133,9 @@ body {
     left: 0;
     filter: grayscale(100%);
     transform: translateX(-15vh) translateY(-15vh);
+
 }
+
 
 :root {
     --cursorX: -100vw;
@@ -108,6 +162,7 @@ body {
     padding: 0;
     margin: 0;
     transition: all 50ms ease-out;
+
 }
 
 .outerContainer {
@@ -124,7 +179,7 @@ body {
     background-color: #171717;
     color: #EDEDED;
     width: 300px;
-    height: 400px;
+    height: 500px;
     padding: 20px;
     border-radius: 5px;
     display: flex;
