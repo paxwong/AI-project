@@ -5,6 +5,10 @@
   "repository": "git@github.com:paxwong/AI-project.git",
   "author": "pax <paxtonw97@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev app.ts",
+    "test": "jest"
+  },
   "devDependencies": {
     "@types/express": "^4.17.14",
     "@types/jest": "^29.0.3",
