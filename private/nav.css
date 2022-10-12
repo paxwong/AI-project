@@ -208,10 +208,11 @@ footer {
     /* border: 1px solid #ccc; */
     border-top: none;
     color: #EDEDED;
+    justify-content: center;
 }
 
 .tabcontent {
-    animation: fadeEffect 1s;
+    /* animation: fadeEffect 1s; */
     /* Fading effect takes 1 second */
 }
 

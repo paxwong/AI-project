@@ -1,0 +1,410 @@
+/* MAIN COLOR */
+#mainColor {
+    color: #171717;
+}
+
+#color1 {
+    color: #444444;
+}
+
+#color2 {
+    color: #EDEDED;
+}
+
+#color3 {
+    color: #DA0037
+}
+
+@font-face {
+    font-family: hyperwave;
+    src: url(./font/Hyperwave.otf);
+}
+
+* {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+.google {
+    margin: 5px;
+    color: #EDEDED;
+}
+
+.title {
+    /* font-family: hyperwave; */
+    display: flex;
+    font-weight: 600;
+    font-size: 60px;
+}
+
+.wave {
+
+    padding-left: 15px;
+    font-family: hyperwave;
+    font-size: 100px;
+    background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fontcolor 1s linear infinite;
+
+
+}
+
+body {
+    background-color: #171717;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@keyframes fontcolor {
+    0% {
+        background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    12.5% {
+        background: -webkit-linear-gradient(45deg, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    25% {
+        background: -webkit-linear-gradient(45deg, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+
+    37.5% {
+        background: -webkit-linear-gradient(45deg, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    50% {
+        background: -webkit-linear-gradient(45deg, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b, #a166ab);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    62.5% {
+        background: -webkit-linear-gradient(45deg, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055, #ef4e7b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    75% {
+        background: -webkit-linear-gradient(45deg, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533, #f37055);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    87.5% {
+        background: -webkit-linear-gradient(45deg, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    100% {
+        background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+
+}
+
+.background-mask {
+    position: fixed;
+    width: var(--X);
+    height: var(--Y);
+    background-image: url(./img/background1.jpeg);
+    background-size: var(--X) var(--Y);
+    z-index: -1001;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    filter: grayscale(100%);
+    transform: translateX(-15vh) translateY(-15vh);
+
+}
+
+
+:root {
+    --cursorX: -100vw;
+    --cursorY: -100vh;
+    --X: 0;
+    --Y: 0;
+}
+
+.cursor {
+    position: absolute;
+    /* background-image: url(./img/background1.jpeg) ; */
+    background-position: var(--cursorNegX) var(--cursorNegY);
+    background-size: var(--X) var(--Y);
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    pointer-events: none;
+    left: var(--cursorX);
+    top: var(--cursorY);
+    z-index: -100;
+    border: 2px solid white;
+    height: 30vh;
+    width: 30vh;
+    padding: 0;
+    margin: 0;
+    transition: all 50ms ease-out;
+
+}
+
+.outerContainer {
+
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    background-color: #171717;
+    color: #EDEDED;
+    width: 300px;
+    height: 500px;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.account {
+    position: absolute;
+    top: 24vh
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.label-before,
+.field input:valid+label::before,
+.field input:focus+label::before {
+    line-height: 20px;
+    font-size: 16px;
+    top: -1px;
+    background: transparent;
+
+    padding: 0 6px;
+    left: 9px;
+}
+
+.field {
+    position: relative;
+}
+
+.field label::before {
+    content: attr(title);
+    position: absolute;
+    top: 0;
+    left: 15px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #777;
+    transition: 300ms all;
+}
+
+.field input:focus {
+    outline: 0;
+}
+
+.field input:valid+label::before {
+    content: attr(data-title);
+}
+
+
+.field input {
+    height: 30px;
+    margin: 10px;
+    background-color: #171717;
+    color: #EDEDED;
+    box-shadow: none;
+    border-bottom-color: #444444;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.btn {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #444444;
+    color: #EDEDED;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+
+
+.gradient-border {
+    --borderWidth: 3px;
+    background: #1D1F20;
+    position: relative;
+    border-radius: var(--borderWidth);
+}
+
+.gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 5s ease alternate infinite;
+    background-size: 300% 300%;
+}
+
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    /* background-color: #444444; */
+}
+
+.post {
+    background-color: #171717;
+    margin: 20px;
+    padding: 1em;
+    width: 45%;
+    height: 50vh;
+    box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+    animation: fadeEffect 1s linear;
+}
+
+h1 {
+    text-align: center;
+}
+
+.img-container {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    /* height: 600px; */
+    display: flex;
+    justify-content: center;
+    /*  box-shadow is from materialize css's website */
+    /* box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2); */
+}
+
+.img-container img {
+    height: 100%;
+}
+
+button {
+    position: absolute;
+    top: 40%;
+    height: 35px;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 00);
+    cursor: pointer;
+    padding: 1em;
+    display: flex;
+}
+
+button .arrow {
+
+    border: solid #fff;
+    border-width: 0 4px 4px 0;
+    display: inline-block;
+    padding: 10px;
+    transition: transform 0.3s ease-out;
+    outline: none;
+}
+
+#right-btn {
+    right: 0;
+    margin: auto 0 auto -2em;
+}
+
+#right-btn .arrow {
+    transform: rotate(-45deg);
+}
+
+#left-btn {
+    left: 0;
+    z-index: 0;
+    margin: auto -2em auto 0;
+}
+
+#left-btn .arrow {
+    transform: rotate(135deg);
+}
+
+@keyframes fadeEffect {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.card__footer {
+    display: flex;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.user {
+    display: flex;
+    gap: .5rem;
+}
+
+.user__info>small {
+    color: #666;
+}

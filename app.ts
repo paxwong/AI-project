@@ -11,8 +11,10 @@ app.use(express.json())
 
 // app.use('/user', userRoutes)
 // app.use('/post', postRoutes)
-
+app.use(express.static('uploads'))
 app.use(express.static('public'))
+app.use(express.static('private'))
+
 
 
 app.listen(8080, () => {
