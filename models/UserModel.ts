@@ -3,7 +3,7 @@ export default class User {
     nickname: string;
     email: string;
     password: string;
-    is_admin: boolean
+    is_admin: boolean;
     created_at: Date;
     updated_at: Date;
 }

@@ -58,6 +58,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 
@@ -125,7 +126,8 @@ body {
     width: var(--X);
     height: var(--Y);
     background-image: url(./img/background1.jpeg);
-    background-size: var(--X) var(--Y);
+    background-repeat: no-repeat;
+    background-size: auto var(--Y);
     z-index: -1001;
     margin: 0;
     padding: 0;
@@ -148,7 +150,7 @@ body {
     position: absolute;
     /* background-image: url(./img/background1.jpeg) ; */
     background-position: var(--cursorNegX) var(--cursorNegY);
-    background-size: var(--X) var(--Y);
+    background-size: auto var(--Y);
     background-repeat: no-repeat;
     border-radius: 50%;
     transform: translateX(-50%) translateY(-50%);
