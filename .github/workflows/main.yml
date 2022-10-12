@@ -44,6 +44,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
+            cd AI-project
             git pull origin main
             yarn install
             yarn knex migrate:latest --env production
