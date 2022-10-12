@@ -31,9 +31,9 @@ jobs:
           yarn knex migrate:latest --env test
           cd test
           yarn jest ./on9.test.ts
-          yarn jest ./UserController.test.ts
-          yarn jest ./UserService.test.ts
-          yarn jest ./UserIntegration.test.ts
+        # yarn jest ./UserController.test.ts
+          # yarn jest ./UserService.test.ts
+          # yarn jest ./UserIntegration.test.ts
         # working-directory: ./03_BAD/BAD005/memo_wall
   deploy:
       if: github.ref_name == 'production'
