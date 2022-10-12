@@ -30,7 +30,7 @@ jobs:
           yarn install 
           yarn knex migrate:latest --env test
           cd test
-          yarn jest ./hash.test.ts
+          yarn jest ./on9.test.ts
           yarn jest ./UserController.test.ts
           yarn jest ./UserService.test.ts
           yarn jest ./UserIntegration.test.ts
