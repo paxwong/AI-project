@@ -50,4 +50,4 @@ jobs:
             forever restart index.js
           host: mangai.tech
           user: ubuntu
-          key: ${{secrets.SSH_PRIVATE_KEY}}
+          key: ${{secrets.clscompany}}
