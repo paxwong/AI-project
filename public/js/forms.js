@@ -131,8 +131,10 @@ function login() {
             document.querySelector(".message").textContent = "You have logged in!"
             document.querySelector(".message").style.color = "greenyellow"
             document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            document.querySelector(".cursor").parentNode.removeChild(document.querySelector(".cursor"))
             setTimeout(`window.location.assign("/main.html")`, 3000)
             document.querySelector(".nothing").classList.toggle("centered-cursor")
+            document.querySelector(".border").classList.toggle("cursor-border")
         }
         if (res.error) {
             document.querySelector(".message").textContent = result.message
