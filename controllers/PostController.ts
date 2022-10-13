@@ -57,8 +57,8 @@ export default class PostController {
         // }
     }
     getPosts = async (req: Request, res: Response) => {
-        // const postsResult = await this.service.getPosts();
-        // res.json(postsResult)
-        // return
+        const postsResult = await this.service.getPosts();
+        res.json(postsResult)
+        return
     }
 }
