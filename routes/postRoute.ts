@@ -7,12 +7,18 @@ import PostController from '../controllers/PostController'
 export const postRoutes = express.Router()
 
 
-import { formParse } from "../utils/upload";
+import { formParse } from "../upload";
 import { client } from "../utils/db";
 
 export function initialize(client: Knex, io: SocketIO) {
     const service = new PostService(client);
     const controller = new PostController(service, io);
+
+    postRoutes.post('/formidable', controller.addPost)
+    postRoutes.get('/like-count/:memoId', controller.getLikeCount)
+    postRoutes.post('/like', isloggedin, controller.addLike)
+    postRoutes.get('/', controller.getPosts)
+
 
     // template route
     // postRoutes.get('/like-count/:memoId', controller.getLikeCount)
