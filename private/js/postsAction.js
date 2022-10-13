@@ -22,23 +22,46 @@
 // }
 // init();
 
+function getTimeDiff(time) {
+    let currentDate = new Date
+    let createDate = new Date(time.replace(' ', 'T'))
+    let timeFormat = 'm'
+
+    let diffInTime = Math.floor((currentDate.getTime() - createDate.getTime()) / 1000 / 60)
+    if (diffInTime > 60) {
+        diffInTime = Math.floor(diffInTime / 60)
+        timeFormat = 'h'
+    }
+    if (diffInTime > 24) {
+        diffInTime = Math.floor(diffInTime / 24)
+        timeFormat = 'days'
+    }
+
+    return (diffInTime + timeFormat)
+
+}
+
 async function loadPosts() {
     const res = await fetch('/post')
     const data = await res.json()
     console.log(data)
+    let counter = 1
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
         for (let post of data) {
+            counter++
+            let timeDiff = getTimeDiff(post.created_at)
+
             postContainer.innerHTML += `
-            <div class="post" id="${post.id}">
+            <div class="post" id="${post.id}" style="animation: fadeEffect ${counter}s linear;">
                     <div class="post-header">
                         <div class="user">
-                            Jane Doe
+                           ${post.nickname}
                         </div>
                     </div>
                     <div class="img-container">
                         <button id="left-btn"><i class="arrow"></i></button>
-                        <img" src="" alt="">
+                        <img src="/uploads/${post.con_image}" alt="">
                         <button id="right-btn"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
@@ -46,13 +69,13 @@ async function loadPosts() {
                             <i class="btn like fa-regular fa-heart"></i>
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
-                        <div class="posted-on">2h ago</div>
+                        <div class="posted-on">${timeDiff + " ago"}</div>
                         <div class="caption">
                             <div class="user">
                                 Jane Doe
                             </div>
                             <div class="content">
-                                Attack On Titan
+                                ${post.caption}
                             </div>
                         </div>
                         <div class="comment">
@@ -69,73 +92,50 @@ async function loadPosts() {
 
 
             `
+
         }
 
 
         // add event listener
-        const memoContainers = document.querySelectorAll('.memo-container')
-        for (let memoDiv of memoContainers) {
-            const editBtn = memoDiv.querySelector('.edit-btn')
-            const deleteBtn = memoDiv.querySelector('.delete-btn')
+        const posts = document.querySelectorAll('.post')
+        for (let postDiv of posts) {
+            const commentBtn = postDiv.querySelector('.message')
 
-            const likeBtn = memoDiv.querySelector('.like-btn')
+            const likeBtn = postDiv.querySelector('.like')
 
             likeBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
 
-                const res = await fetch('/memos/like', {
+                const res = await fetch('/post/like', {
                     method: 'POST',
                     body: JSON.stringify({
-                        memoIndex: data_index
+                        postIndex: data_index
                     }),
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8',
                     }
                 })
                 if (res.ok) {
-                    loadMemos()
+                    loadPosts()
                 }
 
             })
 
-            editBtn.addEventListener('click', async (e) => {
+            commentBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
-                const messageInput =
-                    memoDiv.querySelector('.message-input').value
-                // Call Edit API
-                const res = await fetch('/memos', {
-                    method: 'PUT',
+                const res = await fetch('/post/comment', {
+                    method: 'POST',
                     body: JSON.stringify({
-                        text: messageInput,
-                        index: data_index
+                        postIndex: data_index
                     }),
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-
-                if (res.ok) {
-                    loadMemos()
-                }
-            })
-
-            deleteBtn.addEventListener('click', async (e) => {
-                // Call Delete API
-                const element = e.target
-                const data_index = element.getAttribute('data_index')
-                const res = await fetch('/memos', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        index: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json; charset=utf-8',
                     }
                 })
                 if (res.ok) {
-                    loadMemos()
+                    loadPosts()
                 }
             })
         }

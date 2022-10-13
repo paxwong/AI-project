@@ -328,11 +328,15 @@ button .arrow {
 }
 
 @keyframes fadeEffect {
-    from {
+    0% {
         opacity: 0;
     }
 
-    to {
+    50% {
+        opacity: 0;
+    }
+
+    100% {
         opacity: 1;
     }
 }
@@ -372,7 +376,7 @@ small {
     min-height: 800px;
     box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
         0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-    animation: fadeEffect 1s linear;
+    /* animation: fadeEffect 1s linear; */
 }
 
 .post-footer,
