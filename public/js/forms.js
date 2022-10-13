@@ -92,21 +92,11 @@ function register() {
             })
         })
         let result = await res.json()
-        if (res.status === 400) {
-            document.querySelector(".message").textContent = result.message
-            document.querySelector(".message").style.color = "red"
-            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
-            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
-                        document.querySelector(".message").textContent = ''
-            `, 3000)
-        }
         if (res.ok) {
-            document.querySelector(".message").textContent = "Account created successfully!"
-            document.querySelector(".message").style.color = "greenyellow"
-            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
-            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
-                        loginForm()
-            `, 3000)
+            successRegister()
+        }
+        if (res.error) {
+            failRegister()
         }
     })
 }
@@ -128,22 +118,48 @@ function login() {
         })
         let result = await res.json()
         if (res.ok) {
-            document.querySelector(".message").textContent = "You have logged in!"
-            document.querySelector(".message").style.color = "greenyellow"
-            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
-            document.querySelector(".cursor").parentNode.removeChild(document.querySelector(".cursor"))
-            setTimeout(`window.location.assign("/main.html")`, 3000)
-            document.querySelector(".nothing").classList.toggle("centered-cursor")
-            document.querySelector(".border").classList.toggle("cursor-border")
+            successLogin()
         }
         if (res.error) {
-            document.querySelector(".message").textContent = result.message
-            document.querySelector(".message").style.color = "red"
-            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
-            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
-                            document.querySelector(".message").textContent = ''
-                `, 3000)
+            failLogin()
         }
     })
 }
 login()
+
+function successLogin() {
+    document.querySelector(".message").textContent = "You have logged in!"
+    document.querySelector(".message").style.color = "greenyellow"
+    document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+    document.querySelector(".cursor").parentNode.removeChild(document.querySelector(".cursor"))
+    setTimeout(`window.location.assign("/main.html")`, 3000)
+    document.querySelector(".nothing").classList.toggle("centered-cursor")
+    document.querySelector(".border").classList.toggle("cursor-border")
+}
+
+function successRegister() {
+    document.querySelector(".message").textContent = "Account created successfully!"
+    document.querySelector(".message").style.color = "greenyellow"
+    document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+    setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                loginForm()
+    `, 3000)
+}
+
+function failLogin() {
+    document.querySelector(".message").textContent = result.message
+    document.querySelector(".message").style.color = "red"
+    document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+    setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    document.querySelector(".message").textContent = ''
+        `, 3000)
+}
+
+function failRegister() {
+    document.querySelector(".message").textContent = result.message
+    document.querySelector(".message").style.color = "red"
+    document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+    setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                document.querySelector(".message").textContent = ''
+    `, 3000)
+}
