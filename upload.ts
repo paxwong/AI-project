@@ -20,12 +20,14 @@ export const formParse = (req: express.Request) => {
 				reject(err)
 			}
 			try {
+				console.log('here formParse')
+				// const user = req.session["user"].id
 				const text = fields.text
-				const fromSocketId = fields.fromSocketId
+				// const fromSocketId = fields.fromSocketId
 				let file = Array.isArray(files.image)
 					? files.image[0]
 					: files.image
-				console.log(file)
+				// console.log(file)
 				const filename = file ? file.newFilename : null
 
 				console.log({
@@ -36,8 +38,10 @@ export const formParse = (req: express.Request) => {
 				resolve({
 					filename,
 					text,
-					fromSocketId
+					// user
+					// fromSocketId
 				})
+				console.log("formParse successful")
 			} catch (error) {
 				console.log('error in form parsing', error)
 				reject(error)

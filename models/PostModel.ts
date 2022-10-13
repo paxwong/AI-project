@@ -6,3 +6,4 @@ export default class Post {
     created_at: Date;
     updated_at: Date;
 }
+

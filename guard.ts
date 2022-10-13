@@ -5,10 +5,10 @@ export const isloggedin = (
 	res: express.Response,
 	next: express.NextFunction
 ) => {
-	if (req.session['user'] && req.session['user'].username) {
-		next()
-		return
-	}
+	// if (req.session['user'] && req.session['user'].username) {
+	// 	next()
+	// 	return
+	// }
 	res.status(401).send('Please login first')
 	return
 }
