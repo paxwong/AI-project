@@ -10,13 +10,23 @@ export default class UserService {
         if (needHash) {
             hashedPassword = await hashPassword(password)
         }
-        return (await this.knex.insert({nickname:username, email:email, password:hashedPassword, is_admin:true}).into("users").returning("*"))[0] as User;
+        return (await this.knex.insert({ nickname: username, email: email, password: hashedPassword, is_admin: true }).into("users").returning("*"))[0] as User;
     }
 
 
     async getUser(email: string) {
         let dbUser: User = (await this.knex.select("*").from("users").where({ "email": email }))[0];
         return dbUser;
+    }
+
+    async checkName(username: string) {
+        let checkName = (await this.knex.select("*").from("users").where({ "nickname": username }))[0];
+        return checkName;
+    }
+
+    async checkEmail(email: string) {
+        let checkEmail = (await this.knex.select("*").from("users").where({ "email": email }))[0];
+        return checkEmail;
     }
     // Template service
     // async getUsers(): Promise<User[]> {

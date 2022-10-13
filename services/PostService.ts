@@ -46,13 +46,11 @@ export default class PostService {
 
 
     async getPosts() {
-        return (await this.knex.raw('select posts.id, posts.caption, posts.status, posts.user_id, posts.created_at, raw.image as raw_image, con.image as con_image from posts inner join raw_images raw on raw.post_id = posts.id inner join converted_images con on con.raw_id = raw.id')).rows
+        return (await this.knex.raw('select posts.id, posts.caption, posts.status, posts.user_id, users.nickname, posts.created_at, raw.image as raw_image, con.image as con_image from posts inner join users on users.id = posts.user_id inner join raw_images raw on raw.post_id = posts.id inner join converted_images con on con.raw_id = raw.id')).rows
     }
 
     async getLikeCount() { }
     async addLike() { }
-
-
 
 
 
