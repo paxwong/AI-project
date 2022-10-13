@@ -20,10 +20,27 @@ export default class UserController {
             const email = req.body.email
             const password = req.body.password
             const needHash = true
+            
             // Add a function here to disable symbols in username
-
+            
             if (!username || !email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
+                return
+            }
+            
+            let checkEmail = await this.service.checkEmail(email)
+            if (checkEmail) {
+                res.status(400).json({
+                    message: 'This email has been registered'
+                })
+                return
+            }
+            
+            let checkName = await this.service.checkName(username)
+            if (checkName) {
+                res.status(400).json({
+                    message: 'This username has been registered'
+                })
                 return
             }
 

@@ -265,27 +265,31 @@ form {
 .btn:hover {
     cursor: pointer;
 }
-
-#fail-border{
-    --borderWidth: 10px;
+#success-border{
+    --borderWidth: 3px;
     background: #1D1F20;
     position: relative;
     border-radius: var(--borderWidth);
-    animation: fadeinward 5s linear;
 }
 
-@keyframes fadeinward {
-    0% {
-        --borderWidth: 10px;
-    }
+#success-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: greenyellow;
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -0.5;
+    background-size: 300% 300%;
+}
 
-    50%{
-        --borderWidth: 5px;
-    }
-
-    100% {
-        --borderWidth: 0px;
-    }
+#fail-border{
+    --borderWidth: 3px;
+    background: #1D1F20;
+    position: relative;
+    border-radius: var(--borderWidth);
 }
 
 #fail-border:after {
@@ -335,4 +339,11 @@ form {
     100% {
         background-position: 0% 50%;
     }
+}
+
+.message{
+    position: absolute;
+    bottom: 10px;
+    color: red;
+    font-size: 1.2rem;
 }

@@ -29,11 +29,14 @@ function loginForm() {
                 <br>
                 <div class="" id="login" onclick="signupForm()">Signup</div>
             </form>
+            <div class="message"></div>
+
  `
-login()
+    login()
 }
 function signupForm() {
-    accountContainer.innerHTML = `
+    accountContainer.innerHTML =
+        `
     <div class="title" id="title">Mang<div class="wave">A.I.</div>
     </div>
     <div class="header">Welcome</div>
@@ -66,6 +69,7 @@ function signupForm() {
     <br>
     <div class="" id="login" onclick="loginForm()">Login</div>
 </form>
+<div class="message"></div>
     `
     register()
 
@@ -87,8 +91,22 @@ function register() {
                 username, email, password
             })
         })
+        let result = await res.json()
+        if (res.status === 400) {
+            document.querySelector(".message").textContent = result.message
+            document.querySelector(".message").style.color = "red"
+            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                        document.querySelector(".message").textContent = ''
+            `, 3000)
+        }
         if (res.ok) {
-            alert("Successfully registered!")
+            document.querySelector(".message").textContent = "Account created successfully!"
+            document.querySelector(".message").style.color = "greenyellow"
+            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                        loginForm()
+            `, 3000)
         }
         // if (res.status === 400){
         //     document.querySelector(".account container")
@@ -111,8 +129,20 @@ function login() {
                 email, password
             })
         })
+        let result = await res.json()
         if (res.ok) {
-            alert("Successfully logged in!")
+            document.querySelector(".message").textContent = "You have logged in!"
+            document.querySelector(".message").style.color = "greenyellow"
+            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            setTimeout(`window.location.assign("/main.html")`, 3000)
+        }
+        if (res.error) {
+            document.querySelector(".message").textContent = result.message
+            document.querySelector(".message").style.color = "red"
+            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                            document.querySelector(".message").textContent = ''
+                `, 3000)
         }
     })
 }
