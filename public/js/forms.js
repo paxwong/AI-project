@@ -108,9 +108,6 @@ function register() {
                         loginForm()
             `, 3000)
         }
-        // if (res.status === 400){
-        //     document.querySelector(".account container")
-        // }
     })
 }
 
@@ -135,6 +132,7 @@ function login() {
             document.querySelector(".message").style.color = "greenyellow"
             document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
             setTimeout(`window.location.assign("/main.html")`, 3000)
+            document.querySelector(".nothing").classList.toggle("centered-cursor")
         }
         if (res.error) {
             document.querySelector(".message").textContent = result.message
