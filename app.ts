@@ -10,7 +10,7 @@ export const knex = Knex(knexConfig);
 
 import fs from 'fs'
 import { uploadDir } from './upload'
-import { logger } from './logger'
+// import { logger } from './logger'
 import { initialize as initializePostRoutes, postRoutes } from './routes/postRoute'
 import http from 'http'
 import { Server as SocketIO } from 'socket.io'
@@ -63,6 +63,11 @@ initializePostRoutes(knex, io)
 
 app.use('/user', userRoutes)
 app.use('/post', postRoutes)
+
+app.get('/session', function(req, res) {
+	let session = req.session
+	res.status(200).json({session})
+})
 
 fs.mkdirSync(uploadDir, { recursive: true })
 
