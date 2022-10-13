@@ -207,6 +207,7 @@ footer {
 
 /* Style the tab content */
 .tabcontent {
+    min-width: 900px;
     display: none;
     padding: 20px 16px;
     /* border: 1px solid #ccc; */
