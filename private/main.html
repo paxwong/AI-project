@@ -8,89 +8,114 @@
 
     <link rel="stylesheet" href="./main.css">
     <link rel="stylesheet" href="./nav.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/fbd3e21fca.js" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
     <title>MangA.I.</title>
 </head>
 
+<body>
+
+
+    <nav>
+
+        <ul class="menuItems tab">
 
 
 
-<nav>
+            <li><a href='#' class="tablinks" onclick="openTab(event, 'MangA.I.')" id="defaultOpen">
+                    <div class="title" id="title">MANG<div class="wave">A.I.</div>
+                    </div>
+                </a></li>
+            <li><a href='#' data-item='+Create' class="tablinks crea" onclick="openTab(event, '+Create')">+Create</a>
+            </li>
+            <li><a href='#' data-item='Contact' class="tablinks" onclick="openTab(event, 'Contact')">Contact</a>
+            </li>
 
-    <ul class="menuItems tab">
+        </ul>
 
+        <div id="MangA.I." class="tabcontent">
 
-
-        <li><a href='#' class="tablinks" onclick="openTab(event, 'MangA.I.')" id="defaultOpen">
-                <div class="title" id="title">MANG<div class="wave">A.I.</div>
-                </div>
-            </a></li>
-        <li><a href='#' data-item='+Create' class="tablinks crea" onclick="openTab(event, '+Create')">+Create</a>
-        </li>
-        <li><a href='#' data-item='Contact' class="tablinks" onclick="openTab(event, 'Contact')">Contact</a>
-        </li>
-
-    </ul>
-
-    <div id="MangA.I." class="tabcontent">
-
-        <div class="post-container">
-            <div class="post" id="p1">
-                <div class="post-footer">
-                    <div class="user">
-                        <div class="user__info">
-                            <h5>Jane Doe</h5>
-                            <small>2h ago</small>
+            <div class="post-container">
+                <div class="post" id="p1">
+                    <div class="post-header">
+                        <div class="user">
+                            <div class="user__info">
+                                <h5>Jane Doe</h5>
+                                <small>2h ago</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="img-container">
-                    <button id="left-btn"><i class="arrow"></i></button>
-                    <img id="p1-image" src="" alt="">
-                    <button id="right-btn"><i class="arrow"></i></button>
-                </div>
-
-            </div>
-            <div class="post" id="p2">
-                <div class="post-footer">
-                    <div class="user">
-                        <div class="user__info">
-                            <h5>Jony Doe</h5>
-                            <small>Yesterday</small>
+                    <div class="img-container">
+                        <button id="left-btn"><i class="arrow"></i></button>
+                        <img id="p1-image" src="" alt="">
+                        <button id="right-btn"><i class="arrow"></i></button>
+                    </div>
+                    <div class="post-footer">
+                        <div class="buttons-container">
+                            <div class="btn"><i class="fa-regular fa-heart"></i></div>
+                            <div class="btn"><i class="fa-regular fa-message"></i></i></div>
+                        </div>
+                        <div class="user">
+                            <div class="user__info">
+                                <h5>Jony Doe</h5>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="img-container">
-                    <button id="left-btn"><i class="arrow"></i></button>
-                    <img id="p2" src="" alt="">
-                    <button id="right-btn"><i class="arrow"></i></button>
+                <div class="post" id="p2">
+                    <div class="post-footer">
+                        <div class="user">
+                            <div class="user__info">
+                                <h5>Jony Doe</h5>
+                                <small>Yesterday</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img-container">
+                        <button id="left-btn"><i class="arrow"></i></button>
+                        <img id="p2" src="" alt="">
+                        <button id="right-btn"><i class="arrow"></i></button>
+                    </div>
+
+                </div>
+                <div class="post" id="p3">
+                    <div class="post-footer">
+                        <div class="user">
+                            <div class="user__info">
+                                <h5>Jane Doe</h5>
+                                <small>2h ago</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img-container">
+                        <button id="left-btn"><i class="arrow"></i></button>
+                        <img id="p3" src="" alt="">
+                        <button id="right-btn"><i class="arrow"></i></button>
+                    </div>
                 </div>
 
-            </div>
-            <div class="post" id="p3">
-                <div class="img-container">
-                    <button id="left-btn"><i class="arrow"></i></button>
-                    <img id="p3" src="" alt="">
-                    <button id="right-btn"><i class="arrow"></i></button>
-                </div>
             </div>
 
         </div>
+        <div id="+Create" class="tabcontent">EDITING TOOLS</div>
+        <div id="Contact" class="tabcontent" style="font-size: 100px;">ANGEL FONG GAA</div>
 
-    </div>
-    <div id="+Create" class="tabcontent">EDITING TOOLS</div>
-    <div id="Contact" class="tabcontent" style="font-size: 100px;">ANGEL FONG GAA</div>
+    </nav>
+    <left></left>
+    <main></main>
+    <right></right>
 
-</nav>
-<left></left>
-<main></main>
-<right></right>
-
-<footer>
-    <div>
-        <a href="https://student.tecky.io" class="white-text" target="_blank">&copy; Developed by MangA.I. CLS
-            Company</a>
-    </div>
-</footer>
+    <footer>
+        <div>
+            <a href="https://student.tecky.io" class="white-text" target="_blank">&copy; Developed by MangA.I. CLS
+                Company</a>
+        </div>
+    </footer>
 
 </body>
 

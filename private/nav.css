@@ -84,7 +84,7 @@ a:hover::before {
 nav {
     position: absolute;
     top: 0;
-    width: 100%;
+    width: 100vw;
 
 }
 
@@ -169,13 +169,17 @@ footer {
 
 /* Style the tab */
 .tab {
+    position: sticky;
+    top: 0;
+    left: 0;
     padding-left: 0;
     overflow: hidden;
-    /* border: 1px solid rgb(231, 246, 242); */
+    width: 100%;
+    min-width: 900px;
     ;
     background-color: #444444;
     font-family: 'Raleway', sans-serif;
-    ;
+    z-index: +1
 }
 
 /* Style the buttons that are used to open the tab content */
