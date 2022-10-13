@@ -212,7 +212,7 @@ form {
 
 .btn {
     font-size: medium;
-    width: 1rem;
+    width: auto;
     margin-right: 1rem;
 }
 
@@ -258,28 +258,6 @@ form {
     }
 }
 
-.post-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-    /* background-color: #444444; */
-}
-
-.post {
-    background-color: #171717;
-    margin: 20px;
-    padding: 1em 0;
-    width: 600px;
-    min-width: 600px;
-    /* height: 50vh; */
-    min-height: 800px;
-    box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
-        0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-    animation: fadeEffect 1s linear;
-}
 
 h1 {
     text-align: center;
@@ -359,21 +337,107 @@ button .arrow {
     }
 }
 
-.user {
-    display: flex;
-    gap: .5rem;
+
+
+small {
+    color: #666;
 }
 
-.user__info>small {
-    color: #666;
+
+
+
+
+
+
+
+
+
+/* POST */
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    /* background-color: #444444; */
+}
+
+.post {
+    background-color: #171717;
+    margin: 20px;
+    width: 600px;
+    min-width: 600px;
+    /* height: 50vh; */
+    min-height: 800px;
+    box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+    animation: fadeEffect 1s linear;
 }
 
 .post-footer,
 .post-header {
+    width: 100%;
     padding: 10px;
 }
 
-.buttons-container {
-    width: 100%;
+.user {
+    font-size: small;
+    font-weight: 900;
+    width: auto;
+    /* display: flex; */
+}
+
+.post-footer {
+    width: 600px;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+.buttons-container {
+    width: 80%;
+    display: flex;
+    height: 20px;
+}
+
+.posted-on {
+    color: #686767;
+    font-size: x-small;
+    display: flex;
+    width: 20%;
+    justify-content: flex-end;
+
+}
+
+.caption {
+    padding: 5px;
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+}
+
+.comment {
+    padding: 5px;
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+}
+
+.content {
+    margin-left: 5px;
+    width: 85%;
+    font-size: x-small;
+    color: #686767;
+
+}
+
+.like {
+    color: #DA0037;
+    font-size: large;
+}
+
+.message {
+    font-size: large;
 }
