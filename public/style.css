@@ -266,7 +266,40 @@ form {
     cursor: pointer;
 }
 
+#fail-border{
+    --borderWidth: 10px;
+    background: #1D1F20;
+    position: relative;
+    border-radius: var(--borderWidth);
+    animation: fadeinward 5s linear;
+}
 
+@keyframes fadeinward {
+    0% {
+        --borderWidth: 10px;
+    }
+
+    50%{
+        --borderWidth: 5px;
+    }
+
+    100% {
+        --borderWidth: 0px;
+    }
+}
+
+#fail-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: red;
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -0.5;
+    background-size: 300% 300%;
+}
 
 .gradient-border {
     --borderWidth: 3px;

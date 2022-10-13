@@ -9,6 +9,9 @@ export function initialize(client: Knex, io: SocketIO) {
     const userService = new UserService(client);
     const userController = new UserController(userService, io);
 
+    userRoutes.post('/register', userController.register)
+	userRoutes.post('/login', userController.login)
+
     // template route
     // userRoutes.get('/', userController.getUsers)
     // userRoutes.post('/register', userController.register)	
