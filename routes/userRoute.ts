@@ -11,6 +11,8 @@ export function initialize(client: Knex, io: SocketIO) {
 
     userRoutes.post('/register', userController.register)
 	userRoutes.post('/login', userController.login)
+    userRoutes.get('/logout', userController.logout)
+    userRoutes.get('/getMyInfo', userController.getMyInfo)
 
     // template route
     // userRoutes.get('/', userController.getUsers)
