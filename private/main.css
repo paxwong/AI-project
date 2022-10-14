@@ -464,7 +464,7 @@ small {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    overflow: hidden;
 }
 
 #profile-picture {
@@ -476,7 +476,9 @@ small {
 }
 
 #profile-name {
+    margin: 0 15px 0 5px;
     color: white;
     font-size: 30px;
     font-weight: 600;
 }
+
