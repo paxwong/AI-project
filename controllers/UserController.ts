@@ -20,14 +20,14 @@ export default class UserController {
             const email = req.body.email
             const password = req.body.password
             const needHash = true
-            
+
             // Add a function here to disable symbols in username
-            
+
             if (!username || !email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
                 return
             }
-            
+
             let checkEmail = await this.service.checkEmail(email)
             if (checkEmail) {
                 res.status(400).json({
@@ -35,7 +35,7 @@ export default class UserController {
                 })
                 return
             }
-            
+
             let checkName = await this.service.checkName(username)
             if (checkName) {
                 res.status(400).json({
@@ -81,15 +81,15 @@ export default class UserController {
             }
 
             let {
-                password:hashPassword,
+                password: hashPassword,
                 is_admin,
                 created_at,
                 updated_at,
-                ...sessionUser 
+                ...sessionUser
             } = dbUser
 
-            req.session["user"] = sessionUser 
-            
+            req.session["user"] = sessionUser
+
             res.status(200).json({
                 message: 'Success login',
                 user: sessionUser
@@ -100,9 +100,32 @@ export default class UserController {
         }
     }
 
-    // Template controller
-    // getUsers = async (req: Request, res: Response)=>{
-    //     let results=await this.service.getUsers()
-    //     res.json(results);
-    // }
+    logout = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'User not found' })
+                return
+            }
+            req.session.destroy
+            res.status(200).json({ message: 'logged out' })
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+
+        }
+    }
+
+    getMyInfo = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'User not found' })
+                return
+            }
+            let nickname = req.session["user"].nickname
+            res.status(200).json({ message: nickname })
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
+    }
 }

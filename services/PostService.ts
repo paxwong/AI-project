@@ -4,6 +4,8 @@ import { raw, Request, Response } from "express"
 import Post from '../models/PostModel';
 import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";
+import Comment from "../models/CommentModel";
+import Like from "../models/LikeModel";
 
 export default class PostService {
     constructor(private knex: Knex) { }
@@ -33,20 +35,82 @@ export default class PostService {
     }
 
 
-
     async getPosts() {
-        return (await this.knex.raw('select posts.id, posts.caption, posts.status, posts.user_id, users.nickname, posts.created_at, raw.image as raw_image, con.image as con_image from posts inner join users on users.id = posts.user_id inner join raw_images raw on raw.post_id = posts.id inner join converted_images con on con.raw_id = raw.id')).rows
+        let result = (await this.knex.raw(
+            /*sql*/`
+        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname, posts.created_at, raw.image as raw_image, con.image as con_image 
+        from posts 
+        inner join users on users.id = posts.user_id 
+        inner join raw_images raw on raw.post_id = posts.id 
+        inner join converted_images con on con.raw_id = raw.id`)).rows
+
+        return result
+        // console.log(result[0]);
+        // interface Image {
+        //     raw_image: string,
+        //     con_image: number
+        // }
+
+        // let groupedPosts = new Map();
+        // for (let row of result) {
+        //     const image: Image = {
+        //         raw_image: row.raw_image,
+        //         con_image: row.con_image,
+        //     };
+        //     if (groupedPosts.has(row.id)) {
+        //         groupedPosts.get(row.id).images.push(image);
+        //     } else {
+        //         const post = {
+        //             id: row.id,
+        //             caption: row.caption,
+        //             status: row.status,
+        //             created_at: row.created_at,
+        //             user_id: row.user_id,
+        //             images: [image]
+        //         };
+        //         groupedPosts.set(row.id, post);
+        //     }
+        // }
+        // const results = Array.from(groupedPosts.values());
+
+        // return results
+
     }
 
     async addComment(content: string, user: number, post: number) {
         return (await this.knex.insert({ content, user_id: user, post_id: post }).into('comments').returning('*'))[0] as Comment;
     }
     async getComment(post: number) {
-        let result: Comment[] = (await this.knex.raw("select comments.id as comment_id, comments.content, comments.user_id, comments.post_id, comments.created_at, users.nickname from comments inner join users on users.id = comments.user_id where comments.post_id = (?)", [post])).rows
+        let result: Comment[] = (await this.knex.raw(/*sql*/`
+        select comments.id as comment_id, comments.content, comments.user_id, comments.post_id, comments.created_at, users.nickname 
+        from comments 
+        inner join users on users.id = comments.user_id 
+        where comments.post_id = (?)
+        `, [post])).rows
+
         return result
     }
-    async getLikeCount() { }
-    async addLike() { }
+    async getLikeCount(post: number) {
+        let result = (await this.knex.raw(
+            /*sql*/`
+            select likes.post_id, count (likes.id)
+            from likes 
+            inner join posts on likes.post_id = posts.id
+            where likes.post_id = (?)
+            group by likes.post_id    
+            `,
+            [post]
+        )).rows
+        return result
+    }
+    async addLike(user: number, post: number) {
+        return (await this.knex.insert({ user_id: user, post_id: post }).into('likes').returning('*'))[0] as Like;
+
+    }
+
+
+
+
 
     // select("*").from("comments").where({ "post_id": post })
 

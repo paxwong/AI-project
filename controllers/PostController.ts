@@ -27,34 +27,41 @@ export default class PostController {
         }
     }
     getLikeCount = async (req: Request, res: Response) => {
-        // let memoId = req.params.memoId
-        // if (!Number(memoId)) {
-        //     res.status(400).json({
-        //         message: 'Success',
-        //         data: {
-        //             likeCount: 10
-        //         }
-        //     })
-        //     return
-        // }
-        // let results = await this.service.getLikeCount(Number(memoId))
-        // res.json({
-        //     message: 'Success',
-        //     data: {
-        //         users: results,
-        //         likeCount: results.length
-        //     }
-        // })
+        let post = req.params.postId
+        if (!Number(post)) {
+            res.status(400).json({
+                message: 'Success',
+                data: {
+                    likeCount: 10
+                }
+            })
+            return
+        }
+        let results = await this.service.getLikeCount(Number(post))
+        console.log(results)
+        res.json({
+            message: 'Success',
+            data: {
+                results
+            }
+        })
     }
     addLike = async (req: Request, res: Response) => {
-        // try {
-        //     res.status(200).json({})
-        //     return
-        // } catch (err: any) {
-        //     logger.error(err)
-        //     res.status(400).send(err.message)
-        //     return
-        // }
+        try {
+            let post = req.params.postId
+            let user = req.session['user'].id
+            console.log('addLike', 'post', post, 'user', user)
+
+            this.service.addLike(user, Number(post));
+            res.status(200).json({
+                message: "add like successful"
+            })
+            return
+        } catch (err: any) {
+            logger.error(err)
+            res.status(400).send(err.message)
+            return
+        }
     }
     getPosts = async (req: Request, res: Response) => {
         const postsResult = await this.service.getPosts();

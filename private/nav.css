@@ -173,7 +173,7 @@ footer {
     top: 0;
     left: 0;
     padding-left: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100%;
     min-width: 900px;
     ;
