@@ -44,36 +44,36 @@ export default class PostService {
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id`)).rows
 
-        // return result
+        return result
+        // console.log(result[0]);
+        // interface Image {
+        //     raw_image: string,
+        //     con_image: number
+        // }
 
-        interface Image {
-            raw_image: string,
-            con_image: number
-        }
+        // let groupedPosts = new Map();
+        // for (let row of result) {
+        //     const image: Image = {
+        //         raw_image: row.raw_image,
+        //         con_image: row.con_image,
+        //     };
+        //     if (groupedPosts.has(row.id)) {
+        //         groupedPosts.get(row.id).images.push(image);
+        //     } else {
+        //         const post = {
+        //             id: row.id,
+        //             caption: row.caption,
+        //             status: row.status,
+        //             created_at: row.created_at,
+        //             user_id: row.user_id,
+        //             images: [image]
+        //         };
+        //         groupedPosts.set(row.id, post);
+        //     }
+        // }
+        // const results = Array.from(groupedPosts.values());
 
-        let groupedPosts = new Map();
-        for (let row of result.rows) {
-            const image: Image = {
-                raw_image: row.raw_image,
-                con_image: row.con_image,
-            };
-            if (groupedPosts.has(row.id)) {
-                groupedPosts.get(row.id).images.push(image);
-            } else {
-                const post = {
-                    id: row.id,
-                    caption: row.caption,
-                    status: row.status,
-                    created_at: row.created_at,
-                    user_id: row.user_id,
-                    images: [image]
-                };
-                groupedPosts.set(row.id, post);
-            }
-        }
-        const results = Array.from(groupedPosts.values());
-
-        return results
+        // return results
 
     }
 
