@@ -56,16 +56,19 @@ function left(id) {
 async function loadPosts() {
     const res = await fetch('/post')
     const data = await res.json()
-    console.log(data)
-    let counter = 1
+    // console.log(data)
+    let counter = 0
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
         for (let post of data) {
-            counter++
+            counter = counter + 0.3
             let timeDiff = getTimeDiff(post.created_at)
 
+            const comment = await fetch('/z')
+
+
             postContainer.innerHTML += `
-            <div class="post" id="post${post.id}" style="animation: fadeEffect ${counter}s linear;">
+            <div class="post" id="post${post.id}" style="animation: postEffect ${counter}s linear;">
                     <div class="post-header">
                     <div class="caption">
                     <div class="user">
