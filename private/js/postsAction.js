@@ -174,3 +174,28 @@ async function init() {
 }
 
 init()
+loadPosts()
+
+function addListenerToDropdown() {
+    let logoutButton = document.querySelector('#logout-button')
+    logoutButton.addEventListener('click', async (e) => {
+        const res = await fetch('/user/logout')
+        if (res.ok) {
+            console.log('logged out')
+            window.location.assign("/")
+        }
+    })
+}
+
+async function getUser() {
+    const res = await fetch('/user/getMyInfo')
+    let result = await res.json()
+    if (res.ok) {
+        document.querySelector('#profile-name').textContent = result.message
+        document.querySelector('#profile-name').textContent = result.message //Credit
+        document.querySelector('#profile-name').textContent = result.message //轉pfp
+    }
+}
+
+addListenerToDropdown()
+getUser()
