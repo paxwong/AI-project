@@ -39,6 +39,20 @@ function getTimeDiff(time) {
     return (diffInTime + timeFormat)
 }
 
+function right(id) {
+    let con = document.getElementById(`con-${id}`)
+    let raw = document.getElementById(`raw-${id}`)
+    con.style.display = ""
+    raw.style.display = "none"
+}
+
+function left(id) {
+    let con = document.getElementById(`con-${id}`)
+    let raw = document.getElementById(`raw-${id}`)
+    con.style.display = "none"
+    raw.style.display = ""
+}
+
 async function loadPosts() {
     const res = await fetch('/post')
     const data = await res.json()
@@ -63,9 +77,10 @@ async function loadPosts() {
                 </div>
                     </div>
                     <div class="img-container">
-                        <button id="left-btn"><i class="arrow"></i></button>
-                        <img src="/uploads/${post.con_image}" alt="">
-                        <button id="right-btn"><i class="arrow"></i></button>
+                        <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                        <img id="raw-${post.id}"src="/uploads/${post.raw_image}" alt="" style="">
+                        <img id="con-${post.id}"src="/uploads/${post.con_image}" alt="" style="display:none">
+                        <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
@@ -96,7 +111,6 @@ async function loadPosts() {
         const posts = document.querySelectorAll('.post')
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
-
             const likeBtn = postDiv.querySelector('.like')
 
             likeBtn.addEventListener('click', async (e) => {

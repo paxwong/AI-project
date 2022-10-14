@@ -279,6 +279,7 @@ h1 {
     height: auto;
     width: auto;
     object-fit: contain;
+    animation: fadeEffect 1s;
 }
 
 
@@ -329,12 +330,12 @@ button .arrow {
 
 @keyframes fadeEffect {
     0% {
-        opacity: 0;
+        opacity: 0.5;
     }
 
-    50% {
+    /* 50% {
         opacity: 0;
-    }
+    } */
 
     100% {
         opacity: 1;
