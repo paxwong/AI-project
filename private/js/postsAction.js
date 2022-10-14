@@ -4,7 +4,6 @@ function getTimeDiff(time) {
     let currentDate = new Date
     let createDate = new Date(time.replace(' ', 'T'))
     let timeFormat = 'm'
-
     let diffInTime = Math.floor((currentDate.getTime() - createDate.getTime()) / 1000 / 60)
     if (diffInTime > 60) {
         diffInTime = Math.floor(diffInTime / 60)
@@ -16,7 +15,20 @@ function getTimeDiff(time) {
     }
 
     return (diffInTime + timeFormat)
+}
 
+function right(id) {
+    // let con = document.getElementById(`con-${id}`)
+    // let raw = document.getElementById(`raw-${id}`)
+    // con.style.display = ""
+    // raw.style.display = "none"
+}
+
+function left(id) {
+    // let con = document.getElementById(`con-${id}`)
+    // let raw = document.getElementById(`raw-${id}`)
+    // con.style.display = "none"
+    // raw.style.display = ""
 }
 
 async function loadPosts() {
@@ -31,16 +43,22 @@ async function loadPosts() {
             let timeDiff = getTimeDiff(post.created_at)
 
             postContainer.innerHTML += `
-            <div class="post" id="${post.id}" style="animation: fadeEffect ${counter}s linear;">
+            <div class="post" id="post${post.id}" style="animation: fadeEffect ${counter}s linear;">
                     <div class="post-header">
-                        <div class="user">
-                           ${post.nickname}
-                        </div>
+                    <div class="caption">
+                    <div class="user">
+                    ${post.nickname}
+                    </div>
+                    <div class="content">
+                        ${post.caption}
+                    </div>
+                </div>
                     </div>
                     <div class="img-container">
-                        <button id="left-btn"><i class="arrow"></i></button>
-                        <img src="/uploads/${post.con_image}" alt="">
-                        <button id="right-btn"><i class="arrow"></i></button>
+                        <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                        <img id="raw-${post.id}" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                        <img id="con-${post.id}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
+                        <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
@@ -48,14 +66,7 @@ async function loadPosts() {
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
-                        <div class="caption">
-                            <div class="user">
-                                Jane Doe
-                            </div>
-                            <div class="content">
-                                ${post.caption}
-                            </div>
-                        </div>
+                     
                         <div class="comment">
                             <div class="user">
                                 ABC
@@ -78,9 +89,17 @@ async function loadPosts() {
         const posts = document.querySelectorAll('.post')
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
-
             const likeBtn = postDiv.querySelector('.like')
-
+            const raw = postDiv.querySelector('.raw')
+            const con = postDiv.querySelector('.con')
+            raw.addEventListener('mouseover', () => {
+                raw.style.display = "none"
+                con.style.display = ""
+            })
+            con.addEventListener('mouseleave', () => {
+                raw.style.display = ""
+                con.style.display = "none"
+            })
             likeBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')

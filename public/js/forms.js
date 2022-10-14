@@ -1,11 +1,12 @@
 let accountContainer = document.querySelector('.account')
+let loginButton = document.querySelector('#loginForm');
+let registerButton
 function loginForm() {
     accountContainer.innerHTML = `
-    <div class="title" id="title">Mang<div class="wave">A.I.</div>
-    </div>
-    <div class="header">Welcome</div>
-    <form id="loginForm">
-
+    <div class="title" id="title">MANG<div class="wave">A.I.</div>
+            </div>
+            <div class="header">Welcome</div>
+            <form id="loginForm">
 
                 <div class="field">
                     <input name="email" type="text" required autocomplete="off" id="reg-email">
@@ -17,13 +18,17 @@ function loginForm() {
                 </div>
 
                 <div class="google-button">
-                <a href="/connect/google" class="google"><i class="fa-brands fa-google"></i></a>
-            </div>
-          
+                    <a href="/connect/google" class="google"><i class="fa-brands fa-google"></i></a>
+                </div>
+                <div class="loader" style="display: none;">
+                    <span class="loader__element"></span>
+                    <span class="loader__element"></span>
+                    <span class="loader__element"></span>
+                </div>
                 <input type="submit" value="Login" class="btn" id="login-button">
 
                 <br>
-                <div>
+                <div id="not-a-member">
                     Not a member?
                 </div>
                 <br>
@@ -32,6 +37,7 @@ function loginForm() {
             <div class="message"></div>
 
  `
+    loginButton = document.querySelector('#loginForm');
     login()
 }
 function signupForm() {
@@ -59,7 +65,11 @@ function signupForm() {
 <div class="google-button">
 <a href="/connect/google" class="google"><i class="fa-brands fa-google"></i></a>
 </div>
-
+<div class="loader" style="display: none;">
+                    <span class="loader__element"></span>
+                    <span class="loader__element"></span>
+                    <span class="loader__element"></span>
+                </div>
             <input type="submit" value="Sign Up" class="btn" id="signup-button">
         
    <br>
@@ -71,12 +81,13 @@ function signupForm() {
 </form>
 <div class="message"></div>
     `
+    registerButton = document.querySelector('#signupForm');
     register()
 
 }
 
 function register() {
-    const registerButton = document.querySelector('#signupForm');
+
     registerButton.addEventListener('submit', async function (event) {
         event.preventDefault();
         const username = event.target.username.value;
@@ -102,8 +113,13 @@ function register() {
 }
 
 function login() {
-    const loginButton = document.querySelector('#loginForm');
+
     loginButton.addEventListener('submit', async function (event) {
+        document.querySelector(".loader").style.display = ''
+        document.querySelector(".google-button").style.opacity = '0'
+        document.getElementById("not-a-member").style.opacity = '0'
+        document.getElementById("login").style.opacity = '0'
+        document.getElementById("login-button").style.opacity = '0'
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
@@ -118,7 +134,8 @@ function login() {
         })
         let result = await res.json()
         if (res.ok) {
-            successLogin()
+
+            setTimeout(successLogin, 0)
         }
         if (res.error) {
             failLogin()
@@ -128,6 +145,7 @@ function login() {
 login()
 
 function successLogin() {
+    document.querySelector(".loader").style.display = 'none'
     document.querySelector(".message").textContent = "You have logged in!"
     document.querySelector(".message").style.color = "greenyellow"
     document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)

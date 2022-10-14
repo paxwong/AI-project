@@ -5,7 +5,7 @@ import User from '../models/UserModel';
 export default class UserService {
     constructor(private knex: Knex) { }
 
-    async register(username: string, email: string, password: string, needHash: true) {
+    async register(username: string, email: string, password: string, needHash: boolean=true) {
         let hashedPassword = ""
         if (needHash) {
             hashedPassword = await hashPassword(password)

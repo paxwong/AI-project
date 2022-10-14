@@ -45,8 +45,8 @@ jobs:
         with:
           command: |
             cd AI-project
-            git pull origin main
-            yarn install
+            git pull origin production
+            yarn
             yarn knex migrate:latest --env production
             forever restart index.js
           host: mangai.tech
