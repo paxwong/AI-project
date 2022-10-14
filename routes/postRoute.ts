@@ -15,9 +15,11 @@ export function initialize(client: Knex, io: SocketIO) {
     const controller = new PostController(service, io);
 
     postRoutes.post('/formidable', controller.addPost)
-    postRoutes.get('/like-count/:memoId', controller.getLikeCount)
+    postRoutes.get('/like-count/:postId', controller.getLikeCount)
     postRoutes.post('/like', isloggedin, controller.addLike)
     postRoutes.get('/', controller.getPosts)
+    postRoutes.post('/comment/:postId', controller.addComment)
+    postRoutes.get('/comment/:postId', controller.getComment)
 
 
     // template route
