@@ -1,26 +1,4 @@
-// const postFormElement = document.querySelector()
 
-// async function createItems() {
-//     e.preventDefault();
-
-//     const formData = new FormData(postFormElement);
-
-//     const res = await fetch("/post/formidable", {
-//         method: "POST",
-//         body: formData,
-//     });
-
-//     if (res.ok) {
-//         form.reset()
-//         loadPosts()
-
-//     }
-// }
-
-// async function init() {
-//     postFormElement.addEventListener("submit", createItems);
-// }
-// init();
 
 function getTimeDiff(time) {
     let currentDate = new Date
@@ -165,4 +143,34 @@ async function loadPosts() {
     }
 }
 
-loadPosts()
+function getPostIdInQuery() {
+    let search = new URLSearchParams(window.location.search)
+    let postId = search.get('postId')
+    if (!postId) {
+        window.location.href = '/'
+    }
+    return postId
+}
+
+async function getPost() {
+    let postId = getPostIdInQuery()
+    if (!postId) {
+        window.location.href = '/'
+    }
+    console.log('postID=', postId)
+    const res = await fetch(`/post/comment/${postId}`)
+    let commentDetails = await res.json()
+
+    console.log("commentDetails is " + commentDetails);
+
+    return commentDetails
+}
+
+async function init() {
+    let commentDetails = await getPost()
+    let owner = await getOwner(commentDetails.user_id)
+
+    loadPosts()
+}
+
+init()

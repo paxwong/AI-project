@@ -61,4 +61,42 @@ export default class PostController {
         res.json(postsResult)
         return
     }
+
+    addComment = async (req: Request, res: Response) => {
+        try {
+            let user = req.session['user'].id
+            let content = req.body.content
+            let post = req.params.postId
+            console.log("user: " + user)
+            console.log("post: " + post)
+            console.log("content: " + content)
+
+            console.log('add comment')
+
+            // console.log({ filename, text })
+            this.service.addComment(content, user, Number(post));
+            // this.io.emit('new-memo', {
+            //     fromSocketId
+            // })
+            res.json({
+                message: 'Upload successful'
+            })
+        } catch (e) {
+            console.log(e)
+            res.status(400).send('Upload Fail')
+            return
+        }
+    }
+    getComment = async (req: Request, res: Response) => {
+        let post = req.params.postId
+        const commentsResult = await this.service.getComment(parseInt(post));
+        res.json({
+            message: 'Success',
+            data: {
+                comment: commentsResult
+            }
+        })
+
+        return
+    }
 }

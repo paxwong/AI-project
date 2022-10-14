@@ -40,9 +40,9 @@ export async function seed(knex: Knex): Promise<void> {
     ]);
 
     await knex("raw_images").insert([
-        { image: "one-punch-man-raw.jpeg", post_id: "1" },
-        { image: "attack-on-titan-ss2-raw.jpeg", post_id: "2" },
-        { image: "naruto-raw.jpeg", post_id: "3" }
+        { image: "one-punch-man-raw.jpg", post_id: "1" },
+        { image: "attack-on-titan-ss2-raw.jpg", post_id: "2" },
+        { image: "naruto-raw.jpg", post_id: "3" }
     ]);
 
     await knex("converted_images").insert([
