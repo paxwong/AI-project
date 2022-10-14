@@ -18,17 +18,63 @@ function getTimeDiff(time) {
 }
 
 function right(id) {
-    // let con = document.getElementById(`con-${id}`)
-    // let raw = document.getElementById(`raw-${id}`)
-    // con.style.display = ""
-    // raw.style.display = "none"
+    let imgContainer = document.getElementById(`post${id}`).querySelector('.img-container')
+    var pic = imgContainer.getElementsByTagName('div')
+    // console.log(numberOfPic)
+    let currentPic = 0
+    for (i = 0; i < pic.length; i++) {
+        if (pic[i].className.includes('active')) {
+            currentPic = i + 1
+            if (currentPic > pic.length - 1) {
+                currentPic = 0
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+    const raw = pic[currentPic].querySelector('.raw')
+    const con = pic[currentPic].querySelector('.con')
+    raw.addEventListener('mouseover', () => {
+        raw.style.display = "none"
+        con.style.display = ""
+    })
+    con.addEventListener('mouseleave', () => {
+        raw.style.display = ""
+        con.style.display = "none"
+    })
 }
 
 function left(id) {
-    // let con = document.getElementById(`con-${id}`)
-    // let raw = document.getElementById(`raw-${id}`)
-    // con.style.display = "none"
-    // raw.style.display = ""
+    let imgContainer = document.getElementById(`post${id}`).querySelector('.img-container')
+    var pic = imgContainer.getElementsByTagName('div')
+    // console.log(numberOfPic)
+    let currentPic = 0
+    for (i = pic.length - 1; i > -1; i--) {
+
+        if (pic[i].className.includes('active')) {
+            currentPic = i - 1
+            if (currentPic < 0) {
+                currentPic = pic.length - 1
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+    const raw = pic[currentPic].querySelector('.raw')
+    const con = pic[currentPic].querySelector('.con')
+    raw.addEventListener('mouseover', () => {
+        raw.style.display = "none"
+        con.style.display = ""
+    })
+    con.addEventListener('mouseleave', () => {
+        raw.style.display = ""
+        con.style.display = "none"
+    })
+
 }
 
 async function loadPosts() {
@@ -39,13 +85,23 @@ async function loadPosts() {
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
         for (let post of data) {
-            counter = counter + 0.3
-            let timeDiff = getTimeDiff(post.created_at)
 
-            const comment = await fetch('/z')
+            if (document.getElementById(`post${post.id}`)) {
+                let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
+                var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
+                imgContainer.innerHTML += `
+                <div id="pic-${post.id}"class="pic" style="display:none">
+                <img id="raw-${post.id}-${numberOfImg}" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                <img id="con-${post.id}-${numberOfImg}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
+                </div>
+                `
 
+            } else {
+                // console.log(post)
+                counter = counter + 0.3
+                let timeDiff = getTimeDiff(post.created_at)
 
-            postContainer.innerHTML += `
+                postContainer.innerHTML += `
             <div class="post" id="post${post.id}" style="animation: postEffect ${counter}s linear;">
                     <div class="post-header">
                     <div class="caption">
@@ -59,8 +115,10 @@ async function loadPosts() {
                     </div>
                     <div class="img-container">
                         <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
-                        <img id="raw-${post.id}" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
-                        <img id="con-${post.id}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
+                        <div id="pic-${post.id}"class="pic active">
+                        <img id="raw-${post.id}-1" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                        <img id="con-${post.id}-1" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
+                        </div>
                         <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
@@ -71,12 +129,7 @@ async function loadPosts() {
                         <div class="posted-on">${timeDiff + " ago"}</div>
                      
                         <div class="comment">
-                            <div class="user">
-                                ABC
-                            </div>
-                            <div class="content">
-                                Wa
-                            </div>
+                     
                         </div>
                     </div>
 
@@ -85,6 +138,24 @@ async function loadPosts() {
 
             `
 
+                const comment = await fetch(`/post/comment/${post.id}`)
+                let commentData = await comment.json()
+                // console.log(commentData.data.comment)
+                let currentPost = document.getElementById(`post${post.id}`)
+                let commentContainer = currentPost.querySelector('.comment')
+                for (let comment of commentData.data.comment) {
+                    // console.log(comment)
+                    commentContainer.innerHTML += `
+                <div class="user">
+                ${comment.nickname}
+                </div>
+                <div class="content">
+                    ${comment.content}
+                </div>
+                `
+                }
+
+            }
         }
 
 
@@ -152,23 +223,23 @@ function getPostIdInQuery() {
     return postId
 }
 
-async function getPost() {
-    let postId = getPostIdInQuery()
-    if (!postId) {
-        window.location.href = '/'
-    }
-    console.log('postID=', postId)
-    const res = await fetch(`/post/comment/${postId}`)
-    let commentDetails = await res.json()
+// async function getPost() {
+//     let postId = getPostIdInQuery()
+//     if (!postId) {
+//         window.location.href = '/'
+//     }
+//     console.log('postID=', postId)
+//     const res = await fetch(`/post/comment/${postId}`)
+//     let commentDetails = await res.json()
 
-    console.log("commentDetails is " + commentDetails);
+//     console.log("commentDetails is " + commentDetails);
 
-    return commentDetails
-}
+//     return commentDetails
+// }
 
 async function init() {
-    let commentDetails = await getPost()
-    let owner = await getOwner(commentDetails.user_id)
+    // let commentDetails = await getPost()
+    // let owner = await getOwner(commentDetails.user_id)
 
     loadPosts()
 }
