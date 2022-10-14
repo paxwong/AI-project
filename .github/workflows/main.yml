@@ -45,7 +45,7 @@ jobs:
         with:
           command: |
             cd AI-project
-            git pull origin main
+            git pull origin production
             yarn install
             yarn knex migrate:latest --env production
             forever restart index.js
