@@ -26,7 +26,6 @@ function getTimeDiff(time) {
     let currentDate = new Date
     let createDate = new Date(time.replace(' ', 'T'))
     let timeFormat = 'm'
-
     let diffInTime = Math.floor((currentDate.getTime() - createDate.getTime()) / 1000 / 60)
     if (diffInTime > 60) {
         diffInTime = Math.floor(diffInTime / 60)
@@ -38,7 +37,6 @@ function getTimeDiff(time) {
     }
 
     return (diffInTime + timeFormat)
-
 }
 
 async function loadPosts() {
@@ -53,11 +51,16 @@ async function loadPosts() {
             let timeDiff = getTimeDiff(post.created_at)
 
             postContainer.innerHTML += `
-            <div class="post" id="${post.id}" style="animation: fadeEffect ${counter}s linear;">
+            <div class="post" id="post${post.id}" style="animation: fadeEffect ${counter}s linear;">
                     <div class="post-header">
-                        <div class="user">
-                           ${post.nickname}
-                        </div>
+                    <div class="caption">
+                    <div class="user">
+                    ${post.nickname}
+                    </div>
+                    <div class="content">
+                        ${post.caption}
+                    </div>
+                </div>
                     </div>
                     <div class="img-container">
                         <button id="left-btn"><i class="arrow"></i></button>
@@ -70,14 +73,7 @@ async function loadPosts() {
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
-                        <div class="caption">
-                            <div class="user">
-                                Jane Doe
-                            </div>
-                            <div class="content">
-                                ${post.caption}
-                            </div>
-                        </div>
+                     
                         <div class="comment">
                             <div class="user">
                                 ABC

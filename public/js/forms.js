@@ -128,6 +128,10 @@ function login() {
         })
         let result = await res.json()
         if (res.ok) {
+            document.getElementById("login-button").style.display = 'none'
+            document.getElementById("login").style.display = 'none'
+            document.getElementById("not-a-member").style.display = 'none'
+            document.querySelector(".loader").style.display = ""
             document.querySelector(".message").textContent = "You have logged in!"
             document.querySelector(".message").style.color = "greenyellow"
             document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
