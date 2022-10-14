@@ -40,17 +40,17 @@ function getTimeDiff(time) {
 }
 
 function right(id) {
-    let con = document.getElementById(`con-${id}`)
-    let raw = document.getElementById(`raw-${id}`)
-    con.style.display = ""
-    raw.style.display = "none"
+    // let con = document.getElementById(`con-${id}`)
+    // let raw = document.getElementById(`raw-${id}`)
+    // con.style.display = ""
+    // raw.style.display = "none"
 }
 
 function left(id) {
-    let con = document.getElementById(`con-${id}`)
-    let raw = document.getElementById(`raw-${id}`)
-    con.style.display = "none"
-    raw.style.display = ""
+    // let con = document.getElementById(`con-${id}`)
+    // let raw = document.getElementById(`raw-${id}`)
+    // con.style.display = "none"
+    // raw.style.display = ""
 }
 
 async function loadPosts() {
@@ -78,8 +78,8 @@ async function loadPosts() {
                     </div>
                     <div class="img-container">
                         <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
-                        <img id="raw-${post.id}"src="/uploads/${post.raw_image}" alt="" style="">
-                        <img id="con-${post.id}"src="/uploads/${post.con_image}" alt="" style="display:none">
+                        <img id="raw-${post.id}" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                        <img id="con-${post.id}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
                         <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
@@ -112,7 +112,16 @@ async function loadPosts() {
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
-
+            const raw = postDiv.querySelector('.raw')
+            const con = postDiv.querySelector('.con')
+            raw.addEventListener('mouseover', () => {
+                raw.style.display = "none"
+                con.style.display = ""
+            })
+            con.addEventListener('mouseleave', () => {
+                raw.style.display = ""
+                con.style.display = "none"
+            })
             likeBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
