@@ -81,7 +81,6 @@ export default class UserController {
             }
 
             let {
-                nickname,
                 password:hashPassword,
                 is_admin,
                 created_at,
