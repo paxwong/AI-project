@@ -56,7 +56,7 @@ export default class UserController {
         try {
             const email = req.body.email
             const password = req.body.password
-            console.log(email, password)
+            // console.log(email, password)
             if (!email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
                 return
@@ -124,7 +124,7 @@ export default class UserController {
             let nickname = req.session["user"].nickname
             let icon = req.session["user"].icon
             let credit = req.session["user"].credit
-            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit})
+            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })

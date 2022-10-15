@@ -160,7 +160,6 @@ async function loadPosts() {
 
                 const likes = await fetch(`/post/like-count/${post.id}`)
                 let likesData = (await likes.json()).data.results
-                console.log(likesData)
                 let likesCount = likesData.length
                 let likesContainer = currentPost.querySelector('.likes')
                 likesContainer.innerHTML += likesCount + ' likes'
@@ -177,6 +176,8 @@ async function loadPosts() {
         }
 
 
+
+
         // add event listener
         const posts = document.querySelectorAll('.post')
         for (let postDiv of posts) {
@@ -185,7 +186,9 @@ async function loadPosts() {
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
             const likes = postDiv.querySelector('.likes')
-            const likedBy = postDiv.querySelector('.liked-by')
+            let likedBy = postDiv.querySelector('.liked-by')
+            const postID = postDiv.getAttribute('id').slice(4)
+            // console.log(postID.slice(4))
             likes.addEventListener('mouseover', () => {
                 likedBy.style.display = "flex"
             })
@@ -204,7 +207,7 @@ async function loadPosts() {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
 
-                const res = await fetch('/post/like', {
+                const res = await fetch(`/post/like/${postID}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         postIndex: data_index
@@ -214,7 +217,18 @@ async function loadPosts() {
                     }
                 })
                 if (res.ok) {
-                    loadPosts()
+                    const res = await fetch(`/post/like-count/${postID}`)
+                    let likesData = (await res.json()).data.results
+                    let likesCount = likesData.length
+                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                    let likedByContainer = likes.querySelector('.liked-by')
+                    for (let like of likesData) {
+                        likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                    }
+                    likedBy = likedByContainer
                 }
 
             })
