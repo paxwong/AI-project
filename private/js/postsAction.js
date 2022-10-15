@@ -84,9 +84,11 @@ async function loadPosts() {
     let counter = 0
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
+        postContainer.innerHTML = ''
         for (let post of data) {
-
+            console.log(post)
             if (document.getElementById(`post${post.id}`)) {
+
                 let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
                 imgContainer.innerHTML += `
@@ -245,7 +247,7 @@ async function init() {
 }
 
 init()
-loadPosts()
+
 
 function addListenerToDropdown() {
     let logoutButton = document.querySelector('#logout-button')
@@ -269,4 +271,4 @@ async function getUser() {
 }
 
 addListenerToDropdown()
-getUser()
+// getUser()
