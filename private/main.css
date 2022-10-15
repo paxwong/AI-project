@@ -428,6 +428,34 @@ small {
 
 }
 
+.likes {
+    position: relative;
+    padding: 5px;
+    font-size: x-small;
+    width: auto;
+}
+
+.liked-by {
+    padding: 5px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 80px;
+    top: -75px;
+    left: 1rem;
+    background: #171717;
+    overflow-y: auto;
+    animation: postEffect 3s linear;
+
+}
+
+.liked-by .user {
+    font-size: x-small;
+    width: 100%;
+    /* text-align: center; */
+}
+
 .caption {
     padding: 5px;
     display: flex;
@@ -436,7 +464,6 @@ small {
 }
 
 .comment {
-    margin-top: 5px;
     padding: 5px;
     display: flex;
     align-items: baseline;

@@ -86,7 +86,7 @@ async function loadPosts() {
         const postContainer = document.querySelector('.post-container')
         postContainer.innerHTML = ''
         for (let post of data) {
-            console.log(post)
+            // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
 
                 let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
@@ -129,7 +129,8 @@ async function loadPosts() {
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
-                     
+                     <div class="likes"> <div class="liked-by" style="display:none"></div></div>
+                    
                         <div class="comment">
                      
                         </div>
@@ -157,6 +158,21 @@ async function loadPosts() {
                 `
                 }
 
+                const likes = await fetch(`/post/like-count/${post.id}`)
+                let likesData = (await likes.json()).data.results
+                console.log(likesData)
+                let likesCount = likesData.length
+                let likesContainer = currentPost.querySelector('.likes')
+                likesContainer.innerHTML += likesCount + ' likes'
+                let likedByContainer = currentPost.querySelector('.liked-by')
+                for (let like of likesData) {
+                    likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                }
+
+
             }
         }
 
@@ -168,6 +184,14 @@ async function loadPosts() {
             const likeBtn = postDiv.querySelector('.like')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
+            const likes = postDiv.querySelector('.likes')
+            const likedBy = postDiv.querySelector('.liked-by')
+            likes.addEventListener('mouseover', () => {
+                likedBy.style.display = "flex"
+            })
+            likes.addEventListener('mouseleave', () => {
+                likedBy.style.display = "none"
+            })
             raw.addEventListener('mouseover', () => {
                 raw.style.display = "none"
                 con.style.display = ""
