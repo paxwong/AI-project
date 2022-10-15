@@ -122,7 +122,9 @@ export default class UserController {
                 return
             }
             let nickname = req.session["user"].nickname
-            res.status(200).json({ message: nickname })
+            let icon = req.session["user"].icon
+            let credit = req.session["user"].credit
+            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit})
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })

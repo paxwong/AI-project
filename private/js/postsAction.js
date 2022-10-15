@@ -264,11 +264,12 @@ async function getUser() {
     const res = await fetch('/user/getMyInfo')
     let result = await res.json()
     if (res.ok) {
-        document.querySelector('#profile-name').textContent = result.message
-        document.querySelector('#profile-name').textContent = result.message //Credit
-        document.querySelector('#profile-name').textContent = result.message //轉pfp
+        console.log(result.nickname)
+        document.querySelector('#profile-name').textContent = result.nickname
+        document.querySelector('#credit-amount').textContent = result.credit //Credit
+        document.querySelector('#profile-picture').src = `../uploads/${result.icon}` //轉pfp
     }
 }
 
 addListenerToDropdown()
-// getUser()
+getUser()
