@@ -106,8 +106,8 @@ function register() {
         if (res.ok) {
             successRegister()
         }
-        if (res.error) {
-            failRegister()
+        if (!res.ok) {
+            failRegister(result)
         }
     })
 }
@@ -133,12 +133,11 @@ function login() {
             })
         })
         let result = await res.json()
-        if (res.ok) {
-
-            setTimeout(successLogin, 0)
+        if (!res.ok) {
+            failLogin(result)
         }
-        if (res.error) {
-            failLogin()
+        if (res.ok) {
+            successLogin()
         }
     })
 }
@@ -164,16 +163,21 @@ function successRegister() {
     `, 3000)
 }
 
-function failLogin() {
+function failLogin(result) {
     document.querySelector(".message").textContent = result.message
     document.querySelector(".message").style.color = "red"
     document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
     setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
                     document.querySelector(".message").textContent = ''
         `, 3000)
+    document.querySelector(".loader").style.display = 'none'
+    document.querySelector(".google-button").style.opacity = '1'
+    document.getElementById("not-a-member").style.opacity = '1'
+    document.getElementById("login").style.opacity = '1'
+    document.getElementById("login-button").style.opacity = '1'
 }
 
-function failRegister() {
+function failRegister(result) {
     document.querySelector(".message").textContent = result.message
     document.querySelector(".message").style.color = "red"
     document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)

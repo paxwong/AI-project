@@ -287,27 +287,3 @@ async function init() {
 init()
 
 
-function addListenerToDropdown() {
-    let logoutButton = document.querySelector('#logout-button')
-    logoutButton.addEventListener('click', async (e) => {
-        const res = await fetch('/user/logout')
-        if (res.ok) {
-            console.log('logged out')
-            window.location.assign("/")
-        }
-    })
-}
-
-async function getUser() {
-    const res = await fetch('/user/getMyInfo')
-    let result = await res.json()
-    if (res.ok) {
-        console.log(result.nickname)
-        document.querySelector('#profile-name').textContent = result.nickname
-        document.querySelector('#credit-amount').textContent = result.credit //Credit
-        document.querySelector('#profile-picture').src = `../uploads/${result.icon}` //轉pfp
-    }
-}
-
-addListenerToDropdown()
-getUser()
