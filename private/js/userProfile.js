@@ -106,12 +106,12 @@ function changeProfilePicture() {
     })
     addListenerToSettingPicture()
 }
+
 async function addListenerToSettingPicture() {
     let setting = document.querySelector('#setting-form')
     setting.addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target)
-        console.log(formData)
         const res = await fetch('/user/changePicture', {
             method: 'POST',
             body: formData

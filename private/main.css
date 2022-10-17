@@ -901,7 +901,7 @@ form {
 
 #pop-up-container {
     z-index: 10000;
-    display: block;
+    display: none;
     position: fixed;
 }
 
