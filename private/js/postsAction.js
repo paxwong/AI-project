@@ -263,28 +263,28 @@ async function loadPosts() {
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
                             let likesCount = 0
-
-                            let likedByContainer = likes.querySelector('.liked-by')
                             for (let like of likesData) {
-
                                 if (like.user_id == userID && like.is_deleted == true) {
                                     likeBtn.style.display = "block"
                                     likedBtn.style.display = "none"
                                 }
-
                                 if (like.user_id == userID && like.is_deleted == false) {
                                     likeBtn.style.display = "none"
                                     likedBtn.style.display = "block"
                                 }
                                 if (like.is_deleted == false) {
                                     likesCount++
-                                    likedByContainer.innerHTML += `
-                                <div class="user">
-                                ${like.nickname}
-                                 </div>`}
-
+                                }
                             }
                             likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.is_deleted == false) {
+                                    likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
+                            }
                             likedBy = likedByContainer
                         }
                         return
@@ -303,28 +303,28 @@ async function loadPosts() {
                     const res = await fetch(`/post/like-count/${postID}`)
                     let likesData = (await res.json()).data.results
                     let likesCount = 0
-
-                    let likedByContainer = likes.querySelector('.liked-by')
                     for (let like of likesData) {
-
                         if (like.user_id == userID && like.is_deleted == true) {
                             likeBtn.style.display = "block"
                             likedBtn.style.display = "none"
                         }
-
                         if (like.user_id == userID && like.is_deleted == false) {
                             likeBtn.style.display = "none"
                             likedBtn.style.display = "block"
                         }
                         if (like.is_deleted == false) {
                             likesCount++
-                            likedByContainer.innerHTML += `
-                        <div class="user">
-                        ${like.nickname}
-                         </div>`}
-
+                        }
                     }
                     likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                    let likedByContainer = likes.querySelector('.liked-by')
+                    for (let like of likesData) {
+                        if (like.is_deleted == false) {
+                            likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
+                    }
                     likedBy = likedByContainer
                 }
             })
@@ -353,28 +353,28 @@ async function loadPosts() {
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
                             let likesCount = 0
-
-                            let likedByContainer = likes.querySelector('.liked-by')
                             for (let like of likesData) {
-
                                 if (like.user_id == userID && like.is_deleted == true) {
                                     likeBtn.style.display = "block"
                                     likedBtn.style.display = "none"
                                 }
-
                                 if (like.user_id == userID && like.is_deleted == false) {
                                     likeBtn.style.display = "none"
                                     likedBtn.style.display = "block"
                                 }
                                 if (like.is_deleted == false) {
                                     likesCount++
-                                    likedByContainer.innerHTML += `
-                                <div class="user">
-                                ${like.nickname}
-                                 </div>`}
-
+                                }
                             }
                             likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.is_deleted == false) {
+                                    likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
+                            }
                             likedBy = likedByContainer
                         }
                     }
