@@ -529,6 +529,11 @@ small {
     font-size: large;
 }
 
+.liked {
+    color: #DA0037;
+    font-size: large;
+}
+
 .message {
     font-size: large;
 }
@@ -662,7 +667,7 @@ small {
     }
 }
 
-.dropdown-content a:hover{
+.dropdown-content a:hover {
     cursor: pointer;
 }
 
@@ -863,18 +868,20 @@ form {
     height: 1.5rem;
     font-size: 1.2rem;
     color: #EDEDED;
-    background: rgb(60,60,60);
-    border-top: 1.2px solid rgb(107,107,107);
-    border-left: 1.2px solid rgb(107,107,107);
-    border-right: 1.2px solid rgb(30,30,30);
-    border-bottom: 1.2px solid rgb(30,30,30);
+    background: rgb(60, 60, 60);
+    border-top: 1.2px solid rgb(107, 107, 107);
+    border-left: 1.2px solid rgb(107, 107, 107);
+    border-right: 1.2px solid rgb(30, 30, 30);
+    border-bottom: 1.2px solid rgb(30, 30, 30);
 }
-.bi-x-lg:active{
-    border-right: 1.2px solid rgb(107,107,107);
-    border-bottom: 1.2px solid rgb(107,107,107);
-    border-top: 1.2px solid rgb(30,30,30);
-    border-left: 1.2px solid rgb(30,30,30);
+
+.bi-x-lg:active {
+    border-right: 1.2px solid rgb(107, 107, 107);
+    border-bottom: 1.2px solid rgb(107, 107, 107);
+    border-top: 1.2px solid rgb(30, 30, 30);
+    border-left: 1.2px solid rgb(30, 30, 30);
 }
+
 .bi-x-lg:hover {
     cursor: pointer;
 }
