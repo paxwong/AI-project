@@ -34,14 +34,15 @@ export default class UserService {
         if (changeType === "password") {
             hashedPassword = await hashPassword(changeData)
             return (await this.knex.update({ 'password': hashedPassword }).into("users").where({ "id": dbUserID }).returning("*"))[0];
-        }  
-        if (changeType === "username"){
+        }
+        if (changeType === "username") {
             return (await this.knex.update({ 'nickname': changeData }).into("users").where({ "id": dbUserID }).returning("*"))[0];
-        }  
-        if (changeType === "email"){
+        }
+        if (changeType === "email") {
             return (await this.knex.update({ 'email': changeData }).into("users").where({ "id": dbUserID }).returning("*"))[0];
         }
     }
+
     // Template service
     // async getUsers(): Promise<User[]> {
     //     const results: User[] = await this.knex.select("*").from("users");

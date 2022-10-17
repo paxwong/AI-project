@@ -1,6 +1,5 @@
 import { Knex } from "knex";
 // import { Client } from 'pg';
-import { raw, Request, Response } from "express"
 import Post from '../models/PostModel';
 import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";

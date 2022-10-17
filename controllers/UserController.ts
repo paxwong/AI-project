@@ -106,10 +106,11 @@ export default class UserController {
                 res.status(400).json({ message: 'User not found' })
                 return
             }
-            req.session.destroy(function(err){
-            console.log(err) }
+            req.session.destroy(function (err) {
+                console.log(err)
+            }
             )
-                res.status(200).json({ message: 'logged out' })
+            res.status(200).json({ message: 'logged out' })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
@@ -125,7 +126,8 @@ export default class UserController {
             let nickname = req.session["user"].nickname
             let icon = req.session["user"].icon
             let credit = req.session["user"].credit
-            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit })
+            let userId = req.session["user"].id
+            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit, "id": userId })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
@@ -156,7 +158,7 @@ export default class UserController {
             }
 
             let updatedUser = await this.service.changeSetting(dbUser.id, changeType, changeData)
-            
+
             let {
                 password: hashPassword,
                 is_admin,
@@ -167,8 +169,8 @@ export default class UserController {
 
 
             req.session["user"] = sessionUser
-            res.status(200).json({ message: 'Successfully changed'})
-            
+            res.status(200).json({ message: 'Successfully changed' })
+
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
