@@ -72,14 +72,15 @@ async function loadMyPosts() {
                         </div>
                         <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
                     </div>
-                    <div class="posted-on">${timeDiff + " ago"}</div>
-                     <div class="likes"> <div class="liked-by" style="display:none"></div></div>
                     <div class="post-footer">
-                    <div class="delete-btn" data_index="${post.id}">
-					<i data_index="${post.id}"> DELETE </i>
-				</div>
-                     
-                        
+                        <div class="buttons-container">
+                            <i class="btn like fa-regular fa-heart" style='display:'></i>
+                            <i class=" btn liked fa-solid fa-heart" style='display:none'></i>
+                            <i class="btn message fa-regular fa-message"></i>
+                            <i class="btn delete-btn fa-trash" data_index="${post.id}"></i>
+                        </div>
+                        <div class="posted-on">${timeDiff + " ago"}</div>
+                     <div class="likes"> <div class="liked-by" style="display:none"></div></div>
                     
                         <div class="comment">
                      
@@ -87,7 +88,6 @@ async function loadMyPosts() {
                     </div>
 
                 </div>
-
 
             `
 
@@ -135,6 +135,7 @@ async function loadMyPosts() {
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
+            const deleteBtn = postDiv.querySelector('.delete-btn')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
             const likes = postDiv.querySelector('.likes')
@@ -156,36 +157,112 @@ async function loadMyPosts() {
                 con.style.display = "none"
             })
 
+            likeBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const data_index = element.getAttribute('data_index')
+                const likeCountRes = await fetch(`/post/like-count/${postID}`)
+                let likesData = (await likeCountRes.json()).data.results
+                for (let like of likesData) {
+                    if (like.user_id == userID) {
+                        return
+                    } else {
+                        const res = await fetch(`/post/like/${postID}`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                postIndex: data_index
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                            }
+                        })
+                        if (res.ok) {
+                            const res = await fetch(`/post/like-count/${postID}`)
+                            let likesData = (await res.json()).data.results
+                            let likesCount = likesData.length
+                            likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.user_id == userID) {
+                                    likeBtn.style.display = "none"
+                                    likedBtn.style.display = "block"
+                                }
+                                likedByContainer.innerHTML += `
+                            <div class="user">
+                            ${like.nickname}
+                             </div>`
+                            }
+                            likedBy = likedByContainer
+                        }
+                    }
+                }
+
+
+
+            })
+
+            commentBtn.addEventListener('click', async (e) => {
+                console.log('comment')
+                document.querySelector('.comment-pop-up-container').innerHTML += `   <div class="comment-pop-up">Place your comment below:
+                <form id="comment-form">
+                <input name="comment" type="text" required autocomplete="off" id="comment">
+                    <label for="comment" title="comment" data-title="comment"></label>
+                <input type="submit" value="Submit" class="btn" id="submit-button">
+                </form>
+                <div class="close-comment-tab" onclick="removeTab()">x</div>
+                </div>`
+
+                let submit = document.querySelector('#comment-form')
+
+                submit.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const comment = event.target.comment.value;
+
+                    const res = await fetch(`/post/comment/${postID}`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            comment
+                        })
+                    })
+                    let result = await res.json()
+
+                    if (res.ok) {
+                        removeTab()
+                        loadPosts()
+                    }
+                })
+            })
+
+            deleteBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const postId = element.getAttribute('data_index')
+                console.log(postId)
+                let result = window.confirm("Are you sure to delete this item?\n")
+                if (result) {
+                    const res = await fetch('/post/del-my-posts', {
+                        method: 'DELETE',
+                        body: JSON.stringify({
+                            postId: postId
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    )
+                    if (res.ok) {
+                        loadMyPosts()
+                    }
+                } else { }
+
+            })
+
         }
 
     }
 }
 
-function setEventListenerOnItemDiv(postDiv) {
-    const deleteBtn = postDiv.querySelector('.delete-btn')
 
-    deleteBtn.addEventListener('click', async (e) => {
-        const element = e.target
-        const postId = element.getAttribute('data_index')
-        console.log(postId)
-        let result = window.confirm("Are you sure to delete this item?\n")
-        if (result) {
-            const res = await fetch('/post/del-my-posts', {
-                method: 'DELETE',
-                body: JSON.stringify({
-                    postId: postId
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            )
-            if (res.ok) {
-                loadMyPosts()
-            }
-        } else { }
-
-    })
-}
 
 loadMyPosts()

@@ -41,7 +41,8 @@ export default class PostService {
         from posts 
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
-        inner join converted_images con on con.raw_id = raw.id`)).rows
+        inner join converted_images con on con.raw_id = raw.id
+        where is_deleted = false`)).rows
 
         return result
 
@@ -119,7 +120,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where posts.user_id = (?)
+        where posts.user_id = (?) and is_deleted = false
         ORDER BY created_at DESC
         `,
             [userId])).rows
