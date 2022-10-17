@@ -45,6 +45,9 @@ export default class PostService {
         inner join converted_images con on con.raw_id = raw.id`)).rows
 
         return result
+
+        //!!!!group images with the same postId!!!!
+
         // console.log(result[0]);
         // interface Image {
         //     raw_image: string,

@@ -13,7 +13,7 @@ export function initialize(client: Knex, io: SocketIO) {
     userRoutes.post('/login', userController.login)
     userRoutes.get('/logout', userController.logout)
     userRoutes.get('/getMyInfo', userController.getMyInfo)
-
+    userRoutes.post('/changeSetting', userController.changeSetting)
     // template route
     // userRoutes.get('/', userController.getUsers)
     // userRoutes.post('/register', userController.register)	
