@@ -3,16 +3,16 @@ let blurDiv = document.querySelector("#blur")
 let popUpDiv = document.querySelector("#pop-up-container")
 let crossButton = document.querySelector(".bi-x-lg")
 
-settingButton.addEventListener("click", function(e) {
+settingButton.addEventListener("click", function (e) {
     openPopUp()
     returnProfileContainer()
 })
 
-blurDiv.addEventListener("click", function(e) {
+blurDiv.addEventListener("click", function (e) {
     closePopUp()
 })
 
-crossButton.addEventListener("click", function(e) {
+crossButton.addEventListener("click", function (e) {
     closePopUp()
 })
 
@@ -51,32 +51,59 @@ async function getUser() {
         window.location.assign("/") //用住先，之後轉返用app.ts guard
     }
 }
+
 function changeSetting(attribute) {
     let old = ""
     let type = "text"
-    let upperCase = attribute.substring(0,1).toUpperCase()+attribute.slice(1)
+    let upperCase = attribute.substring(0, 1).toUpperCase() + attribute.slice(1)
     if (attribute === "password") {
         old = "Old"
         type = "password"
     }
     document.querySelector('.profile-button-container').innerHTML =
-    `
+        `
         <form id="setting-form">
             <div class="field">
-                <input name="oldPassword" type="password" required autocomplete="off"  id="reg-password">
-                    <label for="reg-password" title="${old} Password" data-title="${old} Password"></label>
-            </div>
-            <div class="field">
-                <input name="new${upperCase}" type="${type}" required autocomplete="off"  id="reg-${old}${attribute}">
+                <input name="new${upperCase}" type="${type}" required autocomplete="off" id="reg-${old}${attribute}">
                     <label for="reg-${old}${attribute}" title="New ${upperCase}" data-title="New ${upperCase}"></label>
             </div>
+            <div class="field">
+                <input name="oldPassword" type="password" required autocomplete="off" id="reg-password">
+                    <label for="reg-password" title="${old} Password" data-title="${old} Password"></label>
+            </div>
             <input id="setting-type" name="type" value="${attribute}">
-            <br>
-            <input type="submit" value="Submit" class="submit-return-button">
-            <input onclick="returnProfileContainer()" type="button" value="Back" class="submit-return-button">
+                <br>
+                    <input type="submit" value="Submit" class="submit-return-button">
+                        <input onclick="returnProfileContainer()" type="button" value="Back" class="submit-return-button">
 
-        </form>
+                        </form>
+        `
+    addListenerToSetting()
+}
+
+function changeProfilePicture() {
+    document.querySelector('.profile-button-container').innerHTML =
+        `
+        <form id="setting-form">
+            <div>Upload new profile picture here:</div>
+            <div id="upload-picture-container">
+            <input type="file" id="upload-picture-btn" hidden />
+            <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
+            </div>
+            <div class="field">
+                <input name="oldPassword" type="password" required autocomplete="off" id="reg-password">
+                    <label for="reg-password" title="Password" data-title="Password"></label>
+            </div>
+
+            <br>
+                <input type="submit" value="Submit" class="submit-return-button">
+                    <input onclick="returnProfileContainer()" type="button" value="Back" class="submit-return-button">
+
+                    </form>
     `
+    document.querySelector("#upload-picture-btn").addEventListener('change', function() {
+        document.querySelector("#upload-picture-label").textContent = this.files[0].name
+    })
     addListenerToSetting()
 }
 
@@ -86,9 +113,9 @@ async function addListenerToSetting() {
         event.preventDefault();
         const changeType = event.target.type.value
         const oldPassword = event.target.oldPassword.value;
-        const newPassword = event.target.newPassword? event.target.newPassword.value: '';
-        const newEmail = event.target.newEmail? event.target.newEmail.value: '';
-        const newUsername = event.target.newUsername? event.target.newUsername.value: '';
+        const newPassword = event.target.newPassword ? event.target.newPassword.value : '';
+        const newEmail = event.target.newEmail ? event.target.newEmail.value : '';
+        const newUsername = event.target.newUsername ? event.target.newUsername.value : '';
         const changeData = newPassword + newEmail + newUsername
         const res = await fetch('/user/changeSetting', {
             method: 'POST',
@@ -97,7 +124,7 @@ async function addListenerToSetting() {
             },
             body: JSON.stringify({
                 "oldPassword": oldPassword,
-                "changeType" : changeType,
+                "changeType": changeType,
                 "changeData": changeData
             })
         })
@@ -107,25 +134,27 @@ async function addListenerToSetting() {
             document.querySelector(".message").style.color = "greenyellow"
             document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
             setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
-            returnProfileContainer()
-            getUser()
-            document.querySelector(".message").textContent = ""
-            `, 2000)
+                    returnProfileContainer()
+                    getUser()
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
         }
         if (!res.ok) {
             document.querySelector('.message').textContent = result.message
             document.querySelector(".message").style.color = "red"
             document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
             setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
-            document.querySelector(".message").textContent = ""
-            `, 2000)
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
         }
     })
 }
 
-async function returnProfileContainer(){
-    document.querySelector(".profile-button-container").innerHTML = 
-    `<div onclick="changeSetting('username')" class="profile-button" id="change-nickname">Change Nickname
+async function returnProfileContainer() {
+    document.querySelector(".profile-button-container").innerHTML =
+        `
+    <div onclick="changeProfilePicture()" class="profile-button" id="change-picture">Change Profile Picture</div>
+    <div onclick="changeSetting('username')" class="profile-button" id="change-nickname">Change Nickname
     </div>
     <div onclick="changeSetting('email')" class="profile-button" id="change-email">Change Email</div>
     <div onclick="changeSetting('password')" class="profile-button" id="change-password">Change Password

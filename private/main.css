@@ -894,6 +894,43 @@ form {
 
 #pop-up-container {
     z-index: 10000;
-    display: none;
+    display: block;
     position: fixed;
+}
+
+#upload-picture-container{
+    background-color: white;
+    max-width: 60%;
+    height: 25px;
+    margin: 10px 0;
+    padding: 0;
+}
+
+#upload-picture-label{
+    /* background-color: rgb(60, 60, 60); */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: white;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    background-image:linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);    height: 25px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color:  transparent;
+    /* width: 100%; */
+    color: #EDEDED;    cursor: pointer;
+    /* margin: 10px; */
+    border-top: 2px dotted rgb(107,107,107);
+    border-left: 2px dotted rgb(107,107,107);
+    border-right: 2px dotted rgb(30,30,30);
+    border-bottom: 2px dotted rgb(30,30,30);
+}
+#upload-picture-label:active{
+    border-right: 2px dotted rgb(107,107,107);
+    border-bottom: 2px dotted rgb(107,107,107);
+    border-top: 2px dotted rgb(30,30,30);
+    border-left: 2px dotted rgb(30,30,30);
 }
