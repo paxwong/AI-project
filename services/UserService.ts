@@ -10,7 +10,7 @@ export default class UserService {
         if (needHash) {
             hashedPassword = await hashPassword(password)
         }
-        return (await this.knex.insert({ nickname: username, email: email, password: hashedPassword, is_admin: true }).into("users").returning("*"))[0] as User;
+        return (await this.knex.insert({ nickname: username, email: email, password: hashedPassword, is_admin: false }).into("users").returning("*"))[0] as User;
     }
 
 
