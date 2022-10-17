@@ -808,7 +808,7 @@ form {
 } */
 
 .btn:hover {
-    cursor: pointer;
+    cursor: pointer; 
 }
 
 .profile-button-container {
