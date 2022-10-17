@@ -7,7 +7,11 @@ async function getUserInfo() {
 let userNickname
 let userID
 getUserInfo()
+function removeTab() {
+    const tab = document.querySelector(".comment-pop-up")
+    tab.remove()
 
+}
 
 function getTimeDiff(time) {
     let currentDate = new Date
@@ -266,20 +270,38 @@ async function loadPosts() {
             })
 
             commentBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const data_index = element.getAttribute('data_index')
-                const res = await fetch('/post/comment', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        postIndex: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8',
+                console.log('comment')
+                document.querySelector('.comment-pop-up-container').innerHTML += `   <div class="comment-pop-up">Place your comment below:
+                <form id="comment-form">
+                <input name="comment" type="text" required autocomplete="off" id="comment">
+                    <label for="comment" title="comment" data-title="comment"></label>
+                <input type="submit" value="Submit" class="btn" id="submit-button">
+                </form>
+                <div class="close-comment-tab" onclick="removeTab()">x</div>
+                </div>`
+
+                let submit = document.querySelector('#comment-form')
+
+                submit.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const comment = event.target.comment.value;
+
+                    const res = await fetch(`/post/comment/${postID}`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            comment
+                        })
+                    })
+                    let result = await res.json()
+
+                    if (res.ok) {
+                        removeTab()
+                        loadPosts()
                     }
                 })
-                if (res.ok) {
-                    loadPosts()
-                }
             })
         }
 
