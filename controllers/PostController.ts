@@ -144,7 +144,6 @@ export default class PostController {
     getMyPosts = async (req: Request, res: Response) => {
         try {
             let userId = req.session['user'].id
-            console.log('userId' + userId)
 
             const myPostsResult = await this.service.getMyPosts(Number(userId));
 
