@@ -425,7 +425,7 @@ small {
         0 9px 46px 8px rgba(100, 100, 100, 0.12), 0 11px 15px -7px rgba(100, 100, 100, 0.2);
     /* box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
         0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2); */
-    /* animation: fadeEffect 1s linear; */
+    animation: postEffect 1s linear;
 }
 
 .post-footer,
@@ -525,6 +525,11 @@ small {
 }
 
 .like {
+    color: #DA0037;
+    font-size: large;
+}
+
+.liked {
     color: #DA0037;
     font-size: large;
 }
@@ -642,27 +647,28 @@ small {
     z-index: 1000;
     margin: 5px 0 0 0;
     background-color: #ffffff;
+}
 
-    @keyframes postEffect {
-        0% {
-            opacity: 0;
-        }
+@keyframes postEffect {
+    0% {
+        opacity: 0;
+    }
 
-        50% {
-            opacity: 0;
-        }
+    50% {
+        opacity: 0;
+    }
 
-        75% {
-            opacity: 0.5;
-        }
+    75% {
+        opacity: 0.5;
+    }
 
-        100% {
-            opacity: 1;
-        }
+    100% {
+        opacity: 1;
     }
 }
 
-.dropdown-content a:hover{
+
+.dropdown-content a:hover {
     cursor: pointer;
 }
 
@@ -863,18 +869,20 @@ form {
     height: 1.5rem;
     font-size: 1.2rem;
     color: #EDEDED;
-    background: rgb(60,60,60);
-    border-top: 1.2px solid rgb(107,107,107);
-    border-left: 1.2px solid rgb(107,107,107);
-    border-right: 1.2px solid rgb(30,30,30);
-    border-bottom: 1.2px solid rgb(30,30,30);
+    background: rgb(60, 60, 60);
+    border-top: 1.2px solid rgb(107, 107, 107);
+    border-left: 1.2px solid rgb(107, 107, 107);
+    border-right: 1.2px solid rgb(30, 30, 30);
+    border-bottom: 1.2px solid rgb(30, 30, 30);
 }
-.bi-x-lg:active{
-    border-right: 1.2px solid rgb(107,107,107);
-    border-bottom: 1.2px solid rgb(107,107,107);
-    border-top: 1.2px solid rgb(30,30,30);
-    border-left: 1.2px solid rgb(30,30,30);
+
+.bi-x-lg:active {
+    border-right: 1.2px solid rgb(107, 107, 107);
+    border-bottom: 1.2px solid rgb(107, 107, 107);
+    border-top: 1.2px solid rgb(30, 30, 30);
+    border-left: 1.2px solid rgb(30, 30, 30);
 }
+
 .bi-x-lg:hover {
     cursor: pointer;
 }
@@ -887,6 +895,99 @@ form {
 
 #pop-up-container {
     z-index: 10000;
-    display: none;
+    display: block;
     position: fixed;
+}
+
+.comment-pop-up-container {
+    position: absolute;
+    display: flex;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-pop-up {
+    z-index: 10000;
+    width: 40%;
+    height: 10%;
+    background-color: hsla(0, 0%, 27%, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+    padding: 5px;
+    color: #EDEDED
+}
+
+#comment-form {
+    width: 100%;
+    height: 70%;
+    position: relative;
+}
+
+#comment-form input {
+    width: 100%;
+    height: 100%;
+    background-color: #444444;
+    color: #EDEDED;
+    border-radius: 5px;
+}
+
+#submit-button {
+    padding: 5px !important;
+    margin: 0 !important;
+    width: 4rem !important;
+    height: 80% !important;
+    font-size: small;
+    position: absolute;
+    top: 10%;
+    right: 5px;
+}
+
+.close-comment-tab {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+#upload-picture-container {
+    background-color: white;
+    max-width: 60%;
+    height: 25px;
+    margin: 10px 0;
+    padding: 0;
+}
+
+#upload-picture-label {
+    /* background-color: rgb(60, 60, 60); */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: white;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    background-image: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    height: 25px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* width: 100%; */
+    color: #EDEDED;
+    cursor: pointer;
+    /* margin: 10px; */
+    border-top: 2px dotted rgb(107, 107, 107);
+    border-left: 2px dotted rgb(107, 107, 107);
+    border-right: 2px dotted rgb(30, 30, 30);
+    border-bottom: 2px dotted rgb(30, 30, 30);
+}
+
+#upload-picture-label:active {
+    border-right: 2px dotted rgb(107, 107, 107);
+    border-bottom: 2px dotted rgb(107, 107, 107);
+    border-top: 2px dotted rgb(30, 30, 30);
+    border-left: 2px dotted rgb(30, 30, 30);
 }

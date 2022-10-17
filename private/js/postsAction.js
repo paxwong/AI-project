@@ -1,4 +1,17 @@
+async function getUserInfo() {
+    const res = await fetch('/user/getMyInfo')
+    let result = await res.json()
+    userID = result.id
+    userNickname = result.nickname
+}
+let userNickname
+let userID
+getUserInfo()
+function removeTab() {
+    const tab = document.querySelector(".comment-pop-up")
+    tab.remove()
 
+}
 
 function getTimeDiff(time) {
     let currentDate = new Date
@@ -127,7 +140,8 @@ async function loadPosts() {
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
-                            <i class="btn like fa-regular fa-heart"></i>
+                            <i class="btn like fa-regular fa-heart" style='display:'></i>
+                            <i class=" btn liked fa-solid fa-heart" style='display:none'></i>
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
@@ -166,16 +180,20 @@ async function loadPosts() {
                 let likesData = (await likes.json()).data.results
                 let likesCount = likesData.length
                 let likesContainer = currentPost.querySelector('.likes')
+                let likeBtn = currentPost.querySelector('.like')
+                let likedBtn = currentPost.querySelector('.liked')
                 likesContainer.innerHTML += likesCount + ' likes'
                 let likedByContainer = currentPost.querySelector('.liked-by')
                 for (let like of likesData) {
+                    if (like.user_id == userID) {
+                        likeBtn.style.display = "none"
+                        likedBtn.style.display = "block"
+                    }
                     likedByContainer.innerHTML += `
                     <div class="user">
                     ${like.nickname}
                      </div>`
                 }
-
-
             }
         }
 
@@ -187,6 +205,7 @@ async function loadPosts() {
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
+            const likedBtn = postDiv.querySelector('.liked')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
             const likes = postDiv.querySelector('.likes')
@@ -210,48 +229,79 @@ async function loadPosts() {
             likeBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
-
-                const res = await fetch(`/post/like/${postID}`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        postIndex: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8',
+                const likeCountRes = await fetch(`/post/like-count/${postID}`)
+                let likesData = (await likeCountRes.json()).data.results
+                for (let like of likesData) {
+                    if (like.user_id == userID) {
+                        return
+                    } else {
+                        const res = await fetch(`/post/like/${postID}`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                postIndex: data_index
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                            }
+                        })
+                        if (res.ok) {
+                            const res = await fetch(`/post/like-count/${postID}`)
+                            let likesData = (await res.json()).data.results
+                            let likesCount = likesData.length
+                            likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.user_id == userID) {
+                                    likeBtn.style.display = "none"
+                                    likedBtn.style.display = "block"
+                                }
+                                likedByContainer.innerHTML += `
+                            <div class="user">
+                            ${like.nickname}
+                             </div>`
+                            }
+                            likedBy = likedByContainer
+                        }
                     }
-                })
-                if (res.ok) {
-                    const res = await fetch(`/post/like-count/${postID}`)
-                    let likesData = (await res.json()).data.results
-                    let likesCount = likesData.length
-                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
-                    let likedByContainer = likes.querySelector('.liked-by')
-                    for (let like of likesData) {
-                        likedByContainer.innerHTML += `
-                    <div class="user">
-                    ${like.nickname}
-                     </div>`
-                    }
-                    likedBy = likedByContainer
                 }
+
+
 
             })
 
             commentBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const data_index = element.getAttribute('data_index')
-                const res = await fetch('/post/comment', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        postIndex: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8',
+                console.log('comment')
+                document.querySelector('.comment-pop-up-container').innerHTML += `   <div class="comment-pop-up">Place your comment below:
+                <form id="comment-form">
+                <input name="comment" type="text" required autocomplete="off" id="comment">
+                    <label for="comment" title="comment" data-title="comment"></label>
+                <input type="submit" value="Submit" class="btn" id="submit-button">
+                </form>
+                <div class="close-comment-tab" onclick="removeTab()">x</div>
+                </div>`
+
+                let submit = document.querySelector('#comment-form')
+
+                submit.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const comment = event.target.comment.value;
+
+                    const res = await fetch(`/post/comment/${postID}`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            comment
+                        })
+                    })
+                    let result = await res.json()
+
+                    if (res.ok) {
+                        removeTab()
+                        loadPosts()
                     }
                 })
-                if (res.ok) {
-                    loadPosts()
-                }
             })
         }
 

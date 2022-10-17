@@ -72,7 +72,7 @@ export default class PostController {
     addComment = async (req: Request, res: Response) => {
         try {
             let user = req.session['user'].id
-            let content = req.body.content
+            let content = req.body.comment
             let post = req.params.postId
             console.log("user: " + user)
             console.log("post: " + post)
