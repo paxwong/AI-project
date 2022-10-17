@@ -143,6 +143,10 @@ export default class PostController {
 
     getMyPosts = async (req: Request, res: Response) => {
         try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'User not found' })
+                return
+            }
             let userId = req.session['user'].id
 
             const myPostsResult = await this.service.getMyPosts(Number(userId));
