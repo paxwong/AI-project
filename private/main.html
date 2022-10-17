@@ -58,7 +58,8 @@
                 </div>
                 <div id="profile"><img id="profile-picture"><span id="profile-name">GUEST</span>
                     <div class="dropdown-content">
-                        <a href="#">My Posts</a>
+                        <a href="#" class="tablinks" onclick="openTab(event, 'MyPosts')">My
+                            Posts</a>
                         <a id="setting-button">Setting</a>
                         <a id="logout-button">Log out</a>
                     </div>
@@ -72,6 +73,10 @@
             <div class="post-container">
             </div>
 
+        </div>
+        <div id="MyPosts" class="tabcontent">
+            <div class="my-post-container">
+            </div>
         </div>
         <div id="+Create" class="tabcontent">EDITING TOOLS</div>
         <div id="Contact" class="tabcontent" style="font-size: 100px;">ANGEL FONG GAA</div>
@@ -94,6 +99,8 @@
 <script src="./js/nav.js"></script>
 <script src="./js/userProfile.js"></script>
 <script src="./js/postsAction.js"></script>
+<script src="./js/myPost.js"></script>
+
 
 
 

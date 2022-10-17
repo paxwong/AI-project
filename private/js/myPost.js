@@ -1,5 +1,5 @@
 async function getOwner(userId) {
-    const res = await fetch(`/user/user/${userId}`)
+    const res = await fetch(`/user/user-info/${userId}`)
     if (res.ok) {
         let data = await res.json()
         return data.data
@@ -9,146 +9,203 @@ async function getOwner(userId) {
 
 }
 
-async function getUserPosts() {
-    const res = await fetch(`/post/my-posts`)
-    let itemsDetail = await res.json()
-    console.log("items" + itemsDetail)
 
+// async function getUserPosts() {
+//     const res = await fetch(`/post/my-posts`)
+//     let postsDetail = await res.json()
 
-    if (res.ok) {
+//     if (res.ok) {
 
-        addItemsInUserPost(itemsDetail)
+//         addItemsInUserPost(postsDetail)
 
-    }
-    // $grid.isotope();
+//     }
 
-}
+// }
 
-
-
-
-function addItemsInUserPost(itemsDetail) {
-    let itemContainerUser = document.querySelector('.lost-items-container')
-    itemContainerUser.innerHTML = ''
+async function loadMyPosts() {
+    const res = await fetch('/post/my-posts')
+    const data = await res.json()
+    // console.log(data)
     let counter = 0
+    if (res.ok) {
+        let myPost = document.querySelector('#MyPosts')
+        let myPostContainer = myPost.querySelector('.my-post-container')
 
+        myPostContainer.innerHTML = 'ddf'
+        for (let post of data) {
+            // console.log(post)
+            if (document.getElementById(`post${post.id}`)) {
 
-    for (let item of itemsDetail) {
-        let itemStatus = []
-        let itemStatusInPage = "Pending"
-        if (item.type == "found" || item.type == "Found") {
-            itemStatus = ["Not returned", "Returned"]
-        }
-        if (item.type == "lost" || item.type == "Lost") {
-            itemStatus = ["Not found", "Found"]
-        }
-        if (item.status == "true") {
-            itemStatusInPage = itemStatus[1]
-        } else {
-            itemStatusInPage = itemStatus[0]
-        }
-
-
-        itemContainerUser.innerHTML +=  /*HTML */`
-        <div class="col-md-4 item-wrapper ${item.type ? 'lost' : 'found'}">
-              <div class="card-box-a card-shadow">
-                <div class="img-box-a">
-                  <img
-                    src="/${item.image}"
-                    alt="" class="img-a img-fluid">
+                let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
+                var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
+                imgContainer.innerHTML += `
+                <div id="pic-${post.id}"class="pic" style="display:none">
+                <img id="raw-${post.id}-${numberOfImg}" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                <img id="con-${post.id}-${numberOfImg}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
                 </div>
-                <div class="card-overlay">
-                  <div class="card-overlay-a-content">
-                    <div class="card-header-a">
-                      <h2 class="card-title-a">
-                        <a href="#">${item.name}
-  
-                      </h2>
+                `
+
+            } else {
+                // console.log(post)
+                counter = counter + 0.3
+                let timeDiff = getTimeDiff(post.created_at)
+
+                myPostContainer.innerHTML += `
+            <div class="post" id="post${post.id}" style="animation: postEffect ${counter}s linear;">
+                    <div class="post-header">
+                    <div class="caption">
+                    <div class="icon-container"><img class="user-icon" src="/uploads/${post.icon}" alt="" style=""></div>
+                    
+                    <div class="user">
+                    ${post.nickname}
                     </div>
-                    <div class="card-body-a">
-                      <div class="price-box d-flex">
-                      ${item.is_free ? ' <span class="price-a">FREE</span> ' : '<span class="price-a">Need Fee</span> '}
-                       
-                      </div>
-                      <a href="/item-single.html?itemId=${item.id}" class="link-a">Click here to view
-                        <span class="bi bi-chevron-right"></span>
-                      </a>
+                    <div class="content">
+                        ${post.caption}
                     </div>
-                    <div class="card-footer-a">
-                      <ul class="card-info d-flex justify-content-around">
-                  
-                        <li>
-                          <h4 class="card-info-title">Category</h4>
-                          <span>${item.category}</span>
-                        </li>
-                        <li>
-                          <h4 class="card-info-title">Date of Lost</h4>
-                          <span>${item.happened_at.substring(0, 10)}</span>
-                        </li>
-                        <li>
-                          <h4 class="card-info-title">Status</h4>
-                          <span>${itemStatusInPage}</span>
-                          
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="delete-btn" data_index="${item.id}">
-					<i data_index="${item.id}"> DELETE </i>
-				</div>
-                  </div>
                 </div>
-              </div>
-            </div>
-        `
-        counter++
-    }
-    const itemsContainer = document.querySelectorAll('.lost')
-    for (let itemDiv of itemsContainer) {
-        setEventListenerOnItemDiv(itemDiv)
-    }
+                    </div>
+                    <div class="img-container">
+                        <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                        <div id="pic-${post.id}"class="pic active">
+                        <img id="raw-${post.id}-1" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
+                        <img id="con-${post.id}-1" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
+                        </div>
+                        <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
+                    </div>
+                    <div class="posted-on">${timeDiff + " ago"}</div>
+                     <div class="likes"> <div class="liked-by" style="display:none"></div></div>
+                    <div class="post-footer">
+                     
+                        
+                    
+                        <div class="comment">
+                     
+                        </div>
+                    </div>
 
-    if (counter == 0) {
-        let noDataContainer = document.querySelector('.no-data-section')
-        noDataContainer.innerHTML = `<section class="notification-section">
-                                     <h1>No your posts</h1>
-                                      </section>`
-    }
+                </div>
 
 
+            `
 
-}
+                const comment = await fetch(`/post/comment/${post.id}`)
+                let commentData = await comment.json()
+                // console.log(commentData.data.comment)
+                let currentPost = document.getElementById(`post${post.id}`)
+                let commentContainer = currentPost.querySelector('.comment')
+                for (let comment of commentData.data.comment) {
+                    // console.log(comment)
+                    commentContainer.innerHTML += `
 
-
-
-
-function setEventListenerOnItemDiv(itemDiv) {
-    const deleteBtn = itemDiv.querySelector('.delete-btn')
-
-    deleteBtn.addEventListener('click', async (e) => {
-        // Call Delete API
-        const element = e.target
-        const data_index = element.getAttribute('data_index')
-        console.log(data_index)
-        let result = window.confirm("Are you sure to delete this item?\n")
-        if (result) {
-            const res = await fetch('/items/del-my-posts', {
-                method: 'DELETE',
-                body: JSON.stringify({
-                    index: data_index
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
+                <div class="user">
+                
+                ${comment.nickname}
+                </div>
+                <div class="content">
+                    ${comment.content}
+                </div>
+                `
                 }
-            }
-            )
-            if (res.ok) {
-                window.location.reload()
 
-                getUserPosts()
-            }
-        } else { }
+                const likes = await fetch(`/post/like-count/${post.id}`)
+                let likesData = (await likes.json()).data.results
+                let likesCount = likesData.length
+                let likesContainer = currentPost.querySelector('.likes')
+                likesContainer.innerHTML += likesCount + ' likes'
+                let likedByContainer = currentPost.querySelector('.liked-by')
+                for (let like of likesData) {
+                    likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                }
 
-    })
+
+            }
+        }
+
+
+
+
+        // add event listener
+        const posts = document.querySelectorAll('.post')
+        for (let postDiv of posts) {
+            const commentBtn = postDiv.querySelector('.message')
+            const likeBtn = postDiv.querySelector('.like')
+            const raw = postDiv.querySelector('.raw')
+            const con = postDiv.querySelector('.con')
+            const likes = postDiv.querySelector('.likes')
+            let likedBy = postDiv.querySelector('.liked-by')
+            const postID = postDiv.getAttribute('id').slice(4)
+            // console.log(postID.slice(4))
+            likes.addEventListener('mouseover', () => {
+                likedBy.style.display = "flex"
+            })
+            likes.addEventListener('mouseleave', () => {
+                likedBy.style.display = "none"
+            })
+            raw.addEventListener('mouseover', () => {
+                raw.style.display = "none"
+                con.style.display = ""
+            })
+            con.addEventListener('mouseleave', () => {
+                raw.style.display = ""
+                con.style.display = "none"
+            })
+            likeBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const data_index = element.getAttribute('data_index')
+
+                const res = await fetch(`/post/like/${postID}`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        postIndex: data_index
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                    }
+                })
+                if (res.ok) {
+                    const res = await fetch(`/post/like-count/${postID}`)
+                    let likesData = (await res.json()).data.results
+                    let likesCount = likesData.length
+                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                    let likedByContainer = likes.querySelector('.liked-by')
+                    for (let like of likesData) {
+                        likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                    }
+                    likedBy = likedByContainer
+                }
+
+            })
+
+            commentBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const data_index = element.getAttribute('data_index')
+                const res = await fetch('/post/comment', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        postIndex: data_index
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                    }
+                })
+                if (res.ok) {
+                    loadPosts()
+                }
+            })
+        }
+
+    }
 }
 
-getUserPosts()
+async function init() {
+
+    loadMyPosts()
+}
+
+init()
