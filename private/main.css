@@ -815,7 +815,9 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     height: 70%;
+    width: 100%;
 }
 
 .profile-button {
@@ -971,9 +973,9 @@ form {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 60%;
+    max-width: 100%;
     color: white;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
     display: flex;
     justify-content: center;
     align-items: center;
