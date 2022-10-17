@@ -1,0 +1,89 @@
+:root {
+    --mainWidth: 80%;
+    --settingWidth: calc(100% - var(--mainWidth));
+    --PanelBorderWidth: 40px;
+    --GradientBorderWidth: 3px;
+}
+
+.edit-main-container {
+    background: white;
+    width: 100%;
+    height: calc(100vh - 60px);
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.edit-preview-panel {
+    background: rgb(23, 23, 23);
+    height: 100%;
+    width: var(--mainWidth);
+    position: relative;
+}
+
+.edit-setting-panel {
+    background: #666666;
+    height: 100%;
+    width: var(--settingWidth);
+}
+
+.edit-setting-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.panel-gradient-border-bg {
+    width: calc(100% - var(--PanelBorderWidth) - var(--PanelBorderWidth));
+    height: calc(100% - var(--PanelBorderWidth) - var(--PanelBorderWidth));
+    /* width: 100%;
+    height: 100%; */
+    position: absolute;
+    /* background: white; */
+    border-radius: 6px;
+    top: var(--PanelBorderWidth);
+    left: var(--PanelBorderWidth);
+    background-position: auto auto;
+    background-image: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    animation: animatedgradient 5s ease alternate infinite;
+
+}
+
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.preview-panel {
+    background: white;
+    height: calc(100% - 2 * var(--GradientBorderWidth));
+    width: calc(100% - 2 * var(--GradientBorderWidth));
+    position: absolute;
+    top: var(--GradientBorderWidth);
+    left: var(--GradientBorderWidth);
+    border-radius: 6px;
+
+    /* border: 3px solid #666666; */
+}
+
+.preview-title{
+    /* margin-top: 10px; */
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 10px;
+    color: white;
+    background: #555555;
+}
