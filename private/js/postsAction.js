@@ -385,6 +385,10 @@ async function loadPosts() {
             commentBtn.addEventListener('click', async (e) => {
                 // console.log('comment')
                 let popUp = document.querySelector(`#comment-pop-up-${postID}`)
+                if (popUp.querySelector(".comment-pop-up")) {
+                    return
+                }
+
                 popUp.innerHTML += `   <div class="comment-pop-up">Place your comment below:
                 <form id="comment-form">
                 <input name="comment" type="text" required autocomplete="off" id="comment">
