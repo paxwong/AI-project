@@ -50,7 +50,7 @@ export default class PostController {
         try {
             let post = req.params.postId
             let user = req.session['user'].id
-            console.log('user:', user, 'added Like to', 'post:', post,)
+            // console.log('user:', user, 'added Like to', 'post:', post,)
 
             await this.service.addLike(user, Number(post));
             res.status(200).json({
@@ -67,7 +67,7 @@ export default class PostController {
         try {
             let post = req.params.postId
             let user = req.session['user'].id
-            console.log('user:', user, 'removed Like from', 'post:', post,)
+            // console.log('user:', user, 'removed Like from', 'post:', post,)
 
             await this.service.removeLike(user, Number(post));
             res.status(200).json({
@@ -84,7 +84,7 @@ export default class PostController {
         try {
             let post = req.params.postId
             let user = req.session['user'].id
-            console.log('user:', user, 'update Like from', 'post:', post,)
+            // console.log('user:', user, 'update Like from', 'post:', post,)
 
             await this.service.updateLike(user, Number(post));
             res.status(200).json({
