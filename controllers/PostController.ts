@@ -106,4 +106,23 @@ export default class PostController {
 
         return
     }
+
+    getMyPosts = async (req: Request, res: Response) => {
+        try {
+            let userId = parseInt(req.session['user'].id)
+            console.log(parseInt('userId' + userId))
+
+            const myPostsResult = await this.service.getMyPosts(Number(userId));
+
+            res.json(myPostsResult)
+        }
+        catch (err: any) {
+            console.log(err.message)
+            logger.error(err.message)
+
+            res.status(400).send('Get my posts error: ' + err.message)
+            return
+        }
+
+    }
 }

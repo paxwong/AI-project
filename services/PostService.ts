@@ -111,6 +111,23 @@ export default class PostService {
 
     }
 
+    async getMyPosts(userId: number) {
+        let result = (await this.knex.raw(
+            /*sql*/`
+        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, raw.image as raw_image, con.image as con_image 
+        from posts 
+        inner join users on users.id = posts.user_id 
+        inner join raw_images raw on raw.post_id = posts.id 
+        inner join converted_images con on con.raw_id = raw.id
+        where posts.user_id = (?)
+        ORDER BY created_at DESC
+        `,
+            [userId])).rows
+        return result
+    }
+
+}
+
 
 
 
@@ -118,7 +135,7 @@ export default class PostService {
     // select("*").from("comments").where({ "post_id": post })
 
     // raw('select * from comments where post_id = (?)', [post])
-}
+
 
       // let post = (await this.knex.insert({ caption, user_id: user }).into('posts').returning('*'))[0] as Post;
         // console.log("post", post)
