@@ -37,11 +37,12 @@ export default class PostService {
     async getPosts() {
         let result = (await this.knex.raw(
             /*sql*/`
-        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, raw.image as raw_image, con.image as con_image 
+        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, posts.is_deleted, raw.image as raw_image, con.image as con_image 
         from posts 
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
-        inner join converted_images con on con.raw_id = raw.id`)).rows
+        inner join converted_images con on con.raw_id = raw.id
+        where is_deleted = false`)).rows
 
         return result
 
@@ -125,16 +126,24 @@ export default class PostService {
     async getMyPosts(userId: number) {
         let result = (await this.knex.raw(
             /*sql*/`
-        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, raw.image as raw_image, con.image as con_image 
+        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, posts.is_deleted, raw.image as raw_image, con.image as con_image 
         from posts 
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where posts.user_id = (?)
+        where posts.user_id = (?) and is_deleted = false
         ORDER BY created_at DESC
         `,
             [userId])).rows
         return result
+    }
+
+    async deleteMyPosts(postId: number) {
+
+        let result = (await this.knex.raw(
+            /*sql*/
+            `update posts set is_deleted = true where id = (?)`, [postId]))
+
     }
 
 }

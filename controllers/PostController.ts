@@ -157,6 +157,29 @@ export default class PostController {
             res.status(400).send('Get my posts error: ' + err.message)
             return
         }
-
     }
+
+    deleteMyPosts = async (req: Request, res: Response) => {
+        try {
+            const postId = req.body.postId
+
+            if (!postId || !Number(postId)) {
+                res.status(400).json({
+                    message: 'index is invalid'
+                })
+                return
+            }
+            const deleteResult = await this.service.deleteMyPosts(Number(postId));
+
+            res.json({
+                message: 'del success'
+            })
+        } catch (e) {
+            console.log('error : ' + e)
+            res.status(500).json({
+                message: 'del fail'
+            })
+        }
+    }
+
 }
