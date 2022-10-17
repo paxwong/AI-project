@@ -38,7 +38,7 @@ export default class PostController {
             return
         }
         let results = await this.service.getLikeCount(Number(post))
-        console.log(results)
+        // console.log(results)
         res.json({
             message: 'Success',
             data: {
@@ -50,9 +50,9 @@ export default class PostController {
         try {
             let post = req.params.postId
             let user = req.session['user'].id
-            console.log('addLike', 'post', post, 'user', user)
+            console.log('user:', user, 'added Like to', 'post:', post,)
 
-            this.service.addLike(user, Number(post));
+            await this.service.addLike(user, Number(post));
             res.status(200).json({
                 message: "add like successful"
             })

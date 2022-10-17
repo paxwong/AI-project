@@ -14,12 +14,35 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        integrity="sha512-5PV92qsds/16vyYIJo3T/As4m2d8b6oWYfoqV+vtizRB6KhF1F9kYzWzQmsO6T3z3QG2Xdhrx7FQ+5R1LiQdUA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>MangA.I.</title>
 </head>
 
 <body>
+    <div id="blur"></div>
+    <div id="pop-up-container">
+        <div class="outerContainer">
+            <div class="account container gradient-border">
+                <div class="profile-svg-container">
+                    <i class="bi bi-x-lg"></i>
+                </div>
+                <div class="profile-title">SETTING</div>
+                <div class="profile-button-container">
+                    <div onclick="changeSetting('username')" class="profile-button" id="change-nickname">Change Nickname
+                    </div>
+                    <div onclick="changeSetting('email')" class="profile-button" id="change-email">Change Email</div>
+                    <div onclick="changeSetting('password')" class="profile-button" id="change-password">Change Password
+                    </div>
+                </div>
+                <div class="message-login">Logged in as <span id="myName"></span></div>
+                <div class="message"></div>
+            </div>
+        </div>
+    </div>
     <nav>
-
         <ul class="menuItems tab">
             <li><a href='#' class="tablinks" onclick="openTab(event, 'MangA.I.')" id="defaultOpen">
                     <div class="title" id="title">MANG<div class="wave">A.I.</div>
@@ -31,13 +54,13 @@
             </li>
             <div class="profile-container">
                 <div id="credit">
-                    <div class="credit">Remaining Credits: 5.0</div>
+                    <div class="credit">Remaining Credits: <span id="credit-amount"></span></div>
                 </div>
-                <div id="profile"><img id="profile-picture" src="../uploads/icon.jpeg"><span id = "profile-name">Pax1234</span>
+                <div id="profile"><img id="profile-picture"><span id="profile-name">GUEST</span>
                     <div class="dropdown-content">
-                        <a href="#">My Profile</a>
-                        <a href="#">Setting</a>
-                        <a id="logout-button"href="#">Log out</a>
+                        <a href="#">My Posts</a>
+                        <a id="setting-button">Setting</a>
+                        <a id="logout-button">Log out</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +92,7 @@
 
 <!-- <script src="..//js/index.js"></script> -->
 <script src="./js/nav.js"></script>
-
+<script src="./js/userProfile.js"></script>
 <script src="./js/postsAction.js"></script>
 
 

@@ -84,9 +84,11 @@ async function loadPosts() {
     let counter = 0
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
+        postContainer.innerHTML = ''
         for (let post of data) {
-
+            // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
+
                 let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
                 imgContainer.innerHTML += `
@@ -127,7 +129,8 @@ async function loadPosts() {
                             <i class="btn message fa-regular fa-message"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
-                     
+                     <div class="likes"> <div class="liked-by" style="display:none"></div></div>
+                    
                         <div class="comment">
                      
                         </div>
@@ -155,8 +158,24 @@ async function loadPosts() {
                 `
                 }
 
+                const likes = await fetch(`/post/like-count/${post.id}`)
+                let likesData = (await likes.json()).data.results
+                let likesCount = likesData.length
+                let likesContainer = currentPost.querySelector('.likes')
+                likesContainer.innerHTML += likesCount + ' likes'
+                let likedByContainer = currentPost.querySelector('.liked-by')
+                for (let like of likesData) {
+                    likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                }
+
+
             }
         }
+
+
 
 
         // add event listener
@@ -166,6 +185,16 @@ async function loadPosts() {
             const likeBtn = postDiv.querySelector('.like')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
+            const likes = postDiv.querySelector('.likes')
+            let likedBy = postDiv.querySelector('.liked-by')
+            const postID = postDiv.getAttribute('id').slice(4)
+            // console.log(postID.slice(4))
+            likes.addEventListener('mouseover', () => {
+                likedBy.style.display = "flex"
+            })
+            likes.addEventListener('mouseleave', () => {
+                likedBy.style.display = "none"
+            })
             raw.addEventListener('mouseover', () => {
                 raw.style.display = "none"
                 con.style.display = ""
@@ -178,7 +207,7 @@ async function loadPosts() {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
 
-                const res = await fetch('/post/like', {
+                const res = await fetch(`/post/like/${postID}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         postIndex: data_index
@@ -188,7 +217,18 @@ async function loadPosts() {
                     }
                 })
                 if (res.ok) {
-                    loadPosts()
+                    const res = await fetch(`/post/like-count/${postID}`)
+                    let likesData = (await res.json()).data.results
+                    let likesCount = likesData.length
+                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                    let likedByContainer = likes.querySelector('.liked-by')
+                    for (let like of likesData) {
+                        likedByContainer.innerHTML += `
+                    <div class="user">
+                    ${like.nickname}
+                     </div>`
+                    }
+                    likedBy = likedByContainer
                 }
 
             })
@@ -245,28 +285,5 @@ async function init() {
 }
 
 init()
-loadPosts()
 
-function addListenerToDropdown() {
-    let logoutButton = document.querySelector('#logout-button')
-    logoutButton.addEventListener('click', async (e) => {
-        const res = await fetch('/user/logout')
-        if (res.ok) {
-            console.log('logged out')
-            window.location.assign("/")
-        }
-    })
-}
 
-async function getUser() {
-    const res = await fetch('/user/getMyInfo')
-    let result = await res.json()
-    if (res.ok) {
-        document.querySelector('#profile-name').textContent = result.message
-        document.querySelector('#profile-name').textContent = result.message //Credit
-        document.querySelector('#profile-name').textContent = result.message //轉pfp
-    }
-}
-
-addListenerToDropdown()
-getUser()

@@ -56,7 +56,7 @@ export default class UserController {
         try {
             const email = req.body.email
             const password = req.body.password
-            console.log(email, password)
+            // console.log(email, password)
             if (!email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
                 return
@@ -106,12 +106,13 @@ export default class UserController {
                 res.status(400).json({ message: 'User not found' })
                 return
             }
-            req.session.destroy
-            res.status(200).json({ message: 'logged out' })
+            req.session.destroy(function(err){
+            console.log(err) }
+            )
+                res.status(200).json({ message: 'logged out' })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
-
         }
     }
 
@@ -122,10 +123,56 @@ export default class UserController {
                 return
             }
             let nickname = req.session["user"].nickname
-            res.status(200).json({ message: nickname })
+            let icon = req.session["user"].icon
+            let credit = req.session["user"].credit
+            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
         }
+    }
+
+    changeSetting = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'Invalid Session' })
+                return
+            }
+
+            const oldPassword = req.body.oldPassword
+            const changeType = req.body.changeType
+            const changeData = req.body.changeData
+            const sessionEmail = req.session["user"].email
+            const needHash = true
+
+            // Add a function here to disable symbols in username
+
+            let dbUser = await this.service.getUser(sessionEmail)
+            let isMatched = await checkPassword(oldPassword, dbUser.password)
+
+            if (!isMatched) {
+                res.status(400).json({ message: 'Invalid Password' })
+                return
+            }
+
+            let updatedUser = await this.service.changeSetting(dbUser.id, changeType, changeData)
+            
+            let {
+                password: hashPassword,
+                is_admin,
+                created_at,
+                updated_at,
+                ...sessionUser
+            } = updatedUser
+
+
+            req.session["user"] = sessionUser
+            res.status(200).json({ message: 'Successfully changed'})
+            
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
+
     }
 }

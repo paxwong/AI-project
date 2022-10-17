@@ -96,11 +96,12 @@ export default class PostService {
     async getLikeCount(post: number) {
         let result = (await this.knex.raw(
             /*sql*/`
-            select likes.post_id, count (likes.id)
+            select likes.user_id,users.nickname 
             from likes 
             inner join posts on likes.post_id = posts.id
+            inner join users on users.id = likes.user_id 
             where likes.post_id = (?)
-            group by likes.post_id    
+           
             `,
             [post]
         )).rows
