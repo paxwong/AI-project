@@ -22,7 +22,7 @@ export const formParse = (req: express.Request) => {
 			try {
 				console.log('here formParse')
 				// const user = req.session["user"].id
-				const text = fields.text
+				// const text = fields.text
 				// const fromSocketId = fields.fromSocketId
 				let file = Array.isArray(files.image)
 					? files.image[0]
@@ -32,12 +32,12 @@ export const formParse = (req: express.Request) => {
 
 				console.log({
 					filename,
-					text
+					fields
 				})
 				// Get File Name
 				resolve({
 					filename,
-					text,
+					fields,
 					// user
 					// fromSocketId
 				})
