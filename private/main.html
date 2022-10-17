@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./editTools.css">
     <link rel="stylesheet" href="./nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +23,6 @@
 </head>
 
 <body>
-    <div class="comment-pop-up-container"></div>
     <div id="blur"></div>
     <div id="pop-up-container">
         <div class="outerContainer">
@@ -61,8 +61,7 @@
                 </div>
                 <div id="profile"><img id="profile-picture"><span id="profile-name">GUEST</span>
                     <div class="dropdown-content">
-                        <a href="#" class="tablinks" onclick="openTab(event, 'MyPosts')">My
-                            Posts</a>
+                        <a href="#">My Posts</a>
                         <a id="setting-button">Setting</a>
                         <a id="logout-button">Log out</a>
                     </div>
@@ -77,12 +76,25 @@
             </div>
 
         </div>
-        <div id="MyPosts" class="tabcontent">
-            <div class="my-post-container">
+        <div id="+Create" class="tabcontent">
+            <div class="edit-main-container">
+                <div class="edit-preview-panel">
+                    <div class="panel-gradient-border-bg">
+                        <div class="preview-panel">
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-setting-panel">
+                    <div class="edit-setting-container">
+                        <div class="preview-title">Preview Setting</div>
+                        <div id="upload-picture-container">
+                            <input type="file" id="upload-picture-btn" name="image" hidden />
+                            <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="+Create" class="tabcontent">EDITING TOOLS</div>
-        <div id="Contact" class="tabcontent" style="font-size: 100px;">ANGEL FONG GAA</div>
+            <div id="Contact" class="tabcontent" style="font-size: 100px;">ANGEL FONG GAA</div>
 
     </nav>
     <left></left>
@@ -102,8 +114,6 @@
 <script src="./js/nav.js"></script>
 <script src="./js/userProfile.js"></script>
 <script src="./js/postsAction.js"></script>
-<script src="./js/myPost.js"></script>
-
 
 
 
