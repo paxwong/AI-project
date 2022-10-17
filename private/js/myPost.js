@@ -77,7 +77,7 @@ async function loadMyPosts() {
                             <i class="btn like fa-regular fa-heart" style='display:'></i>
                             <i class=" btn liked fa-solid fa-heart" style='display:none'></i>
                             <i class="btn message fa-regular fa-message"></i>
-                            <i class="btn delete-btn fa-trash" data_index="${post.id}"></i>
+                            <i class="btn delete-btn fa fa-trash" data_index="${post.id}"></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
                      <div class="likes"> <div class="liked-by" style="display:none"></div></div>
