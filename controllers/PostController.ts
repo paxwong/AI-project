@@ -127,7 +127,7 @@ export default class PostController {
 
     deleteMyPosts = async (req: Request, res: Response) => {
         try {
-            const postId = req.params.postId
+            const postId = req.body.postId
 
             if (!postId || !Number(postId)) {
                 res.status(400).json({

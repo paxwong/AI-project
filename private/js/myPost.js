@@ -75,6 +75,9 @@ async function loadMyPosts() {
                     <div class="posted-on">${timeDiff + " ago"}</div>
                      <div class="likes"> <div class="liked-by" style="display:none"></div></div>
                     <div class="post-footer">
+                    <div class="delete-btn" data_index="${post.id}">
+					<i data_index="${post.id}"> DELETE </i>
+				</div>
                      
                         
                     
@@ -158,5 +161,31 @@ async function loadMyPosts() {
     }
 }
 
+function setEventListenerOnItemDiv(postDiv) {
+    const deleteBtn = postDiv.querySelector('.delete-btn')
+
+    deleteBtn.addEventListener('click', async (e) => {
+        const element = e.target
+        const postId = element.getAttribute('data_index')
+        console.log(postId)
+        let result = window.confirm("Are you sure to delete this item?\n")
+        if (result) {
+            const res = await fetch('/post/del-my-posts', {
+                method: 'DELETE',
+                body: JSON.stringify({
+                    postId: postId
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            )
+            if (res.ok) {
+                loadMyPosts()
+            }
+        } else { }
+
+    })
+}
 
 loadMyPosts()

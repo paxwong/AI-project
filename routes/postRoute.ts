@@ -21,7 +21,7 @@ export function initialize(client: Knex, io: SocketIO) {
     postRoutes.post('/comment/:postId', controller.addComment)
     postRoutes.get('/comment/:postId', controller.getComment)
     postRoutes.get('/my-posts', controller.getMyPosts)
-    postRoutes.delete('/del-my-posts/:postId', controller.deleteMyPosts)
+    postRoutes.delete('/del-my-posts', controller.deleteMyPosts)
 
 
 
