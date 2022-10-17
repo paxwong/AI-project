@@ -51,7 +51,7 @@ async function loadMyPosts() {
                 let timeDiff = getTimeDiff(post.created_at)
 
                 myPostContainer.innerHTML += `
-            <div class="post" id="myPost${post.id}" style="animation: postEffect ${counter}s linear;">
+            <div class="myPost" id="myPost${post.id}" style="animation: postEffect ${counter}s linear;">
                     <div class="post-header">
                     <div class="caption">
                     <div class="icon-container"><img class="user-icon" src="/uploads/${post.icon}" alt="" style=""></div>
