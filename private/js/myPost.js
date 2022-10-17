@@ -25,18 +25,18 @@ async function getOwner(userId) {
 async function loadMyPosts() {
     const res = await fetch('/post/my-posts')
     const data = await res.json()
-    // console.log(data)
+    console.log(data)
     let counter = 0
     if (res.ok) {
         let myPost = document.querySelector('#MyPosts')
         let myPostContainer = myPost.querySelector('.my-post-container')
 
-        myPostContainer.innerHTML = 'ddf'
+        myPostContainer.innerHTML = ''
         for (let post of data) {
             // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
 
-                let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
+                let imgContainer = document.getElementById(`myPost${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
                 imgContainer.innerHTML += `
                 <div id="pic-${post.id}"class="pic" style="display:none">
@@ -51,7 +51,7 @@ async function loadMyPosts() {
                 let timeDiff = getTimeDiff(post.created_at)
 
                 myPostContainer.innerHTML += `
-            <div class="post" id="post${post.id}" style="animation: postEffect ${counter}s linear;">
+            <div class="post" id="myPost${post.id}" style="animation: postEffect ${counter}s linear;">
                     <div class="post-header">
                     <div class="caption">
                     <div class="icon-container"><img class="user-icon" src="/uploads/${post.icon}" alt="" style=""></div>
@@ -91,7 +91,7 @@ async function loadMyPosts() {
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
                 // console.log(commentData.data.comment)
-                let currentPost = document.getElementById(`post${post.id}`)
+                let currentPost = document.getElementById(`myPost${post.id}`)
                 let commentContainer = currentPost.querySelector('.comment')
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
@@ -128,7 +128,7 @@ async function loadMyPosts() {
 
 
         // add event listener
-        const posts = document.querySelectorAll('.post')
+        const posts = document.querySelectorAll('.myPost')
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
@@ -152,60 +152,11 @@ async function loadMyPosts() {
                 raw.style.display = ""
                 con.style.display = "none"
             })
-            likeBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const data_index = element.getAttribute('data_index')
 
-                const res = await fetch(`/post/like/${postID}`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        postIndex: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8',
-                    }
-                })
-                if (res.ok) {
-                    const res = await fetch(`/post/like-count/${postID}`)
-                    let likesData = (await res.json()).data.results
-                    let likesCount = likesData.length
-                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
-                    let likedByContainer = likes.querySelector('.liked-by')
-                    for (let like of likesData) {
-                        likedByContainer.innerHTML += `
-                    <div class="user">
-                    ${like.nickname}
-                     </div>`
-                    }
-                    likedBy = likedByContainer
-                }
-
-            })
-
-            commentBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const data_index = element.getAttribute('data_index')
-                const res = await fetch('/post/comment', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        postIndex: data_index
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8',
-                    }
-                })
-                if (res.ok) {
-                    loadPosts()
-                }
-            })
         }
 
     }
 }
 
-async function init() {
 
-    loadMyPosts()
-}
-
-init()
+loadMyPosts()
