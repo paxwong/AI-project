@@ -479,6 +479,7 @@ small {
 }
 
 .liked-by {
+
     padding: 5px;
     position: absolute;
     display: flex;
@@ -489,8 +490,13 @@ small {
     left: 1rem;
     background: #171717;
     overflow-y: auto;
-    animation: postEffect 3s linear;
+    animation: postEffect .5s linear;
+    /* z-index: +1; */
 
+}
+
+.likes:hover {
+    cursor: alias;
 }
 
 .liked-by .user {
@@ -895,7 +901,7 @@ form {
 
 #pop-up-container {
     z-index: 10000;
-    display: block;
+    display: none;
     position: fixed;
 }
 
@@ -965,6 +971,7 @@ form {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    max-width: 60%;
     color: white;
     padding: 0.5rem;
     display: flex;

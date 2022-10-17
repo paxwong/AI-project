@@ -43,9 +43,7 @@ export default class UserService {
         }
     }
 
-    // Template service
-    // async getUsers(): Promise<User[]> {
-    //     const results: User[] = await this.knex.select("*").from("users");
-    //     return results;
-    // }
+    async changePicture(filename: string, dbUserID: number) {
+        return (await this.knex.update({ 'icon': filename }).into("users").where({ "id": dbUserID }).returning("*"))[0];
+    }
 }

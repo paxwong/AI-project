@@ -87,7 +87,7 @@ function changeProfilePicture() {
         <form id="setting-form">
             <div>Upload new profile picture here:</div>
             <div id="upload-picture-container">
-            <input type="file" id="upload-picture-btn" hidden />
+            <input type="file" id="upload-picture-btn" name="image" hidden />
             <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
             </div>
             <div class="field">
@@ -101,10 +101,40 @@ function changeProfilePicture() {
 
                     </form>
     `
-    document.querySelector("#upload-picture-btn").addEventListener('change', function() {
+    document.querySelector("#upload-picture-btn").addEventListener('change', function () {
         document.querySelector("#upload-picture-label").textContent = this.files[0].name
     })
-    addListenerToSetting()
+    addListenerToSettingPicture()
+}
+
+async function addListenerToSettingPicture() {
+    let setting = document.querySelector('#setting-form')
+    setting.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target)
+        const res = await fetch('/user/changePicture', {
+            method: 'POST',
+            body: formData
+        })
+        let result = await res.json();
+        if (res.ok) {
+            document.querySelector(".message").textContent = "Setting changed successfully!"
+            document.querySelector(".message").style.color = "greenyellow"
+            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    returnProfileContainer()
+                    getUser()
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }
+        if (!res.ok) {
+            document.querySelector('.message').textContent = result.message
+            document.querySelector(".message").style.color = "red"
+            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }    })
 }
 
 async function addListenerToSetting() {

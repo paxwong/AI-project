@@ -4,6 +4,8 @@ import SocketIO from 'socket.io';
 import { Request, Response } from "express"
 import { checkPassword } from "../hash";
 import { request } from "http";
+import { formParse } from '../upload';
+
 
 export default class UserController {
     private service: UserService;
@@ -176,5 +178,41 @@ export default class UserController {
             res.status(500).json({ message: 'Internal Server Error' })
         }
 
+    }
+
+    changePicture = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'Invalid Session' })
+                return
+            }
+            const { filename, fields } = await formParse(req)
+            const sessionEmail = req.session["user"].email
+            let dbUser = await this.service.getUser(sessionEmail)
+            let isMatched = await checkPassword(fields.oldPassword, dbUser.password)
+
+            if (!isMatched) {
+                res.status(400).json({ message: 'Invalid Password' })
+                return
+            }
+
+            const dbUserID = req.session["user"].id
+            const updatedUser = await this.service.changePicture(filename, dbUserID);
+
+            let {
+                password: hashPassword,
+                is_admin,
+                created_at,
+                updated_at,
+                ...sessionUser
+            } = updatedUser
+
+            req.session["user"] = sessionUser
+            res.status(200).json({ message: 'Successfully changed' })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
     }
 }
