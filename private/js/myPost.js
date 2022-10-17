@@ -25,7 +25,7 @@ async function getOwner(userId) {
 async function loadMyPosts() {
     const res = await fetch('/post/my-posts')
     const data = await res.json()
-    console.log(data)
+
     let counter = 0
     if (res.ok) {
         let myPost = document.querySelector('#MyPosts')

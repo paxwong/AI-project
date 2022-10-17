@@ -17,6 +17,8 @@ export function initialize(client: Knex, io: SocketIO) {
     postRoutes.post('/formidable', controller.addPost)
     postRoutes.get('/like-count/:postId', controller.getLikeCount)
     postRoutes.post('/like/:postId', controller.addLike)
+    postRoutes.post('/remove-like/:postId', controller.removeLike)
+    postRoutes.post('/update-like/:postId', controller.updateLike)
     postRoutes.get('/', controller.getPosts)
     postRoutes.post('/comment/:postId', controller.addComment)
     postRoutes.get('/comment/:postId', controller.getComment)

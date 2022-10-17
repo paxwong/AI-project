@@ -95,11 +95,12 @@ export default class PostService {
     async getLikeCount(post: number) {
         let result = (await this.knex.raw(
             /*sql*/`
-            select likes.user_id,users.nickname 
+            select likes.user_id,users.nickname,likes.is_deleted
             from likes 
             inner join posts on likes.post_id = posts.id
             inner join users on users.id = likes.user_id 
             where likes.post_id = (?)
+          
            
             `,
             [post]
@@ -110,7 +111,17 @@ export default class PostService {
         return (await this.knex.insert({ user_id: user, post_id: post }).into('likes').returning('*'))[0] as Like;
 
     }
+    async removeLike(user: number, post: number) {
+        return (await this.knex.raw(
+            `update likes set is_deleted='t' where user_id=(?) and post_id=(?)`, [user, post]
+        ))
+    }
 
+    async updateLike(user: number, post: number) {
+        return (await this.knex.raw(
+            `update likes set is_deleted='f' where user_id=(?) and post_id=(?)`, [user, post]
+        ))
+    }
     async getMyPosts(userId: number) {
         let result = (await this.knex.raw(
             /*sql*/`
