@@ -107,6 +107,8 @@ async function loadPosts() {
             <div class="post" id="post${post.id}" style="animation: postEffect ${counter}s linear;">
                     <div class="post-header">
                     <div class="caption">
+                    <div class="icon-container"><img class="user-icon" src="/uploads/${post.icon}" alt="" style=""></div>
+                    
                     <div class="user">
                     ${post.nickname}
                     </div>
@@ -149,7 +151,9 @@ async function loadPosts() {
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
                     commentContainer.innerHTML += `
+
                 <div class="user">
+                
                 ${comment.nickname}
                 </div>
                 <div class="content">
