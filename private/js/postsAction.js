@@ -151,7 +151,7 @@ async function loadPosts() {
                      
                         </div>
                     </div>
-
+                    <div class="comment-pop-up-container" id="comment-pop-up-${post.id}"></div>
                 </div>
 
 
@@ -384,7 +384,8 @@ async function loadPosts() {
 
             commentBtn.addEventListener('click', async (e) => {
                 // console.log('comment')
-                document.querySelector('.comment-pop-up-container').innerHTML += `   <div class="comment-pop-up">Place your comment below:
+                let popUp = document.querySelector(`#comment-pop-up-${postID}`)
+                popUp.innerHTML += `   <div class="comment-pop-up">Place your comment below:
                 <form id="comment-form">
                 <input name="comment" type="text" required autocomplete="off" id="comment">
                     <label for="comment" title="comment" data-title="comment"></label>
@@ -392,7 +393,7 @@ async function loadPosts() {
                 </form>
                 <div class="close-comment-tab" onclick="removeTab()">x</div>
                 </div>`
-
+                popUp.style.zIndex = "+10000"
                 let submit = document.querySelector('#comment-form')
 
                 submit.addEventListener('submit', async function (event) {
