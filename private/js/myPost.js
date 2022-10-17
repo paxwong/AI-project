@@ -34,7 +34,7 @@ async function loadMyPosts() {
         myPostContainer.innerHTML = ''
         for (let post of data) {
             // console.log(post)
-            if (document.getElementById(`post${post.id}`)) {
+            if (document.getElementById(`myPost${post.id}`)) {
 
                 let imgContainer = document.getElementById(`myPost${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
@@ -252,9 +252,10 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
+                        loadPosts()
                         loadMyPosts()
                     }
-                } else { }
+                }
 
             })
 
