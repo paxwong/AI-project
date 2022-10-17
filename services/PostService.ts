@@ -37,7 +37,7 @@ export default class PostService {
     async getPosts() {
         let result = (await this.knex.raw(
             /*sql*/`
-        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname, posts.created_at, raw.image as raw_image, con.image as con_image 
+        select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, raw.image as raw_image, con.image as con_image 
         from posts 
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
@@ -84,7 +84,7 @@ export default class PostService {
     }
     async getComment(post: number) {
         let result: Comment[] = (await this.knex.raw(/*sql*/`
-        select comments.id as comment_id, comments.content, comments.user_id, comments.post_id, comments.created_at, users.nickname 
+        select comments.id as comment_id, comments.content, comments.user_id, comments.post_id, comments.created_at, users.nickname,users.icon
         from comments 
         inner join users on users.id = comments.user_id 
         where comments.post_id = (?)
