@@ -1,14 +1,14 @@
-async function getOwner(userId) {
-    const res = await fetch(`/user/user-info/${userId}`)
-    if (res.ok) {
-        let data = await res.json()
-        return data.data
-    } else {
-        return null
-    }
+// async function getOwner(userId) {
+//     const res = await fetch(`/user/user-info/${userId}`)
+//     if (res.ok) {
+//         let data = await res.json()
+//         return data.data
+//     } else {
+//         return null
+//     }
 
-}
-
+// }
+getUserInfo()
 
 // async function getUserPosts() {
 //     const res = await fetch(`/post/my-posts`)
@@ -86,7 +86,7 @@ async function loadMyPosts() {
                      
                         </div>
                     </div>
-
+                    <div class="comment-pop-up-container" id="my-comment-pop-up-${post.id}"></div>
                 </div>
 
             `
@@ -112,16 +112,33 @@ async function loadMyPosts() {
 
                 const likes = await fetch(`/post/like-count/${post.id}`)
                 let likesData = (await likes.json()).data.results
-                let likesCount = likesData.length
+                let likesCount = 0
                 let likesContainer = currentPost.querySelector('.likes')
-                likesContainer.innerHTML += likesCount + ' likes'
+                let likeBtn = currentPost.querySelector('.like')
+                let likedBtn = currentPost.querySelector('.liked')
+
                 let likedByContainer = currentPost.querySelector('.liked-by')
                 for (let like of likesData) {
-                    likedByContainer.innerHTML += `
+
+                    if (like.user_id == userID && like.is_deleted == true) {
+                        likeBtn.style.display = "block"
+                        likedBtn.style.display = "none"
+                    }
+
+                    if (like.user_id == userID && like.is_deleted == false) {
+                        likeBtn.style.display = "none"
+                        likedBtn.style.display = "block"
+                    }
+                    if (like.is_deleted == false) {
+                        likesCount++
+                        likedByContainer.innerHTML += `
                     <div class="user">
                     ${like.nickname}
-                     </div>`
+                     </div>`}
+
                 }
+                if (likesCount > 1) { likesContainer.innerHTML += likesCount + ' likes' }
+                if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
 
 
             }
@@ -135,12 +152,12 @@ async function loadMyPosts() {
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
-            const deleteBtn = postDiv.querySelector('.delete-btn')
+            let likedBtn = postDiv.querySelector('.liked')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
             const likes = postDiv.querySelector('.likes')
             let likedBy = postDiv.querySelector('.liked-by')
-            const postID = postDiv.getAttribute('id').slice(4)
+            const postID = postDiv.getAttribute('id').slice(6)
             // console.log(postID.slice(4))
             likes.addEventListener('mouseover', () => {
                 likedBy.style.display = "flex"
@@ -156,62 +173,169 @@ async function loadMyPosts() {
                 raw.style.display = ""
                 con.style.display = "none"
             })
-
             likeBtn.addEventListener('click', async (e) => {
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
                 let likesData = (await likeCountRes.json()).data.results
                 for (let like of likesData) {
-                    if (like.user_id == userID) {
-                        return
-                    } else {
-                        const res = await fetch(`/post/like/${postID}`, {
+                    if (like.user_id == userID && like.is_deleted == true) {
+                        const res = await fetch(`/post/update-like/${postID}`, {
                             method: 'POST',
                             body: JSON.stringify({
-                                postIndex: data_index
+                                post: postID,
+                                user: userID
                             }),
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8',
                             }
+
+
                         })
                         if (res.ok) {
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
-                            let likesCount = likesData.length
-                            likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
-                            let likedByContainer = likes.querySelector('.liked-by')
+                            let likesCount = 0
                             for (let like of likesData) {
-                                if (like.user_id == userID) {
+                                if (like.user_id == userID && like.is_deleted == true) {
+                                    likeBtn.style.display = "block"
+                                    likedBtn.style.display = "none"
+                                }
+                                if (like.user_id == userID && like.is_deleted == false) {
                                     likeBtn.style.display = "none"
                                     likedBtn.style.display = "block"
                                 }
-                                likedByContainer.innerHTML += `
-                            <div class="user">
-                            ${like.nickname}
-                             </div>`
+                                if (like.is_deleted == false) {
+                                    likesCount++
+                                }
+                            }
+
+                            if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                            if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.is_deleted == false) {
+                                    likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
+                            }
+                            likedBy = likedByContainer
+                        }
+                        return
+                    }
+                }
+                const res = await fetch(`/post/like/${postID}`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        postIndex: data_index
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                    }
+                })
+                if (res.ok) {
+                    const res = await fetch(`/post/like-count/${postID}`)
+                    let likesData = (await res.json()).data.results
+                    let likesCount = 0
+                    for (let like of likesData) {
+                        if (like.user_id == userID && like.is_deleted == true) {
+                            likeBtn.style.display = "block"
+                            likedBtn.style.display = "none"
+                        }
+                        if (like.user_id == userID && like.is_deleted == false) {
+                            likeBtn.style.display = "none"
+                            likedBtn.style.display = "block"
+                        }
+                        if (like.is_deleted == false) {
+                            likesCount++
+                        }
+                    }
+                    if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                    if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
+                    let likedByContainer = likes.querySelector('.liked-by')
+                    for (let like of likesData) {
+                        if (like.is_deleted == false) {
+                            likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
+                    }
+                    likedBy = likedByContainer
+                }
+            })
+
+            likedBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const data_index = element.getAttribute('data_index')
+                const likeCountRes = await fetch(`/post/like-count/${postID}`)
+                let likesData = (await likeCountRes.json()).data.results
+                for (let like of likesData) {
+                    if (like.user_id == userID && like.is_deleted == false) {
+                        const res = await fetch(`/post/remove-like/${postID}`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                post: postID,
+                                user: userID
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                            }
+
+
+                        })
+                        if (res.ok) {
+
+                            const res = await fetch(`/post/like-count/${postID}`)
+                            let likesData = (await res.json()).data.results
+                            let likesCount = 0
+                            for (let like of likesData) {
+                                if (like.user_id == userID && like.is_deleted == true) {
+                                    likeBtn.style.display = "block"
+                                    likedBtn.style.display = "none"
+                                }
+                                if (like.user_id == userID && like.is_deleted == false) {
+                                    likeBtn.style.display = "none"
+                                    likedBtn.style.display = "block"
+                                }
+                                if (like.is_deleted == false) {
+                                    likesCount++
+                                }
+                            }
+                            if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                            if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
+                            let likedByContainer = likes.querySelector('.liked-by')
+                            for (let like of likesData) {
+                                if (like.is_deleted == false) {
+                                    likedByContainer.innerHTML += `
+                                     <div class="user">
+                                    ${like.nickname}
+                                    </div>`}
                             }
                             likedBy = likedByContainer
                         }
                     }
                 }
-
-
-
-            })
+            }
+            )
 
             commentBtn.addEventListener('click', async (e) => {
-                console.log('comment')
-                document.querySelector('.comment-pop-up-container').innerHTML += `   <div class="comment-pop-up">Place your comment below:
-                <form id="comment-form">
+                // console.log('comment')
+                let popUp = document.querySelector(`#my-comment-pop-up-${postID}`)
+                if (popUp.querySelector(".comment-pop-up")) {
+                    return
+                }
+
+                popUp.innerHTML += `   <div class="comment-pop-up">Place your comment below:
+                <form id="my-comment-form">
                 <input name="comment" type="text" required autocomplete="off" id="comment">
                     <label for="comment" title="comment" data-title="comment"></label>
                 <input type="submit" value="Submit" class="btn" id="submit-button">
                 </form>
                 <div class="close-comment-tab" onclick="removeTab()">x</div>
                 </div>`
-
-                let submit = document.querySelector('#comment-form')
+                popUp.style.zIndex = "+10000"
+                let submit = document.querySelector('#my-comment-form')
 
                 submit.addEventListener('submit', async function (event) {
                     event.preventDefault();
@@ -230,35 +354,10 @@ async function loadMyPosts() {
 
                     if (res.ok) {
                         removeTab()
-                        loadPosts()
+                        loadMyPosts()
                     }
                 })
             })
-
-            deleteBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const postId = element.getAttribute('data_index')
-                console.log(postId)
-                let result = window.confirm("Are you sure to delete this item?\n")
-                if (result) {
-                    const res = await fetch('/post/del-my-posts', {
-                        method: 'DELETE',
-                        body: JSON.stringify({
-                            postId: postId
-                        }),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                    )
-                    if (res.ok) {
-                        loadPosts()
-                        loadMyPosts()
-                    }
-                }
-
-            })
-
         }
 
     }

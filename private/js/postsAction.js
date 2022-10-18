@@ -202,7 +202,9 @@ async function loadPosts() {
                     ${like.nickname}
                      </div>`}
 
-                } likesContainer.innerHTML += likesCount + ' likes'
+                }
+                if (likesCount > 1) { likesContainer.innerHTML += likesCount + ' likes' }
+                if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
 
@@ -241,12 +243,7 @@ async function loadPosts() {
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
                 let likesData = (await likeCountRes.json()).data.results
                 for (let like of likesData) {
-                    // if (like.user_id == userID && like.is_deleted == true) {
-                    //     return
-                    // } else 
-                    // console.log(like)
                     if (like.user_id == userID && like.is_deleted == true) {
-                        // console.log('here')
                         const res = await fetch(`/post/update-like/${postID}`, {
                             method: 'POST',
                             body: JSON.stringify({
@@ -276,7 +273,8 @@ async function loadPosts() {
                                     likesCount++
                                 }
                             }
-                            likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                            if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')
                             for (let like of likesData) {
                                 if (like.is_deleted == false) {
@@ -316,7 +314,8 @@ async function loadPosts() {
                             likesCount++
                         }
                     }
-                    likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                    if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                    if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                     let likedByContainer = likes.querySelector('.liked-by')
                     for (let like of likesData) {
                         if (like.is_deleted == false) {
@@ -366,7 +365,8 @@ async function loadPosts() {
                                     likesCount++
                                 }
                             }
-                            likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">`
+                            if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
+                            if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')
                             for (let like of likesData) {
                                 if (like.is_deleted == false) {
