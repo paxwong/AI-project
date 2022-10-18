@@ -1029,3 +1029,11 @@ form {
     border-top: 2px dotted rgb(30, 30, 30);
     border-left: 2px dotted rgb(30, 30, 30);
 }
+
+#upload-caption-label {
+    color: white;
+}
+
+#upload-caption-box {
+    color: black;
+}

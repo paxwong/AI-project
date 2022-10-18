@@ -3,17 +3,29 @@ import { Request, Response } from "express"
 import PostService from '../services/PostService';
 import { logger } from '../logger'
 import { formParse } from '../upload';
+import { request } from 'http';
 
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
     addPost = async (req: Request, res: Response) => {
         try {
-            let user = req.session['user'].id
-            console.log('post- formidable')
 
-            const { filename, text } = await formParse(req)
+            let user = req.session['user'].id
+            // console.log('post- formidable')
+
+            // let checkErr = await formParse(req)
+            // if (checkErr === 'err') {
+            //     res.status(400).json({
+            //         message: "no images or caption"
+            //     })
+            //     return
+            // }
+
+
+            const { filename, fields } = await formParse(req)
+
             // console.log({ filename, text })
-            this.service.addPost(text, filename, user);
+            this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
             //     fromSocketId
             // })

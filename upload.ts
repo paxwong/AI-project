@@ -1,11 +1,13 @@
 import formidable, { Files } from 'formidable'
 export const uploadDir = 'uploads'
 import express from 'express'
+import { forEachTrailingCommentRange } from 'typescript'
 
 const form = formidable({
 	uploadDir,
 	keepExtensions: true,
-	maxFiles: 1,
+	maxFiles: 3,
+	multiples: true,
 	maxFileSize: 52428800,
 	// the default limit is 200KB
 	filter: (part) => part.mimetype?.startsWith('image/') || false
@@ -15,9 +17,14 @@ export const formParse = (req: express.Request) => {
 	return new Promise<any>((resolve, reject) => {
 		// req.body => fields :36
 		form.parse(req, (err, fields, files: Files) => {
+			console.log({ err, fields, files })
 			if (err) {
 				console.log('err in form parsing', err)
 				reject(err)
+			}
+			if (!fields.caption || !files.image) {
+				reject('err')
+				return
 			}
 			try {
 				console.log('here formParse')
@@ -25,15 +32,28 @@ export const formParse = (req: express.Request) => {
 				// const text = fields.text
 				// const fromSocketId = fields.fromSocketId
 				let file = Array.isArray(files.image)
-					? files.image[0]
-					: files.image
-				// console.log(file)
-				const filename = file ? file.newFilename : null
+				// 	? files.image[0]
+				// 	: files.image
+				// console.log('files.image', files.image)
+				let filename: any = []
+				if (Array.isArray(files.image)) {
+					for (let i = 0; i < files.image.length; i++) {
 
-				console.log({
-					filename,
-					fields
-				})
+						filename.push(files.image[i].newFilename)
+					}
+				} else {
+					filename.push(files.image.newFilename)
+
+				}
+
+
+				// console.log(file)
+				// const filename = file ? file.newFilename : null
+
+				// console.log({
+				// 	filename,
+				// 	fields
+				// })
 				// Get File Name
 				resolve({
 					filename,

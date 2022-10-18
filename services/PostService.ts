@@ -13,15 +13,23 @@ export default class PostService {
 
         const txn = await this.knex.transaction();
         console.log('txn');
+        console.log('caption', caption);
 
         try {
 
 
-            let post = (await txn.insert({ caption, user_id: user }).into('posts').returning('*'))[0] as Post;
+            let post = (await txn.insert({ caption: caption, user_id: user }).into('posts').returning('*'))[0] as Post;
             console.log("post", post)
-            let raw = (await txn.insert({ image, post_id: post.id }).into('raw_images').returning('*'))[0] as Raw_image;
-            (await txn.insert({ image, post_id: post.id, raw_id: raw.id }).into('converted_images').returning('*'))[0] as Converted_image;
+            console.log(image[1])
 
+            if (Array.isArray(image)) {
+                for (let i = 0; i < image.length; i++) {
+                    let raw = (await txn.insert({ image: image[i], post_id: post.id }).into('raw_images').returning('*'))[0] as Raw_image;
+                    (await txn.insert({ image: image[i], post_id: post.id, raw_id: raw.id }).into('converted_images').returning('*'))[0] as Converted_image;
+
+                }
+
+            }
 
             await txn.commit();
             return;

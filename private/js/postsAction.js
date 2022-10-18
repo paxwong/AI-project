@@ -1,3 +1,6 @@
+const postListFormElement = document.querySelector(".create-form");
+
+
 async function getUserInfo() {
     const res = await fetch('/user/getMyInfo')
     let result = await res.json()
@@ -435,6 +438,24 @@ function getPostIdInQuery() {
     return postId
 }
 
+async function createPosts(e) {
+    e.preventDefault();
+    const formData = new FormData(postListFormElement);
+
+
+    const res = await fetch("/post/formidable", {
+        method: "POST",
+        body: formData,
+    });
+
+    if (res.ok) {
+        postListFormElement.reset();
+        // form.reset()
+        loadPosts()
+    }
+}
+
+
 // async function getPost() {
 //     let postId = getPostIdInQuery()
 //     if (!postId) {
@@ -452,10 +473,11 @@ function getPostIdInQuery() {
 async function init() {
     // let commentDetails = await getPost()
     // let owner = await getOwner(commentDetails.user_id)
-
+    postListFormElement.addEventListener("submit", createPosts);
+    loadPosts()
 
 }
-loadPosts()
+
 init()
 
 
