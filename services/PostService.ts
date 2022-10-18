@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 // import { Client } from 'pg';
 import Post from '../models/PostModel';
+import User from '../models/UserModel'
 import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";
 import Comment from "../models/CommentModel";
@@ -12,6 +13,11 @@ export default class PostService {
     async addPost(caption: string, image: string, user: number) {
 
         const txn = await this.knex.transaction();
+        let credit = (await this.knex.raw("select credit from users where id = (?)", [user])).rows[0].credit
+        console.log(credit)
+        if (credit == 0) {
+            return
+        }
         console.log('txn');
         console.log('caption', caption);
 
@@ -22,6 +28,7 @@ export default class PostService {
             console.log("post", post)
             console.log(image[1])
 
+
             if (Array.isArray(image)) {
                 for (let i = 0; i < image.length; i++) {
                     let raw = (await txn.insert({ image: image[i], post_id: post.id }).into('raw_images').returning('*'))[0] as Raw_image;
@@ -31,14 +38,18 @@ export default class PostService {
 
             }
 
+            await txn.raw("update users set credit = credit-1 where id = (?)", [user])
+
+
             await txn.commit();
-            return;
         } catch (e) {
             console.log(e);
 
             await txn.rollback();
             return;
         }
+        let dbUser: User = (await this.knex.select("*").from("users").where({ "id": user }))[0]
+        return dbUser
     }
 
 

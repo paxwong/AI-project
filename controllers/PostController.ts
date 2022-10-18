@@ -10,7 +10,22 @@ export default class PostController {
     addPost = async (req: Request, res: Response) => {
         try {
 
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'User not found' })
+                return
+            }
+
             let user = req.session['user'].id
+            let credit = req.session['user'].credit
+            let email = req.session['user'].email
+
+            if (credit <= 0) {
+                res.status(400).json({
+                    message: 'insufficient credit'
+                })
+                return
+            }
+
             // console.log('post- formidable')
 
             // let checkErr = await formParse(req)
@@ -25,11 +40,22 @@ export default class PostController {
             const { filename, fields } = await formParse(req)
 
             // console.log({ filename, text })
-            this.service.addPost(fields.caption, filename, user);
+            let dbUser: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
             //     fromSocketId
             // })
-            res.json({
+
+            let {
+                password: hashPassword,
+                is_admin,
+                created_at,
+                updated_at,
+                ...sessionUser
+            } = dbUser
+
+            req.session["user"] = sessionUser
+
+            res.status(200).json({
                 message: 'Upload successful'
             })
         } catch (e) {
