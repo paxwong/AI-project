@@ -22,9 +22,9 @@ export async function seed(knex: Knex): Promise<void> {
     ]);
 
     await knex("posts").insert([
-        { caption: "One Punch!!!!!!", status: "completed", user_id: "1" },
-        { caption: "Attack on Titan", status: "completed", user_id: "2" },
-        { caption: "NARUTO", status: "completed", user_id: "3" },
+        { caption: "One Punch!!!!!!", status: "public", user_id: "1" },
+        { caption: "Attack on Titan", status: "public", user_id: "2" },
+        { caption: "NARUTO", status: "public", user_id: "3" },
     ]);
 
     await knex("likes").insert([

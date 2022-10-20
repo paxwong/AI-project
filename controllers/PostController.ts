@@ -57,7 +57,7 @@ export default class PostController {
             req.session["user"] = sessionUser
 
             const result = await deepaiImage(filename)
-            res.status(200).json({message: result})
+            res.status(200).json({ message: result })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
@@ -219,6 +219,30 @@ export default class PostController {
             console.log('error : ' + e)
             res.status(500).json({
                 message: 'del fail'
+            })
+        }
+    }
+
+    changePostStatus = async (req: Request, res: Response) => {
+        try {
+            const postId = req.body.postId
+            const status = req.body.status
+
+            if (!postId || !Number(postId)) {
+                res.status(400).json({
+                    message: 'index is invalid'
+                })
+                return
+            }
+            const statusResult = await this.service.changePostStatus(Number(postId), status);
+            console.log(statusResult)
+            res.json({
+                message: 'Post status updated'
+            })
+        } catch (e) {
+            console.log('error : ' + e)
+            res.status(500).json({
+                message: 'fail'
             })
         }
     }

@@ -61,7 +61,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where is_deleted = false`)).rows
+        where is_deleted = false and status='public'`)).rows
 
         return result
 
@@ -163,6 +163,14 @@ export default class PostService {
             /*sql*/
             `update posts set is_deleted = true where id = (?)`, [postId]))
 
+    }
+
+    async changePostStatus(postId: number, status: string) {
+
+        let result = (await this.knex.raw(
+            /*sql*/
+            `update posts set status = (?) where id = (?)`, [status, postId]))
+        return result
     }
 
 }
