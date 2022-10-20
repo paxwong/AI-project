@@ -88,6 +88,8 @@
                 <div class="edit-preview-panel">
                     <div class="panel-gradient-border-bg">
                         <div class="preview-panel">
+                            <img class="output-image">
+                            <div class="ring-container"><div class="lds-ring-switch"><div></div><div></div><div></div><div></div></div></div>
                         </div>
                     </div>
                 </div>
@@ -96,7 +98,7 @@
                         <div class="preview-title">Preview Setting</div>
                         <form class="create-form">
                             <div id="upload-picture-container">
-                                <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image" multiple required />
+                                <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image" required />
                                 <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
                             </div>
                             <div id="upload-caption-container">
@@ -106,6 +108,7 @@
                                 <button type="submit" class="btn btn-b submit">Submit</button>
                             </div>
                         </form>
+                        <div id="edit-setting-message"></div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { logger } from '../logger'
 import { formParse } from '../upload';
 import { deepaiImage } from '../deepai';
 import { request } from 'http';
+import { add } from 'winston';
 
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
@@ -41,10 +42,15 @@ export default class PostController {
             const { filename, fields } = await formParse(req)
 
             // console.log({ filename, text })
-            let dbUser: any = await this.service.addPost(fields.caption, filename, user);
+            let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
             //     fromSocketId
             // })
+            let dbUser = addPostResult.dbUser
+            let rawId = addPostResult.rawId
+            let postId = addPostResult.postId
+            console.log(addPostResult)
+
 
             let {
                 password: hashPassword,
@@ -57,12 +63,24 @@ export default class PostController {
             req.session["user"] = sessionUser
 
             const result = await deepaiImage(filename)
+            // console.log("TESTING",result)
+            let convertedImage = result.output_url
+           convertedImage=(convertedImage).slice(37)
+            convertedImage=convertedImage.split("/")[0]+".jpg"
+
+            if (Array.isArray(rawId)) {
+                for (let i = 0; i < rawId.length; i++) {
+            await this.service.addConvertedImage(convertedImage, postId, rawId[i])}}
+
             res.status(200).json({ message: result })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
             return
         }
+    }
+    addConvertedImage=async (req: Request, res: Response)=>{
+        console.log("ASDASDASDASDD",req.body)
     }
     getLikeCount = async (req: Request, res: Response) => {
         let post = req.params.postId

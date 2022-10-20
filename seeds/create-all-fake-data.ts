@@ -16,9 +16,9 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("users").insert([
-        { nickname: "Ling", email: "ling@gmail.com", password: "$2a$10$4H0vD93F55kLIhktVX/o8.McC0gjIrA8/5I2oG1XW8tUe7vY65HBG", is_admin: "true" },
-        { nickname: "Pax", email: "pax@gmail.com", password: "$2a$10$H1e9epNeoEI/dUa8sHLvTORmRdfOrhoFfC4iDOAlC0QOkt4d1m0wO", is_admin: "true" },
-        { nickname: "Matthew", email: "matthew@gmail.com", password: "$2a$10$.IAgoir.hdj0zzSZIcz/5uLp2bRqrPZL4K7J3KGjyPRW.xPTyvakC", is_admin: "true" }
+        { nickname: "Ling", email: "ling@gmail.com", password: "$2a$10$4H0vD93F55kLIhktVX/o8.McC0gjIrA8/5I2oG1XW8tUe7vY65HBG", is_admin: "true",credit:9999999 },
+        { nickname: "Pax", email: "pax@gmail.com", password: "$2a$10$H1e9epNeoEI/dUa8sHLvTORmRdfOrhoFfC4iDOAlC0QOkt4d1m0wO", is_admin: "true",credit:9999999 },
+        { nickname: "Matthew", email: "matthew@gmail.com", password: "$2a$10$.IAgoir.hdj0zzSZIcz/5uLp2bRqrPZL4K7J3KGjyPRW.xPTyvakC", is_admin: "true" ,credit:9999999}
     ]);
 
     await knex("posts").insert([

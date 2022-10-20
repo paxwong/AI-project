@@ -20,6 +20,9 @@ export default class PostService {
         }
         console.log('txn');
         console.log('caption', caption);
+        let rawId:any[] = []
+        let postId:number 
+
 
         try {
 
@@ -27,12 +30,15 @@ export default class PostService {
             let post = (await txn.insert({ caption: caption, user_id: user }).into('posts').returning('*'))[0] as Post;
             console.log("post", post)
             console.log(image[1])
+            postId = post.id
 
 
             if (Array.isArray(image)) {
                 for (let i = 0; i < image.length; i++) {
                     let raw = (await txn.insert({ image: image[i], post_id: post.id }).into('raw_images').returning('*'))[0] as Raw_image;
-                    (await txn.insert({ image: image[i], post_id: post.id, raw_id: raw.id }).into('converted_images').returning('*'))[0] as Converted_image;
+                    rawId.push(raw.id);
+
+                    // (await txn.insert({ image: image[i], post_id: post.id, raw_id: raw.id }).into('converted_images').returning('*'))[0] as Converted_image;
 
                 }
 
@@ -49,8 +55,16 @@ export default class PostService {
             return;
         }
         let dbUser: User = (await this.knex.select("*").from("users").where({ "id": user }))[0]
-        return dbUser
+        return {dbUser,postId,rawId}
     }
+
+    async addConvertedImage(convertedImage: string, postId: number, rawId: number ){
+     
+     
+        (await this.knex.insert({ image: convertedImage, post_id: postId, raw_id: rawId }).into('converted_images').returning('*'))[0] as Converted_image;}
+    
+        
+    
 
 
     async getPosts() {
