@@ -459,8 +459,8 @@ async function createPosts(e) {
     async function dataURLToFile(resultURL) {
         const res = await fetch(resultURL)
         console.log("URLres", res.url)
-        let filename=(res.url).slice(37)
-        filename=filename.split("/")[0]+".jpg"
+        let filename = (res.url).slice(37)
+        filename = filename.split("/")[0] + ".jpg"
         const blob = await res.blob()
         console.log("URLblob", blob)
         const file = new File([blob], `${filename}`)
@@ -468,28 +468,29 @@ async function createPosts(e) {
         return file
         // The second argument is the filename
         // Now this file is the same as the one you have been working with in input
-      }
- let convertedImage= dataURLToFile(resultURL)
- const convertedRes= await fetch("/post/formidable-converted-image", {
-    method: "POST",
-    body: convertedImage,
-});
-let convertedResult = await convertedRes.json()
-      
+    }
+    let convertedImage = dataURLToFile(resultURL)
+    //  const convertedRes= await fetch("/post/formidable-converted-image", {
+    //     method: "POST",
+    //     body: convertedImage,
+    // });
+    // let convertedResult = await convertedRes.json()
+
     if (!res.ok) {
         ringSwitch.classList.remove('lds-ring')
         document.querySelector("#edit-setting-message").textContent = result.message
         return
     }
     if (res.ok) {
-       
-        preview.innerHTML = 
-        `
+
+        preview.innerHTML =
+            `
         <img class="output-image" src="${resultURL}">
         `
         postListFormElement.reset();
         // form.reset()
-        loadPosts()
+        // loadPosts()
+        loadMyPosts()
     }
 }
 
@@ -513,7 +514,7 @@ async function init() {
     // let owner = await getOwner(commentDetails.user_id)
     postListFormElement.addEventListener("submit", createPosts);
     loadPosts()
-    
+
 
 }
 

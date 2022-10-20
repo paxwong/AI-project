@@ -6,7 +6,7 @@ import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";
 import Comment from "../models/CommentModel";
 import Like from "../models/LikeModel";
-
+const download = require('image-downloader')
 export default class PostService {
     constructor(private knex: Knex) { }
 
@@ -20,8 +20,8 @@ export default class PostService {
         }
         console.log('txn');
         console.log('caption', caption);
-        let rawId:any[] = []
-        let postId:number 
+        let rawId: any[] = []
+        let postId: number
 
 
         try {
@@ -55,16 +55,23 @@ export default class PostService {
             return;
         }
         let dbUser: User = (await this.knex.select("*").from("users").where({ "id": user }))[0]
-        return {dbUser,postId,rawId}
+        return { dbUser, postId, rawId }
     }
 
-    async addConvertedImage(convertedImage: string, postId: number, rawId: number ){
-     
-     
-        (await this.knex.insert({ image: convertedImage, post_id: postId, raw_id: rawId }).into('converted_images').returning('*'))[0] as Converted_image;}
-    
-        
-    
+    async addConvertedImage(url: string, convertedImage: string, postId: number, rawId: number) {
+        const options = {
+            url: url,
+            dest: `/Users/user/Desktop/AI-project/uploads/${convertedImage}`,
+            extractFilename: false,
+        };
+        await download.image(options);
+        (await this.knex.insert({ image: convertedImage, post_id: postId, raw_id: rawId }).into('converted_images').returning('*'))[0] as Converted_image;
+        (await this.knex.raw(`update posts set status='private' where id=(?)`, [postId]))
+
+    }
+
+
+
 
 
     async getPosts() {

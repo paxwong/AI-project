@@ -7,6 +7,7 @@ import { deepaiImage } from '../deepai';
 import { request } from 'http';
 import { add } from 'winston';
 
+const download = require('image-downloader')
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
     addPost = async (req: Request, res: Response) => {
@@ -64,13 +65,25 @@ export default class PostController {
 
             const result = await deepaiImage(filename)
             // console.log("TESTING",result)
-            let convertedImage = result.output_url
-           convertedImage=(convertedImage).slice(37)
-            convertedImage=convertedImage.split("/")[0]+".jpg"
+            let convertedImage: string = result.output_url
+
+            convertedImage = (convertedImage).slice(37)
+            convertedImage = convertedImage.split("/")[0] + ".jpg"
+            // const paths = {
+            //     url: result.output_url,
+            //     dest: `/Users/user/Desktop/AI-project/uploads/${convertedImage}`,
+            //     extractFilename: false,
+            // }
+            // download.image(options)
+            // .then((convertedImage) => {
+            //     console.log("Saved to", filename)
+            // }).catch((err) => console.error(err))
 
             if (Array.isArray(rawId)) {
                 for (let i = 0; i < rawId.length; i++) {
-            await this.service.addConvertedImage(convertedImage, postId, rawId[i])}}
+                    await this.service.addConvertedImage(result.output_url, convertedImage, postId, rawId[i])
+                }
+            }
 
             res.status(200).json({ message: result })
         } catch (e) {
@@ -79,9 +92,9 @@ export default class PostController {
             return
         }
     }
-    addConvertedImage=async (req: Request, res: Response)=>{
-        console.log("ASDASDASDASDD",req.body)
-    }
+    // addConvertedImage = async (req: Request, res: Response) => {
+    //     // console.log("ASDASDASDASDD", req.body)
+    // }
     getLikeCount = async (req: Request, res: Response) => {
         let post = req.params.postId
         if (!Number(post)) {

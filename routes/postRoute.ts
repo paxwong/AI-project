@@ -15,7 +15,7 @@ export function initialize(client: Knex, io: SocketIO) {
     const controller = new PostController(service, io);
 
     postRoutes.post('/formidable', controller.addPost)
-    postRoutes.post('/formidable-converted-image', controller.addConvertedImage)
+    // postRoutes.post('/formidable-converted-image', controller.addConvertedImage)
     postRoutes.get('/like-count/:postId', controller.getLikeCount)
     postRoutes.post('/like/:postId', controller.addLike)
     postRoutes.post('/remove-like/:postId', controller.removeLike)
