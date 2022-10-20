@@ -21,7 +21,65 @@ getUserInfo()
 //     }
 
 // }
+function myPostRight(id) {
+    let imgContainer = document.getElementById(`myPost${id}`).querySelector('.img-container')
+    var pic = imgContainer.getElementsByTagName('div')
+    // console.log(numberOfPic)
+    let currentPic = 0
+    for (i = 0; i < pic.length; i++) {
+        if (pic[i].className.includes('active')) {
+            currentPic = i + 1
+            if (currentPic > pic.length - 1) {
+                currentPic = 0
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+    const raw = pic[currentPic].querySelector('.raw')
+    const con = pic[currentPic].querySelector('.con')
+    raw.addEventListener('mouseover', () => {
+        raw.style.display = "none"
+        con.style.display = ""
+    })
+    con.addEventListener('mouseleave', () => {
+        raw.style.display = ""
+        con.style.display = "none"
+    })
+}
 
+function myPostLeft(id) {
+    let imgContainer = document.getElementById(`myPost${id}`).querySelector('.img-container')
+    var pic = imgContainer.getElementsByTagName('div')
+    // console.log(numberOfPic)
+    let currentPic = 0
+    for (i = pic.length - 1; i > -1; i--) {
+
+        if (pic[i].className.includes('active')) {
+            currentPic = i - 1
+            if (currentPic < 0) {
+                currentPic = pic.length - 1
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+    const raw = pic[currentPic].querySelector('.raw')
+    const con = pic[currentPic].querySelector('.con')
+    raw.addEventListener('mouseover', () => {
+        raw.style.display = "none"
+        con.style.display = ""
+    })
+    con.addEventListener('mouseleave', () => {
+        raw.style.display = ""
+        con.style.display = "none"
+    })
+
+}
 async function loadMyPosts() {
     const res = await fetch('/post/my-posts')
     const data = await res.json()
@@ -52,25 +110,27 @@ async function loadMyPosts() {
 
                 myPostContainer.innerHTML += `
             <div class="myPost" id="myPost${post.id}" style="animation: postEffect ${counter}s linear;">
-                    <div class="post-header">
+                <div class="post-header">
                     <div class="caption">
-                    <div class="icon-container"><img class="user-icon" src="/uploads/${post.icon}" alt="" style=""></div>
-                    
-                    <div class="user">
-                    ${post.nickname}
-                    </div>
-                    <div class="content">
+                        <div class="icon-container">
+                            <img class="user-icon" src="/uploads/${post.icon}" alt="" style="">
+                        </div>
+                        <div class="user">
+                         ${post.nickname}
+                        </div>
+                        <div class="content">
                         ${post.caption}
+                         </div>
                     </div>
+                    <div class="post-status">${post.status}</div>
                 </div>
-                    </div>
                     <div class="img-container">
-                        <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                        <button id="left-btn"onClick="myPostLeft(${post.id})"><i class="arrow"></i></button>
                         <div id="pic-${post.id}"class="pic active">
                         <img id="raw-${post.id}-1" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
                         <img id="con-${post.id}-1" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
                         </div>
-                        <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
+                        <button id="right-btn" onClick="myPostRight(${post.id})"><i class="arrow"></i></button>
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
