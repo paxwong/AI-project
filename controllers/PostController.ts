@@ -227,7 +227,6 @@ export default class PostController {
         try {
             const postId = req.body.postId
             const status = req.body.postStatus
-            console.log(req.body)
             if (!postId || !Number(postId)) {
                 res.status(400).json({
                     message: 'index is invalid'
@@ -235,7 +234,6 @@ export default class PostController {
                 return
             }
             const statusResult = await this.service.changePostStatus(Number(postId), status);
-            console.log(statusResult)
             res.json({
                 message: 'Post status updated'
             })

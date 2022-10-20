@@ -455,30 +455,6 @@ async function loadMyPosts() {
 
             })
 
-            deleteBtn.addEventListener('click', async (e) => {
-                const element = e.target
-                const postId = element.getAttribute('data_index')
-                console.log(postId)
-                let result = window.confirm("Are you sure to delete this item?\n")
-                if (result) {
-                    const res = await fetch('/post/del-my-posts', {
-                        method: 'DELETE',
-                        body: JSON.stringify({
-                            postId: postId
-                        }),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                    )
-                    if (res.ok) {
-                        loadPosts()
-                        loadMyPosts()
-                    }
-                }
-
-            })
-
             if (publicBtn) {
                 publicBtn.addEventListener('click', async (e) => {
                     const element = e.target
