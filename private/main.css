@@ -1035,6 +1035,10 @@ form {
     background-size: cover;
 }
 
+.preview-panel{
+    position: relative;
+}
+
 .post-status {
     font-size: small;
     padding: 5px;

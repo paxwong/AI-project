@@ -440,6 +440,13 @@ function getPostIdInQuery() {
 
 async function createPosts(e) {
     e.preventDefault();
+    let preview = document.querySelector('.preview-panel')
+    let content = preview.innerHTML
+    content += 
+    `<div class="hourglass-container"><div class="lds-hourglass"></div></div>
+    `
+    preview.innerHTML = content
+
     const formData = new FormData(postListFormElement);
 
 
@@ -450,7 +457,7 @@ async function createPosts(e) {
     let result = await res.json()
     if (res.ok) {
         console.log(result)
-        document.querySelector(".preview-panel").innerHTML = 
+        preview.innerHTML = 
         `
         <img class="output-image" src="${result.message.output_url}">
         `
@@ -485,4 +492,14 @@ async function init() {
 
 init()
 
-
+loadFile = function (event) {
+    var output = document.querySelector('.preview-panel');
+    output.innerHTML = 
+    `
+    <img class="output-image">
+    `
+    document.querySelector('.output-image').src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
