@@ -453,7 +453,7 @@ async function createPosts(e) {
         body: formData,
     });
     let result = await res.json()
-    console.log("RESULTFORMIDABLE", result)
+
     let resultURL = result.message.output_url
 
     async function dataURLToFile(resultURL) {

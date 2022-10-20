@@ -41,7 +41,7 @@ export default class PostController {
 
 
             const { filename, fields } = await formParse(req)
-
+            console.log("FILENAME", filename)
             // console.log({ filename, text })
             let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
@@ -50,7 +50,7 @@ export default class PostController {
             let dbUser = addPostResult.dbUser
             let rawId = addPostResult.rawId
             let postId = addPostResult.postId
-            console.log(addPostResult)
+            // console.log(addPostResult)
 
 
             let {
@@ -63,12 +63,7 @@ export default class PostController {
 
             req.session["user"] = sessionUser
 
-            const result = await deepaiImage(filename)
-            // console.log("TESTING",result)
-            let convertedImage: string = result.output_url
 
-            convertedImage = (convertedImage).slice(37)
-            convertedImage = convertedImage.split("/")[0] + ".jpg"
             // const paths = {
             //     url: result.output_url,
             //     dest: `/Users/user/Desktop/AI-project/uploads/${convertedImage}`,
@@ -81,11 +76,15 @@ export default class PostController {
 
             if (Array.isArray(rawId)) {
                 for (let i = 0; i < rawId.length; i++) {
+                    const result = await deepaiImage(filename[i])
+                    let convertedImage: string = result.output_url
+                    convertedImage = (convertedImage).slice(37)
+                    convertedImage = convertedImage.split("/")[0] + ".jpg"
                     await this.service.addConvertedImage(result.output_url, convertedImage, postId, rawId[i])
                 }
             }
 
-            res.status(200).json({ message: result })
+            res.status(200).json({ message: "SUSCESS" })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
