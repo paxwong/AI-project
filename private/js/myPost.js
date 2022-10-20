@@ -152,6 +152,7 @@ async function loadMyPosts() {
         for (let postDiv of posts) {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
+            const deleteBtn = postDiv.querySelector('.delete-btn')
             let likedBtn = postDiv.querySelector('.liked')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
@@ -358,6 +359,31 @@ async function loadMyPosts() {
                     }
                 })
             })
+
+            deleteBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const postId = element.getAttribute('data_index')
+                console.log(postId)
+                let result = window.confirm("Are you sure to delete this item?\n")
+                if (result) {
+                    const res = await fetch('/post/del-my-posts', {
+                        method: 'DELETE',
+                        body: JSON.stringify({
+                            postId: postId
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    )
+                    if (res.ok) {
+                        loadPosts()
+                        loadMyPosts()
+                    }
+                }
+
+            })
+
         }
 
     }
