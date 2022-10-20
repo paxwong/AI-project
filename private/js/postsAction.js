@@ -443,7 +443,7 @@ async function createPosts(e) {
     let preview = document.querySelector('.preview-panel')
     let content = preview.innerHTML
     content += 
-    `<div class="hourglass-container"><div class="lds-hourglass"></div></div>
+    `<div class="ring-container"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
     `
     preview.innerHTML = content
 
