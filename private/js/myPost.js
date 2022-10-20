@@ -109,7 +109,16 @@ async function loadMyPosts() {
                 </div>
                 `
                 }
-
+                if (post.status == "public") {
+                    currentPost.querySelector(".buttons-container").innerHTML += `
+                    <i class="fa-solid fa-lock-open btn private-btn" data_index="${post.id}"></i>
+                `
+                }
+                if (post.status == "private") {
+                    currentPost.querySelector(".buttons-container").innerHTML += `
+                    <i class="fa-solid fa-lock btn public-btn" data_index="${post.id}"></i>
+                `
+                }
                 const likes = await fetch(`/post/like-count/${post.id}`)
                 let likesData = (await likes.json()).data.results
                 let likesCount = 0
@@ -153,6 +162,8 @@ async function loadMyPosts() {
             const commentBtn = postDiv.querySelector('.message')
             const likeBtn = postDiv.querySelector('.like')
             const deleteBtn = postDiv.querySelector('.delete-btn')
+            let publicBtn = postDiv.querySelector('.public-btn')
+            let privateBtn = postDiv.querySelector('.private-btn')
             let likedBtn = postDiv.querySelector('.liked')
             const raw = postDiv.querySelector('.raw')
             const con = postDiv.querySelector('.con')
@@ -383,6 +394,78 @@ async function loadMyPosts() {
                 }
 
             })
+
+            deleteBtn.addEventListener('click', async (e) => {
+                const element = e.target
+                const postId = element.getAttribute('data_index')
+                console.log(postId)
+                let result = window.confirm("Are you sure to delete this item?\n")
+                if (result) {
+                    const res = await fetch('/post/del-my-posts', {
+                        method: 'DELETE',
+                        body: JSON.stringify({
+                            postId: postId
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    )
+                    if (res.ok) {
+                        loadPosts()
+                        loadMyPosts()
+                    }
+                }
+
+            })
+
+            if (publicBtn) {
+                publicBtn.addEventListener('click', async (e) => {
+                    const element = e.target
+                    const postId = element.getAttribute('data_index')
+                    // console.log(postId)
+
+                    const res = await fetch('/post/change-post-status', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            postId: postId,
+                            postStatus: "public"
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    )
+                    if (res.ok) {
+                        loadPosts()
+                        loadMyPosts()
+                    }
+                })
+            }
+
+            if (privateBtn) {
+                privateBtn.addEventListener('click', async (e) => {
+                    const element = e.target
+                    const postId = element.getAttribute('data_index')
+                    // console.log(postId)
+
+                    const res = await fetch('/post/change-post-status', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            postId: postId,
+                            postStatus: "private"
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    )
+                    if (res.ok) {
+                        loadPosts()
+                        loadMyPosts()
+                    }
+                })
+            }
 
         }
 

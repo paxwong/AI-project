@@ -226,8 +226,8 @@ export default class PostController {
     changePostStatus = async (req: Request, res: Response) => {
         try {
             const postId = req.body.postId
-            const status = req.body.status
-
+            const status = req.body.postStatus
+            console.log(req.body)
             if (!postId || !Number(postId)) {
                 res.status(400).json({
                     message: 'index is invalid'
