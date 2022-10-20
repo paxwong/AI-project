@@ -447,8 +447,13 @@ async function createPosts(e) {
         method: "POST",
         body: formData,
     });
-
+    let result = await res.json()
     if (res.ok) {
+        console.log(result)
+        document.querySelector(".preview-panel").innerHTML = 
+        `
+        <img class="output-image" src="${result.message.output_url}">
+        `
         postListFormElement.reset();
         // form.reset()
         loadPosts()

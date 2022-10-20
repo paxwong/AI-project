@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import PostService from '../services/PostService';
 import { logger } from '../logger'
 import { formParse } from '../upload';
+import { deepaiImage } from '../deepai';
 import { request } from 'http';
 
 export default class PostController {
@@ -55,9 +56,8 @@ export default class PostController {
 
             req.session["user"] = sessionUser
 
-            res.status(200).json({
-                message: 'Upload successful'
-            })
+            const result = await deepaiImage(filename)
+            res.status(200).json({message: result})
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
