@@ -453,23 +453,22 @@ async function createPosts(e) {
         body: formData,
     });
     let result = await res.json()
+    console.log(result)
 
-    let resultURL = result.message.output_url
-
-    async function dataURLToFile(resultURL) {
-        const res = await fetch(resultURL)
-        console.log("URLres", res.url)
-        let filename = (res.url).slice(37)
-        filename = filename.split("/")[0] + ".jpg"
-        const blob = await res.blob()
-        console.log("URLblob", blob)
-        const file = new File([blob], `${filename}`)
-        console.log("URLfile", file)
-        return file
-        // The second argument is the filename
-        // Now this file is the same as the one you have been working with in input
-    }
-    let convertedImage = dataURLToFile(resultURL)
+    // async function dataURLToFile(resultURL) {
+    //     const res = await fetch(resultURL)
+    //     // console.log("URLres", res.url)
+    //     let filename = (res.url).slice(37)
+    //     filename = filename.split("/")[0] + ".jpg"
+    //     const blob = await res.blob()
+    //     // console.log("URLblob", blob)
+    //     const file = new File([blob], `${filename}`)
+    //     // console.log("URLfile", file)
+    //     return file
+    //     // The second argument is the filename
+    //     // Now this file is the same as the one you have been working with in input
+    // }
+    // let convertedImage = dataURLToFile(resultURL)
     //  const convertedRes= await fetch("/post/formidable-converted-image", {
     //     method: "POST",
     //     body: convertedImage,
@@ -482,11 +481,15 @@ async function createPosts(e) {
         return
     }
     if (res.ok) {
-
-        preview.innerHTML =
-            `
-        <img class="output-image" src="${resultURL}">
+        ringSwitch.classList.remove('lds-ring')
+        preview.innerHTML = ' '
+        for (let i = 0; i < result.message.length; i++) {
+            preview.innerHTML +=
+                `
+        <img class="output-image" src="${result.message[i]}">
         `
+        }
+
         postListFormElement.reset();
         // form.reset()
         // loadPosts()
@@ -522,10 +525,21 @@ init()
 
 loadFile = function (event) {
     let output = document.querySelector('.preview-panel');
-    let outputImage = document.querySelector('.output-image')
-    outputImage.style.display = 'block'
-    outputImage.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function () {
-        URL.revokeObjectURL(output.src) // free memory
+    for (let i = 0; i < event.target.files.length; i++) {
+        if (i == 0) {
+            let outputImage = document.querySelector('.output-image')
+            outputImage.style.display = 'block'
+            outputImage.src = URL.createObjectURL(event.target.files[i]);
+        } else {
+            let src = URL.createObjectURL(event.target.files[i]);
+            output.innerHTML += `
+        <img class="output-image" src="${src}" style="display:block;">
+        `
+        }
     }
-};
+
+
+    // output.onload = function () {
+    //     URL.revokeObjectURL(output.src) // free memory
+}
+    ;

@@ -41,7 +41,7 @@ export default class PostController {
 
 
             const { filename, fields } = await formParse(req)
-            console.log("FILENAME", filename)
+            // console.log("FILENAME", filename)
             // console.log({ filename, text })
             let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
@@ -73,18 +73,20 @@ export default class PostController {
             // .then((convertedImage) => {
             //     console.log("Saved to", filename)
             // }).catch((err) => console.error(err))
-
+            let results: any[] = []
             if (Array.isArray(rawId)) {
                 for (let i = 0; i < rawId.length; i++) {
                     const result = await deepaiImage(filename[i])
                     let convertedImage: string = result.output_url
+                    results.push(convertedImage)
                     convertedImage = (convertedImage).slice(37)
                     convertedImage = convertedImage.split("/")[0] + ".jpg"
                     await this.service.addConvertedImage(result.output_url, convertedImage, postId, rawId[i])
+
                 }
             }
 
-            res.status(200).json({ message: "SUSCESS" })
+            res.status(200).json({ message: results })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
