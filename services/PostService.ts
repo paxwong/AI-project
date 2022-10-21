@@ -61,7 +61,7 @@ export default class PostService {
     async addConvertedImage(url: string, convertedImage: string, postId: number, rawId: number) {
         const options = {
             url: url,
-            dest: `/Users/user/Desktop/AI-project/uploads/${convertedImage}`,
+            dest: `../../uploads/${convertedImage}`,
             extractFilename: false,
         };
         await download.image(options);
