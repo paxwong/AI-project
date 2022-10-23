@@ -113,6 +113,12 @@ async function loadPosts() {
                 <img id="con-${post.id}-${numberOfImg}" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
                 </div>
                 `
+                if (!imgContainer.querySelector("button")) {
+                    imgContainer.innerHTML += `
+                    <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
+                `
+                }
 
             } else {
                 // console.log(post)
@@ -134,12 +140,12 @@ async function loadPosts() {
                 </div>
                     </div>
                     <div class="img-container">
-                        <button id="left-btn"onClick="left(${post.id})"><i class="arrow"></i></button>
+                       
                         <div id="pic-${post.id}"class="pic active">
                         <img id="raw-${post.id}-1" class="raw" src="/uploads/${post.raw_image}" alt="" style="">
                         <img id="con-${post.id}-1" class="con" src="/uploads/${post.con_image}" alt="" style="display:none">
                         </div>
-                        <button id="right-btn" onClick="right(${post.id})"><i class="arrow"></i></button>
+                        
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
