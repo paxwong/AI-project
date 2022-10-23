@@ -8,6 +8,8 @@ let apiKey = process.env.DEEPAI_API_KEY;
 
 deepai.setApiKey(apiKey);
 
+
+
 export async function deepaiImage(filename){
     let path = './uploads/' + filename
     let res = await deepai.callStandardApi('colorizer', {
@@ -16,3 +18,4 @@ export async function deepaiImage(filename){
     // console.log(path)
     return res
 }
+

@@ -5,7 +5,9 @@ import { logger } from '../logger'
 import { formParse } from '../upload';
 import { deepaiImage } from '../deepai';
 import { request } from 'http';
+import { add } from 'winston';
 
+const download = require('image-downloader')
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
     addPost = async (req: Request, res: Response) => {
@@ -39,12 +41,17 @@ export default class PostController {
 
 
             const { filename, fields } = await formParse(req)
-
+            // console.log("FILENAME", filename)
             // console.log({ filename, text })
-            let dbUser: any = await this.service.addPost(fields.caption, filename, user);
+            let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
             //     fromSocketId
             // })
+            let dbUser = addPostResult.dbUser
+            let rawId = addPostResult.rawId
+            let postId = addPostResult.postId
+            // console.log(addPostResult)
+
 
             let {
                 password: hashPassword,
@@ -56,14 +63,39 @@ export default class PostController {
 
             req.session["user"] = sessionUser
 
-            const result = await deepaiImage(filename)
-            res.status(200).json({ message: result })
+
+            // const paths = {
+            //     url: result.output_url,
+            //     dest: `/Users/user/Desktop/AI-project/uploads/${convertedImage}`,
+            //     extractFilename: false,
+            // }
+            // download.image(options)
+            // .then((convertedImage) => {
+            //     console.log("Saved to", filename)
+            // }).catch((err) => console.error(err))
+            let results: any[] = []
+            if (Array.isArray(rawId)) {
+                for (let i = 0; i < rawId.length; i++) {
+                    const result = await deepaiImage(filename[i])
+                    let convertedImage: string = result.output_url
+                    results.push(convertedImage)
+                    convertedImage = (convertedImage).slice(37)
+                    convertedImage = convertedImage.split("/")[0] + ".jpg"
+                    await this.service.addConvertedImage(result.output_url, convertedImage, postId, rawId[i])
+
+                }
+            }
+
+            res.status(200).json({ message: results })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
             return
         }
     }
+    // addConvertedImage = async (req: Request, res: Response) => {
+    //     // console.log("ASDASDASDASDD", req.body)
+    // }
     getLikeCount = async (req: Request, res: Response) => {
         let post = req.params.postId
         if (!Number(post)) {
