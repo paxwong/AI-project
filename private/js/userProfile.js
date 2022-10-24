@@ -134,7 +134,23 @@ async function addListenerToSettingPicture() {
             setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
                     document.querySelector(".message").textContent = ""
                     `, 2000)
-        }    })
+        }
+    })
+}
+
+function ValidateEmail(inputText) {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    return mailformat.test(inputText)
+}
+
+function ValidatePassword(password) {
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    return re.test(password);
+}
+
+function ValidateUsername(username) {
+    let usernameFormat = /^[0-9a-zA-Z]+$/
+    return usernameFormat.test(username)
 }
 
 async function addListenerToSetting() {
@@ -146,6 +162,12 @@ async function addListenerToSetting() {
         const newPassword = event.target.newPassword ? event.target.newPassword.value : '';
         const newEmail = event.target.newEmail ? event.target.newEmail.value : '';
         const newUsername = event.target.newUsername ? event.target.newUsername.value : '';
+        let emailValidation = ValidateEmail(newEmail)
+        let passwordValidation = ValidatePassword(newPassword)
+        let usernameValidation = ValidateUsername(newUsername)
+        console.log("email validation", emailValidation)
+
+
         const changeData = newPassword + newEmail + newUsername
         const res = await fetch('/user/changeSetting', {
             method: 'POST',
@@ -155,7 +177,10 @@ async function addListenerToSetting() {
             body: JSON.stringify({
                 "oldPassword": oldPassword,
                 "changeType": changeType,
-                "changeData": changeData
+                "changeData": changeData,
+                "emailValidation": emailValidation,
+                "passwordValidation": passwordValidation,
+                "usernameValidation": usernameValidation
             })
         })
         let result = await res.json();
