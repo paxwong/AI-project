@@ -552,8 +552,7 @@ async function createPosts(e) {
         // form.reset()
         // loadPosts()
         loadMyPosts()
-        setTimeout(publicizePost(result.postId), 5000)
-
+        publicizePost(result.postId)
     }
 }
 
@@ -697,8 +696,8 @@ async function changePublic(postId) {
 }
 
 async function publicizePost(postId) {
-    document.querySelector("#blur").style.display = "block"
-    popUpFinish.style.display = 'block'
+    setTimeout(`document.querySelector("#blur").style.display = "block"
+    popUpFinish.style.display = 'block'`,5000)
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
