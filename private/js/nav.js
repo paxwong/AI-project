@@ -21,7 +21,6 @@ function openTab(evt, tabName) {
 
 
 function clearForm() {
-    console.log('.')
     let form = document.querySelector(".create-form")
     if (form != null) {
         form.reset()

@@ -47,6 +47,26 @@
             </div>
         </div>
     </div>
+    <div id="pop-up-2-container">
+        <div class="outerContainer">
+            <div class="account container2 gradient-border">
+                <div class="profile-svg-container">
+                    <i class="bi bi-x-lg"></i>
+                </div>
+                <div class="profile-title">CONGRATS!</div>
+                <div>Your Post is currently private-view only!</div>
+                <div class="profile-button-container">
+                    <div class="profile-button" id="public-post-button">Publicize</div>
+                    <a target="_blank"
+                        href="https://twitter.com/intent/tweet?text=I%20have%20just%20colorized%20a%20manga%20with%20AI%20on%20https%3A%2F%2Fmangai.tech"
+                        class="profile-button" id="change-picture">Tweet</a>
+                    <div onclick="resetCreate()" class="profile-button" id="change-picture">Make a new one</div>
+                </div>
+                <!-- <div class="message">123</div> -->
+            </div>
+        </div>
+    </div>
+    </div>
     <nav>
         <ul class="menuItems tab">
             <li><a href='#' class="tablinks" onclick="openTab(event, 'MangA.I.')" id="defaultOpen">
@@ -54,7 +74,7 @@
                     </div>
                 </a></li>
             <li><a href='#' data-item='+Create' class="tablinks crea"
-                    onclick="openTab(event, '+Create'),clearCreateTab()">+Create</a>
+                    onclick="openTab(event, '+Create'),clearForm()">+Create</a>
             </li>
             <div class="profile-container">
                 <div id="credit">
@@ -139,6 +159,8 @@
 <script src="./js/userProfile.js"></script>
 <script src="./js/postsAction.js"></script>
 <script src="./js/myPost.js"></script>
+<script src="./js/finishPost.js"></script>
+
 
 
 

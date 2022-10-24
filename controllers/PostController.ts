@@ -86,7 +86,7 @@ export default class PostController {
                 }
             }
 
-            res.status(200).json({ message: results })
+            res.status(200).json({ message: results , postId: postId })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
