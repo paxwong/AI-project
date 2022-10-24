@@ -429,15 +429,13 @@ small {
 .myPost {
     position: relative;
     background-color: #171717;
-    margin: 20px;
+    margin: 30px;
     width: 600px;
     min-width: 600px;
     /* height: 50vh; */
     min-height: 800px;
     box-shadow: 0 24px 38px 3px rgba(100, 100, 100, 0.14),
         0 9px 46px 8px rgba(100, 100, 100, 0.12), 0 11px 15px -7px rgba(100, 100, 100, 0.2);
-    /* box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
-        0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2); */
     animation: postEffect 1s linear;
 }
 
@@ -513,8 +511,9 @@ small {
     background: #171717;
     overflow-y: auto;
     animation: postEffect .5s linear;
-    /* z-index: +1; */
-
+    border-radius: 5px;
+    box-shadow: 0 24px 38px 3px rgba(100, 100, 100, 0.14),
+        0 9px 46px 8px rgba(100, 100, 100, 0.12), 0 11px 15px -7px rgba(100, 100, 100, 0.2);
 }
 
 .likes:hover {
@@ -524,6 +523,7 @@ small {
 .liked-by .user {
     font-size: x-small;
     width: 100%;
+    min-width: 50px;
     max-width: 100px;
     overflow: hidden;
     /* text-align: center; */
@@ -630,8 +630,8 @@ small {
     top: 50%;
     right: 0;
     transform: translateX(-10px) translateY(-50%);
-    width:120px;
-    overflow:hidden;
+    width: 120px;
+    overflow: hidden;
 }
 
 #credit {
@@ -999,4 +999,36 @@ form {
     position: absolute;
     top: 0;
     right: 0
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-size: small;
+    visibility: hidden;
+    width: 120px;
+    height: auto;
+    background-color: #171717;
+    color: #EDEDED;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 5px;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0 24px 38px 3px rgba(100, 100, 100, 0.14),
+        0 9px 46px 8px rgba(100, 100, 100, 0.12), 0 11px 15px -7px rgba(100, 100, 100, 0.2);
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    animation: postEffect .5s linear;
 }

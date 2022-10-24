@@ -149,9 +149,9 @@ async function loadPosts() {
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
-                            <i class="btn like fa-regular fa-heart" style='display:'></i>
-                            <i class=" btn liked fa-solid fa-heart" style='display:none'></i>
-                            <i class="btn message fa-regular fa-message"></i>
+                        <i class="btn like fa-regular fa-heart tooltip" style='display:'><span class="tooltiptext">Like</span></i>
+                        <i class=" btn liked fa-solid fa-heart tooltip" style='display:none'><span class="tooltiptext">Unlike</span></i>
+                        <i class="btn message fa-regular fa-message tooltip"><span class="tooltiptext">Comment</span></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
                      <div class="likes"> <div class="liked-by" style="display:none"></div></div>
@@ -448,7 +448,43 @@ function getPostIdInQuery() {
     return postId
 }
 
+function previewLeft() {
+    let output = document.querySelector('.preview-panel');
+    var pic = output.getElementsByTagName('img')
+    // console.log(numberOfPic)
+    let currentPic = 0
+    for (i = pic.length - 1; i > -1; i--) {
 
+        if (pic[i].className.includes('active')) {
+            currentPic = i - 1
+            if (currentPic < 0) {
+                currentPic = pic.length - 1
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+}
+
+function previewRight() {
+    let output = document.querySelector('.preview-panel');
+    var pic = output.getElementsByTagName('img')
+    let currentPic = 0
+    for (i = 0; i < pic.length; i++) {
+        if (pic[i].className.includes('active')) {
+            currentPic = i + 1
+            if (currentPic > pic.length - 1) {
+                currentPic = 0
+            }
+        }
+        pic[i].style.display = 'none'
+        pic[i].className = pic[i].className.replace(" active", "");
+    }
+    pic[currentPic].className += " active"
+    pic[currentPic].style.display = 'flex'
+}
 async function createPosts(e) {
     e.preventDefault();
     let preview = document.querySelector('.preview-panel')
@@ -494,10 +530,23 @@ async function createPosts(e) {
         ringSwitch.classList.remove('lds-ring')
         preview.innerHTML = ' '
         for (let i = 0; i < result.message.length; i++) {
-            preview.innerHTML +=
-                `
-        <img class="output-image" src="${result.message[i]}">
-        `
+
+            if (i == 0) {
+                preview.innerHTML += `
+            <img class="output-image active" src="${result.message[i]}" style="display:block;">
+            `
+            } else {
+                preview.innerHTML += `
+            <img class="output-image"  src="${result.message[i]}" style="display:none;">
+            `
+            }
+        }
+
+
+        if (preview.querySelectorAll("img").length > 1) {
+            preview.innerHTML += `
+    <button id="left-btn"onClick="previewLeft()"><i class="arrow"></i></button>
+    <button id="right-btn" onClick="previewRight()"><i class="arrow"></i></button>`
         }
 
         postListFormElement.reset();
@@ -533,20 +582,36 @@ async function init() {
 
 init()
 
+
 loadFile = function (event) {
     let output = document.querySelector('.preview-panel');
+    output.innerHTML = `
+<div class="ring-container">
+                            <div class="lds-ring-switch">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>`
     for (let i = 0; i < event.target.files.length; i++) {
         if (i == 0) {
             let src = URL.createObjectURL(event.target.files[i]);
             output.innerHTML += `
-        <img class="output-image" id="preview-${i}" src="${src}" style="display:block;">
+        <img class="output-image active" src="${src}" style="display:block;">
         `
         } else {
             let src = URL.createObjectURL(event.target.files[i]);
             output.innerHTML += `
-        <img class="output-image" id="preview-${i}" src="${src}" style="display:none;">
+        <img class="output-image"  src="${src}" style="display:none;">
         `
         }
+    }
+
+    if (output.querySelectorAll("img").length > 1) {
+        output.innerHTML += `
+<button id="left-btn"onClick="previewLeft()"><i class="arrow"></i></button>
+<button id="right-btn" onClick="previewRight()"><i class="arrow"></i></button>`
     }
 }
 
