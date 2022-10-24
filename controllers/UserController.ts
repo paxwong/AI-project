@@ -130,7 +130,9 @@ export default class UserController {
                 return
             }
             req.session.destroy(function (err) {
-                console.log(err)
+                if (err) {
+                    console.log("err", err)
+                }
             }
             )
             res.status(200).json({ message: 'logged out' })
@@ -172,7 +174,6 @@ export default class UserController {
             const emailValidation = req.body.emailValidation
             const passwordValidation = req.body.passwordValidation
             const usernameValidation = req.body.usernameValidation
-            console.log("email Validation", emailValidation)
 
 
             // Add a function here to disable symbols in username
