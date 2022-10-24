@@ -37,3 +37,42 @@ function clearForm() {
                             </div>`
 }
 document.getElementById("defaultOpen").click();
+
+
+function clearCreateTab() {
+    document.querySelector(".edit-main-container").innerHTML =
+        `<div class="edit-preview-panel">
+<div class="panel-gradient-border-bg">
+    <div class="preview-panel">
+        <img class="output-image">
+        <div class="ring-container">
+            <div class="lds-ring-switch">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="edit-setting-panel">
+<div class="edit-setting-container">
+    <div class="preview-title">Preview Setting</div>
+    <form class="create-form">
+        <div id="upload-picture-container">
+            <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image"
+                multiple required />
+            <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
+        </div>
+        <div id="upload-caption-container">
+            <label id="upload-caption-label" class="name" for="text">Caption:</label>
+            <textarea required id="upload-caption-box" type="text" name="caption" minlength=""
+                maxlength="100" class="form-control" placeholder="Caption"></textarea>
+            <button type="submit" class="btn btn-b submit">Submit</button>
+        </div>
+    </form>
+    <div id="edit-setting-message"></div>
+</div>
+</div>`
+}

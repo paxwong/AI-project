@@ -4,8 +4,7 @@ import SocketIO from 'socket.io';
 import { Request, Response } from "express"
 import { checkPassword } from "../hash";
 import { request } from "http";
-import { formParse } from '../upload';
-
+import { formParse, formParsePFP } from '../upload';
 
 export default class UserController {
     private service: UserService;
@@ -22,11 +21,33 @@ export default class UserController {
             const email = req.body.email
             const password = req.body.password
             const needHash = true
+            const emailValidation = req.body.emailValidation
+            const passwordValidation = req.body.passwordValidation
+            const usernameValidation = req.body.usernameValidation
+
+
+
+
 
             // Add a function here to disable symbols in username
 
             if (!username || !email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
+                return
+            }
+
+            if (usernameValidation == false) {
+                res.status(400).json({ message: "Invalid Username Input" })
+                return
+            }
+
+            if (emailValidation == false) {
+                res.status(400).json({ message: "Invalid Email Input" })
+                return
+            }
+
+            if (passwordValidation == false) {
+                res.status(400).json({ message: "Invalid Password Input" })
                 return
             }
 
@@ -186,7 +207,7 @@ export default class UserController {
                 res.status(400).json({ message: 'Invalid Session' })
                 return
             }
-            const { filename, fields } = await formParse(req)
+            const { filename, fields } = await formParsePFP(req)
             const sessionEmail = req.session["user"].email
             let dbUser = await this.service.getUser(sessionEmail)
             let isMatched = await checkPassword(fields.oldPassword, dbUser.password)

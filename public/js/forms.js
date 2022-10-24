@@ -46,7 +46,7 @@ function signupForm() {
     <div class="title" id="title">Mang<div class="wave">A.I.</div>
     </div>
     <div class="header">Welcome</div>
-    <form id="signupForm">
+    <form id="signupForm" name = "signUpForm">
     <div class="field">
     <input name="username" type="text" required autocomplete="off" id="reg-username">
     <label for="reg-username" title="Username" data-title="Username"></label>
@@ -70,7 +70,7 @@ function signupForm() {
                     <span class="loader__element"></span>
                     <span class="loader__element"></span>
                 </div>
-            <input type="submit" value="Sign Up" class="btn" id="signup-button">
+            <input type="submit" value="Sign Up" class="btn" id="signup-button" onclick= "ValidateEmail(document.signUpForm.email)">
         
    <br>
     <div>
@@ -86,6 +86,30 @@ function signupForm() {
 
 }
 
+function ValidateEmail(inputText) {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (inputText.value.match(mailformat)) {
+        // alert("Valid email address!");
+        // document.form1.text1.focus();
+        return true;
+    }
+    else {
+        // alert("You have entered an invalid email address!");
+        // document.form1.text1.focus();
+        return false;
+    }
+}
+
+function ValidatePassword(password) {
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    return re.test(password);
+}
+
+function ValidateUsername(username) {
+    let usernameFormat = /^[0-9a-zA-Z]+$/
+    return usernameFormat.test(username)
+}
+
 function register() {
 
     registerButton.addEventListener('submit', async function (event) {
@@ -93,13 +117,20 @@ function register() {
         const username = event.target.username.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
+        let emailValidation = ValidateEmail(event.target.email)
+        let passwordValidation = ValidatePassword(event.target.password.value)
+        let usernameValidation = ValidateUsername(event.target.username.value)
+        if (passwordValidation == false) {
+            alert("Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)")
+        }
+
         const res = await fetch('/user/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username, email, password
+                username, email, password, emailValidation, passwordValidation, usernameValidation
             })
         })
         let result = await res.json()
@@ -185,3 +216,5 @@ function failRegister(result) {
                 document.querySelector(".message").textContent = ''
     `, 3000)
 }
+
+

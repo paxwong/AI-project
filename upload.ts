@@ -69,3 +69,36 @@ export const formParse = (req: express.Request) => {
 		})
 	})
 }
+
+
+export const formParsePFP = (req: express.Request) => {
+	return new Promise<any>((resolve, reject) => {
+		form.parse(req, (err, fields, files: Files) => {
+			if (err) {
+				console.log('err in form parsing', err)
+				reject(err)
+			}
+			try {
+				console.log('here formParse for Profile Pic')
+				// const user = req.session["user"].id
+				// const text = fields.text
+				// const text = fields.text
+				// const fromSocketId = fields.fromSocketId
+				let file = Array.isArray(files.image)
+					? files.image[0]
+					: files.image
+				// console.log(file)
+				const filename = file ? file.newFilename : null
+				resolve({
+					filename,
+					fields,
+
+				})
+				console.log("formParse (profile pic) successful")
+			} catch (error) {
+				console.log('error in form parsing', error)
+				reject(error)
+			}
+		})
+	})
+}
