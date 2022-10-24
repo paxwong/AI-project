@@ -19,12 +19,29 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
+
+function clearForm() {
+    console.log('.')
+    let form = document.querySelector(".create-form")
+    if (form != null) {
+        form.reset()
+    }
+    document.querySelector(".preview-panel").innerHTML = `
+    <div class="ring-container">
+                                <div class="lds-ring-switch">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>`
+}
 document.getElementById("defaultOpen").click();
 
 
 function clearCreateTab() {
-document.querySelector(".edit-main-container").innerHTML = 
-`<div class="edit-preview-panel">
+    document.querySelector(".edit-main-container").innerHTML =
+        `<div class="edit-preview-panel">
 <div class="panel-gradient-border-bg">
     <div class="preview-panel">
         <img class="output-image">
