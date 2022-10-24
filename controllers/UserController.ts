@@ -5,6 +5,7 @@ import { Request, Response } from "express"
 import { checkPassword } from "../hash";
 import { request } from "http";
 import { formParse, formParsePFP } from '../upload';
+import fetch from 'cross-fetch'
 
 export default class UserController {
     private service: UserService;
