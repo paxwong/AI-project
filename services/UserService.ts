@@ -46,4 +46,13 @@ export default class UserService {
     async changePicture(filename: string, dbUserID: number) {
         return (await this.knex.update({ 'icon': filename }).into("users").where({ "id": dbUserID }).returning("*"))[0];
     }
+
+    async googleLogin(email: string) {
+        return this.getUser(email);
+    }
+
+
+    async googleAddUser(email: string, username: string) {
+        return (await this.knex.insert({ nickname: username, password: "", email: email, is_admin: false }).into("users").returning("*"))[0] as User;
+    }
 }

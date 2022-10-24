@@ -165,7 +165,7 @@ async function addListenerToSetting() {
         let emailValidation = ValidateEmail(newEmail)
         let passwordValidation = ValidatePassword(newPassword)
         let usernameValidation = ValidateUsername(newUsername)
-        console.log("email validation", emailValidation)
+
 
 
         const changeData = newPassword + newEmail + newUsername

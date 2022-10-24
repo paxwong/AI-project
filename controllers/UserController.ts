@@ -256,4 +256,41 @@ export default class UserController {
             res.status(500).json({ message: 'Internal Server Error' })
         }
     }
+
+    loginGoogle = async (req: Request, res: Response) => {
+        // 如果google in 成功，就會拎到 一個 access token
+        // access token 係用黎換番google 既 user profile
+        const accessToken = req.session?.['grant'].response.access_token
+
+        // fetch google API, 拎 user profile
+        const fetchRes = await fetch(
+            'https://www.googleapis.com/oauth2/v2/userinfo',
+            {
+                method: 'get',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }
+        )
+        const googleProfile = await fetchRes.json()
+
+        let email = await this.service.googleLogin(googleProfile.email)
+
+        if (!email) {
+            email = await this.service.googleAddUser(googleProfile.email, googleProfile.family_name,)
+        }
+
+        let dbUser = await this.service.getUser(googleProfile.email)
+        let {
+            password: hashPassword,
+            is_admin,
+            created_at,
+            updated_at,
+            ...sessionUser
+        } = dbUser
+
+        req.session["user"] = sessionUser
+        res.redirect('/main.html')
+
+    }
 }
