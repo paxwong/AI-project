@@ -169,8 +169,28 @@ export default class UserController {
             const changeData = req.body.changeData
             const sessionEmail = req.session["user"].email
             const needHash = true
+            const emailValidation = req.body.emailValidation
+            const passwordValidation = req.body.passwordValidation
+            const usernameValidation = req.body.usernameValidation
+            console.log("email Validation", emailValidation)
+
 
             // Add a function here to disable symbols in username
+
+            if (changeType == 'username' && usernameValidation == false) {
+                res.status(400).json({ message: "Invalid Username Input" })
+                return
+            }
+
+            if (changeType == 'email' && emailValidation == false) {
+                res.status(400).json({ message: "Invalid Email Input" })
+                return
+            }
+
+            if (changeType == 'password' && passwordValidation == false) {
+                res.status(400).json({ message: "Invalid Password Input" })
+                return
+            }
 
             let dbUser = await this.service.getUser(sessionEmail)
             let isMatched = await checkPassword(oldPassword, dbUser.password)
