@@ -6,7 +6,6 @@ import { checkPassword } from "../hash";
 import { request } from "http";
 import { formParse } from '../upload';
 
-
 export default class UserController {
     private service: UserService;
     private io: SocketIO.Server;
@@ -22,11 +21,19 @@ export default class UserController {
             const email = req.body.email
             const password = req.body.password
             const needHash = true
+            const emailValidation = req.body.emailValidation
+
+
+
 
             // Add a function here to disable symbols in username
 
             if (!username || !email || !password) {
                 res.status(400).json({ message: "Invalid Input" })
+                return
+            }
+            if (emailValidation == false) {
+                res.status(400).json({ message: "Invalid Email Input" })
                 return
             }
 
