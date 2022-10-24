@@ -465,6 +465,8 @@ small {
     font-size: 1rem;
     font-weight: 900;
     width: 15%;
+    overflow: hidden;
+    /* margin-left: 10px; */
     /* display: flex; */
 }
 
@@ -522,6 +524,8 @@ small {
 .liked-by .user {
     font-size: x-small;
     width: 100%;
+    max-width: 100px;
+    overflow: hidden;
     /* text-align: center; */
 }
 
@@ -593,6 +597,7 @@ small {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 10px;
 }
 
 .user-icon {
@@ -625,6 +630,8 @@ small {
     top: 50%;
     right: 0;
     transform: translateX(-10px) translateY(-50%);
+    width:120px;
+    overflow:hidden;
 }
 
 #credit {
