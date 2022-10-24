@@ -22,6 +22,9 @@ export default class UserController {
             const password = req.body.password
             const needHash = true
             const emailValidation = req.body.emailValidation
+            const passwordValidation = req.body.passwordValidation
+            const usernameValidation = req.body.usernameValidation
+
 
 
 
@@ -32,8 +35,19 @@ export default class UserController {
                 res.status(400).json({ message: "Invalid Input" })
                 return
             }
+
+            if (usernameValidation == false) {
+                res.status(400).json({ message: "Invalid Username Input" })
+                return
+            }
+
             if (emailValidation == false) {
                 res.status(400).json({ message: "Invalid Email Input" })
+                return
+            }
+
+            if (passwordValidation == false) {
+                res.status(400).json({ message: "Invalid Password Input" })
                 return
             }
 

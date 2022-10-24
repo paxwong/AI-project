@@ -100,6 +100,16 @@ function ValidateEmail(inputText) {
     }
 }
 
+function ValidatePassword(password) {
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    return re.test(password);
+}
+
+function ValidateUsername(username) {
+    let usernameFormat = /^[0-9a-zA-Z]+$/
+    return usernameFormat.test(username)
+}
+
 function register() {
 
     registerButton.addEventListener('submit', async function (event) {
@@ -108,7 +118,11 @@ function register() {
         const email = event.target.email.value;
         const password = event.target.password.value;
         let emailValidation = ValidateEmail(event.target.email)
-        console.log("email validation", emailValidation)
+        let passwordValidation = ValidatePassword(event.target.password.value)
+        let usernameValidation = ValidateUsername(event.target.username.value)
+        if (passwordValidation == false) {
+            alert("Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)")
+        }
 
         const res = await fetch('/user/register', {
             method: 'POST',
@@ -116,7 +130,7 @@ function register() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username, email, password, emailValidation
+                username, email, password, emailValidation, passwordValidation, usernameValidation
             })
         })
         let result = await res.json()
