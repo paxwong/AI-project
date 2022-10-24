@@ -16,9 +16,9 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("users").insert([
-        { nickname: "Ling", email: "ling@gmail.com", password: "$2a$10$4H0vD93F55kLIhktVX/o8.McC0gjIrA8/5I2oG1XW8tUe7vY65HBG", is_admin: "true",credit:9999999 },
-        { nickname: "Pax", email: "pax@gmail.com", password: "$2a$10$H1e9epNeoEI/dUa8sHLvTORmRdfOrhoFfC4iDOAlC0QOkt4d1m0wO", is_admin: "true",credit:9999999 },
-        { nickname: "Matthew", email: "matthew@gmail.com", password: "$2a$10$.IAgoir.hdj0zzSZIcz/5uLp2bRqrPZL4K7J3KGjyPRW.xPTyvakC", is_admin: "true" ,credit:9999999}
+        { nickname: "Ling", email: "ling@gmail.com", password: "$2a$10$4H0vD93F55kLIhktVX/o8.McC0gjIrA8/5I2oG1XW8tUe7vY65HBG", is_admin: "true", credit: 9999999 },
+        { nickname: "Pax", email: "pax@gmail.com", password: "$2a$10$H1e9epNeoEI/dUa8sHLvTORmRdfOrhoFfC4iDOAlC0QOkt4d1m0wO", is_admin: "true", credit: 9999999 },
+        { nickname: "Matthew", email: "matthew@gmail.com", password: "$2a$10$.IAgoir.hdj0zzSZIcz/5uLp2bRqrPZL4K7J3KGjyPRW.xPTyvakC", is_admin: "true", credit: 9999999 }
     ]);
 
     await knex("posts").insert([
@@ -57,10 +57,10 @@ export async function seed(knex: Knex): Promise<void> {
     ]);
 
     await knex("converted_images").insert([
-        { image: "one-punch-man.jpeg", post_id: "1", raw_id: "1" },
-        { image: "attack-on-titan-ss2.jpeg", post_id: "2", raw_id: "2" },
-        { image: "naruto.jpeg", post_id: "3", raw_id: "3" },
-        { image: "one-punch-man-2.jpeg", post_id: "1", raw_id: "4" },
+        { image: "one-punch-man.jpg", post_id: "1", raw_id: "1" },
+        { image: "attack-on-titan-ss2.jpg", post_id: "2", raw_id: "2" },
+        { image: "naruto.jpg", post_id: "3", raw_id: "3" },
+        { image: "one-punch-man-2.jpg", post_id: "1", raw_id: "4" },
     ]);
 
 };

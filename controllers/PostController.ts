@@ -257,6 +257,7 @@ export default class PostController {
 
     changePostStatus = async (req: Request, res: Response) => {
         try {
+            let userId = req.session['user'].id
             const postId = req.body.postId
             const status = req.body.postStatus
             if (!postId || !Number(postId)) {
@@ -265,10 +266,17 @@ export default class PostController {
                 })
                 return
             }
-            const statusResult = await this.service.changePostStatus(Number(postId), status);
-            res.json({
-                message: 'Post status updated'
-            })
+            const statusResult = await this.service.changePostStatus(Number(userId), Number(postId), status)
+            console.log(statusResult)
+            if (statusResult.rowCount == 1) {
+                res.json({
+                    message: 'Post status updated'
+                })
+            } else {
+                res.json({
+                    message: 'Not your post'
+                })
+            }
         } catch (e) {
             console.log('error : ' + e)
             res.status(500).json({

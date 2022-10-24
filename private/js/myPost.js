@@ -141,10 +141,10 @@ async function loadMyPosts() {
                     </div>
                     <div class="post-footer">
                         <div class="buttons-container">
-                            <i class="btn like fa-regular fa-heart" style='display:'></i>
-                            <i class=" btn liked fa-solid fa-heart" style='display:none'></i>
-                            <i class="btn message fa-regular fa-message"></i>
-                            <i class="btn delete-btn fa fa-trash" data_index="${post.id}"></i>
+                            <i class="btn like fa-regular fa-heart tooltip" style='display:'><span class="tooltiptext">Like</span></i>
+                            <i class=" btn liked fa-solid fa-heart tooltip" style='display:none'><span class="tooltiptext">Unlike</span></i>
+                            <i class="btn message fa-regular fa-message tooltip"><span class="tooltiptext">Comment</span></i>
+                            <i class="btn delete-btn fa fa-trash tooltip" data_index="${post.id}"><span class="tooltiptext">Delete post</span></i>
                         </div>
                         <div class="posted-on">${timeDiff + " ago"}</div>
                      <div class="likes"> <div class="liked-by" style="display:none"></div></div>
@@ -178,12 +178,12 @@ async function loadMyPosts() {
                 }
                 if (post.status == "public") {
                     currentPost.querySelector(".buttons-container").innerHTML += `
-                    <i class="fa-solid fa-lock-open btn private-btn" data_index="${post.id}"></i>
+                    <i class="fa-solid fa-lock-open btn private-btn tooltip" data_index="${post.id}"><span class=tooltiptext>Private post</span></i>
                 `
                 }
                 if (post.status == "private") {
                     currentPost.querySelector(".buttons-container").innerHTML += `
-                    <i class="fa-solid fa-lock btn public-btn" data_index="${post.id}"></i>
+                    <i class="fa-solid fa-lock btn public-btn tooltip" data_index="${post.id}"><span class=tooltiptext>Public post</span></i>
                 `
                 }
                 const likes = await fetch(`/post/like-count/${post.id}`)

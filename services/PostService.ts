@@ -186,11 +186,11 @@ export default class PostService {
 
     }
 
-    async changePostStatus(postId: number, status: string) {
+    async changePostStatus(userId: number, postId: number, status: string) {
 
         let result = (await this.knex.raw(
             /*sql*/
-            `update posts set status = (?) where id = (?)`, [status, postId]))
+            `update posts set status = (?) where id = (?) and user_id =(?)`, [status, postId, userId]))
         return result
     }
 
