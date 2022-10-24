@@ -212,6 +212,7 @@ export default class PostController {
     }
 
     getMyPosts = async (req: Request, res: Response) => {
+        let is_admin = req.session['isAdmin']
         try {
             if (!req.session || !req.session["user"]) {
                 res.status(400).json({ message: 'User not found' })
@@ -219,7 +220,7 @@ export default class PostController {
             }
             let userId = req.session['user'].id
 
-            const myPostsResult = await this.service.getMyPosts(Number(userId));
+            const myPostsResult = await this.service.getMyPosts(Number(userId), is_admin);
 
             res.json(myPostsResult)
         }
