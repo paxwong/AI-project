@@ -216,7 +216,11 @@ async function loadPosts() {
                 if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
-
+        if (document.querySelectorAll(".post").length % 2 != 0) {
+            postContainer.innerHTML += `
+            <div class="place-holder"></div>
+            `
+        }
 
 
 
@@ -533,19 +537,20 @@ loadFile = function (event) {
     let output = document.querySelector('.preview-panel');
     for (let i = 0; i < event.target.files.length; i++) {
         if (i == 0) {
-            let outputImage = document.querySelector('.output-image')
-            outputImage.style.display = 'block'
-            outputImage.src = URL.createObjectURL(event.target.files[i]);
+            let src = URL.createObjectURL(event.target.files[i]);
+            output.innerHTML += `
+        <img class="output-image" id="preview-${i}" src="${src}" style="display:block;">
+        `
         } else {
             let src = URL.createObjectURL(event.target.files[i]);
             output.innerHTML += `
-        <img class="output-image" src="${src}" style="display:block;">
+        <img class="output-image" id="preview-${i}" src="${src}" style="display:none;">
         `
         }
     }
-
+}
 
     // output.onload = function () {
     //     URL.revokeObjectURL(output.src) // free memory
-}
-    ;
+
+
