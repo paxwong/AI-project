@@ -83,7 +83,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where is_deleted = false and status='public'`)).rows
+        where is_deleted = false and status='public' ORDER BY created_at DESC`)).rows
 
         return result
 

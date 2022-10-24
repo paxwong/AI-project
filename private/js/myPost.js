@@ -88,8 +88,10 @@ async function loadMyPosts() {
     if (res.ok) {
         let myPost = document.querySelector('#MyPosts')
         let myPostContainer = myPost.querySelector('.my-post-container')
-
         myPostContainer.innerHTML = ''
+        if (data.length == 0) {
+            myPostContainer.innerHTML = '<div class="no-post">¯|_( ͡° ͜ʖ ͡°)_/¯ NO POST YET</div>'
+        }
         for (let post of data) {
             // console.log(post)
             if (document.getElementById(`myPost${post.id}`)) {
