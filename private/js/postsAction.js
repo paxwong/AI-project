@@ -548,11 +548,12 @@ async function createPosts(e) {
     <button id="left-btn"onClick="previewLeft()"><i class="arrow"></i></button>
     <button id="right-btn" onClick="previewRight()"><i class="arrow"></i></button>`
         }
-
         postListFormElement.reset();
         // form.reset()
         // loadPosts()
-        loadMyPosts()
+        await loadMyPosts()
+        setTimeout(publicizePost(result.postId), 5000)
+
     }
 }
 
@@ -615,7 +616,90 @@ loadFile = function (event) {
     }
 }
 
-    // output.onload = function () {
-    //     URL.revokeObjectURL(output.src) // free memory
+// output.onload = function () {
+//     URL.revokeObjectURL(output.src) // free memory
 
 
+let popUpFinish = document.querySelector("#pop-up-2-container")
+// let blurDiv = document.querySelector("#blur")
+let originalHTML = `<div class="outerContainer">
+    <div class="account container2 gradient-border">
+        <div class="profile-svg-container">
+            <i class="bi bi-x-lg"></i>
+        </div>
+        <div class="profile-title">CONGRATS!</div>
+        <div>Your Post is currently private-view only!</div>
+        <div class="profile-button-container">
+            <div class="profile-button" id="public-post-button">Publicize</div>
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=I%20have%20just%20colorized%20a%20manga%20with%20AI%20on%20https%3A%2F%2Fmangai.tech" class="profile-button" id="change-picture">Tweet</a>
+            <div onclick="resetCreate()" class="profile-button" id="change-picture">Make a new one</div>
+        </div>
+        <!-- <div class="message">123</div> -->
+    </div>
+    </div>`
+let crossButton2 = document.querySelector("#pop-up-2-container .bi-x-lg")
+
+crossButton2.addEventListener("click", function () {
+    closePopUp2()
+})
+
+blurDiv.addEventListener("click", function (e) {
+    closePopUp2()
+})
+
+function closePopUp2() {
+    popUpFinish.innerHTML = originalHTML
+    popUpFinish.style.display = "none"
+    popUpDiv.style.display = "none"
+    blurDiv.style.display = "none"
+}
+
+function resetCreate() {
+    popUpFinish.style.display = 'none'
+    blurDiv.style.display = 'none'
+    document.querySelector(".preview-panel").innerHTML =
+        `<div class="ring-container">
+                <div class="lds-ring-switch">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>`
+    document.querySelector(".create-form").reset()
+}
+
+async function changePublic(postId) {
+    const res = await fetch('/post/change-post-status', {
+        method: 'POST',
+        body: JSON.stringify({
+            postId: postId,
+            postStatus: "public"
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    )
+    if (!res.ok) {
+        console.log('not ok')
+        return
+    }
+    if (res.ok) {
+        console.log('ok')
+        // popUpFinish.innerHTML = originalHTML
+        document.querySelector("#public-post-button").textContent = "Publicized!"
+        crossButton2.addEventListener("click", function () {
+            closePopUp2()
+        })
+        return
+    }
+}
+
+function publicizePost(postId) {
+    document.querySelector("#blur").style.display = "block"
+    popUpFinish.style.display = 'block'
+    document.querySelector("#public-post-button").addEventListener("click", async function () {
+        changePublic(postId)
+    })
+}

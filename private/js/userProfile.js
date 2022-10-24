@@ -1,7 +1,7 @@
 let settingButton = document.querySelector("#setting-button")
 let blurDiv = document.querySelector("#blur")
 let popUpDiv = document.querySelector("#pop-up-container")
-let crossButton = document.querySelector(".bi-x-lg")
+let crossButton = document.querySelector("#pop-up-container .bi-x-lg")
 
 settingButton.addEventListener("click", function (e) {
     openPopUp()
