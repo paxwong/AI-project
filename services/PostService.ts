@@ -6,6 +6,7 @@ import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";
 import Comment from "../models/CommentModel";
 import Like from "../models/LikeModel";
+import e from "express";
 const download = require('image-downloader')
 export default class PostService {
     constructor(private knex: Knex) { }
@@ -178,20 +179,34 @@ export default class PostService {
         return result
     }
 
-    async deleteMyPosts(postId: number) {
+    async deleteMyPosts(postId: number, userId: number, is_admin: boolean) {
+        if (is_admin) {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set is_deleted = true where id = (?)`, [postId]))
+            return result
+        } else {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set is_deleted = true where id = (?) and user_id=(?)`, [postId, userId]))
+            return result
+        }
 
-        let result = (await this.knex.raw(
-            /*sql*/
-            `update posts set is_deleted = true where id = (?)`, [postId]))
 
     }
 
-    async changePostStatus(userId: number, postId: number, status: string) {
-
-        let result = (await this.knex.raw(
-            /*sql*/
-            `update posts set status = (?) where id = (?) and user_id =(?)`, [status, postId, userId]))
-        return result
+    async changePostStatus(userId: number, postId: number, status: string, is_admin: boolean) {
+        if (is_admin) {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set status = (?) where id = (?)`, [status, postId]))
+            return result
+        } else {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set status = (?) where id = (?) and user_id =(?)`, [status, postId, userId]))
+            return result
+        }
     }
 
 }

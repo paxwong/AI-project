@@ -113,7 +113,7 @@ export default class UserController {
             } = dbUser
 
             req.session["user"] = sessionUser
-
+            req.session["isAdmin"] = is_admin
             res.status(200).json({
                 message: 'Success login',
                 user: sessionUser
@@ -266,7 +266,8 @@ export default class UserController {
 
         // fetch google API, 拎 user profile
         const fetchRes = await fetch(
-            'https://www.googleapis.com/oauth2/v2/userinfo',
+            'https://www.googleapis.com/oauth2/v2/userinfo'
+            ,
             {
                 method: 'get',
                 headers: {

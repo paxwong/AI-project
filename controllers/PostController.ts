@@ -86,7 +86,7 @@ export default class PostController {
                 }
             }
 
-            res.status(200).json({ message: results , postId: postId })
+            res.status(200).json({ message: results, postId: postId })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
@@ -235,18 +235,25 @@ export default class PostController {
     deleteMyPosts = async (req: Request, res: Response) => {
         try {
             const postId = req.body.postId
-
+            let userId = req.session['user'].id
+            let is_admin = req.session['isAdmin']
             if (!postId || !Number(postId)) {
                 res.status(400).json({
                     message: 'index is invalid'
                 })
                 return
             }
-            const deleteResult = await this.service.deleteMyPosts(Number(postId));
+            const deleteResult = await this.service.deleteMyPosts(Number(postId), Number(userId), is_admin);
 
-            res.json({
-                message: 'del success'
-            })
+            if (deleteResult.rowCount == 1) {
+                res.json({
+                    message: 'Delete success'
+                })
+            } else {
+                res.json({
+                    message: 'Not your post'
+                })
+            }
         } catch (e) {
             console.log('error : ' + e)
             res.status(500).json({
@@ -258,6 +265,7 @@ export default class PostController {
     changePostStatus = async (req: Request, res: Response) => {
         try {
             let userId = req.session['user'].id
+            let is_admin = req.session['isAdmin']
             const postId = req.body.postId
             const status = req.body.postStatus
             if (!postId || !Number(postId)) {
@@ -266,7 +274,7 @@ export default class PostController {
                 })
                 return
             }
-            const statusResult = await this.service.changePostStatus(Number(userId), Number(postId), status)
+            const statusResult = await this.service.changePostStatus(Number(userId), Number(postId), status, is_admin)
             console.log(statusResult)
             if (statusResult.rowCount == 1) {
                 res.json({
