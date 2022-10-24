@@ -4,7 +4,7 @@ import SocketIO from 'socket.io';
 import { Request, Response } from "express"
 import { checkPassword } from "../hash";
 import { request } from "http";
-import { formParse } from '../upload';
+import { formParse, formParsePFP } from '../upload';
 
 export default class UserController {
     private service: UserService;
@@ -193,7 +193,7 @@ export default class UserController {
                 res.status(400).json({ message: 'Invalid Session' })
                 return
             }
-            const { filename, fields } = await formParse(req)
+            const { filename, fields } = await formParsePFP(req)
             const sessionEmail = req.session["user"].email
             let dbUser = await this.service.getUser(sessionEmail)
             let isMatched = await checkPassword(fields.oldPassword, dbUser.password)
