@@ -216,7 +216,7 @@ async function loadPosts() {
                 if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
-        if (document.querySelectorAll(".post").length % 2 != 0) {
+        if (document.querySelectorAll(".post").length % 2 != 0 && document.querySelectorAll(".post").length != 1) {
             postContainer.innerHTML += `
             <div class="place-holder"></div>
             `

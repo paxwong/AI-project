@@ -219,7 +219,7 @@ async function loadMyPosts() {
 
             }
         }
-        if (document.querySelectorAll(".myPost").length % 2 != 0) {
+        if (document.querySelectorAll(".myPost").length % 2 != 0 && document.querySelectorAll(".myPost").length != 1) {
             myPostContainer.innerHTML += `
             <div class="place-holder"></div>
             `
