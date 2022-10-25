@@ -418,10 +418,13 @@ small {
 }
 
 .my-post-container {
+    position: relative;
     min-width: 900px;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     padding: 10px;
     width: 100%;
     height: 100%;
@@ -1061,11 +1064,35 @@ form {
 
 }
 
-.no-post {
+.no-post div {
+    font-family: 'Times New Roman', Times, serif;
     text-align: center;
     width: 100%;
-    height: 100%;
-    font-size: xx-large;
+    font-size: large;
+
+}
+
+#beProductive {
+    background: -webkit-linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fontcolor 1s linear infinite;
+    font-size: 3rem;
+}
+
+#beProductive:hover {
+    cursor: pointer;
+}
+
+.clickHere {
+    padding: 5px;
+    background-color: #444444;
+    display: flex;
+    font-size: medium;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 0 5px -1px rgba(255, 255, 255, 0.2);
 }
 
 @keyframes rgb {
