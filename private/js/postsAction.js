@@ -567,6 +567,7 @@ async function createPosts(e) {
         return
     }
     if (res.ok) {
+        await getUser()
         ringSwitch.classList.remove('lds-ring')
         preview.innerHTML = ' '
         for (let i = 0; i < result.message.length; i++) {
@@ -664,7 +665,7 @@ let popUpFinish = document.querySelector("#pop-up-2-container")
 let originalHTML = `<div class="outerContainer">
     <div class="account container2 gradient-border">
         <div class="profile-svg-container">
-            <i class="bi bi-x-lg"></i>
+            <i class="bi bi-x-lg" onclick="closePopUp2()"></i>
         </div>
         <div class="profile-title">CONGRATS!</div>
         <div>Your Post is currently private-view only!</div>
@@ -736,12 +737,12 @@ async function changePublic(postId) {
 }
 
 async function publicizePost(postId) {
-    await setTimeout(`document.querySelector("#blur").style.display = "block"
-    popUpFinish.style.display = 'block'`, 2000)
-    await setTimeout(() => {
-        initConfetti()
-        render()
-    }, 2000)
+    document.querySelector("#blur").style.display = "block"
+    popUpFinish.style.display = 'block'
+
+    initConfetti()
+    render()
+
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
