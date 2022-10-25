@@ -94,12 +94,17 @@ function left(id) {
 }
 
 async function loadPosts() {
+
     const res = await fetch('/post')
     const data = await res.json()
     // console.log(data)
     let counter = 0
     const postContainer = document.querySelector('.post-container')
+    const postContainerParent = postContainer.parentNode
+    console.log(postContainerParent)
+    // postContainerParent.removeChild(postContainer)
     postContainer.innerHTML = ''
+    postContainer.style.opacity = 0
     if (res.ok) {
 
         for (let post of data) {
@@ -166,6 +171,7 @@ async function loadPosts() {
 
 
             `
+
                 document.getElementById(`post${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
@@ -220,6 +226,7 @@ async function loadPosts() {
                 if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
+        postContainer.style.opacity = 1
         if (document.querySelectorAll(".post").length % 2 != 0 && document.querySelectorAll(".post").length != 1) {
             postContainer.innerHTML += `
             <div class="place-holder"></div>
@@ -227,6 +234,7 @@ async function loadPosts() {
         }
 
 
+        // postContainerParent.appendChild(postContainer)
 
         // add event listener
         const posts = document.querySelectorAll('.post')
