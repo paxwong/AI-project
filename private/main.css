@@ -579,7 +579,9 @@ small {
     min-width: 70%;
     font-size: 1rem;
     color: #aaaaaa;
-
+    height: 21px;
+    overflow: hidden;
+    width: 400px;
 }
 
 .like {
