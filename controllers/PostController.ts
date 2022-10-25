@@ -125,7 +125,6 @@ export default class PostController {
             return
         }
         let results = await this.service.getLikeCount(Number(post))
-        // console.log(results)
         res.json({
             message: 'Success',
             data: {
@@ -156,9 +155,10 @@ export default class PostController {
             let user = req.session['user'].id
             // console.log('user:', user, 'removed Like from', 'post:', post,)
 
-            await this.service.removeLike(user, Number(post));
+            let result = (await this.service.removeLike(user, Number(post)))
             res.status(200).json({
-                message: "remove like successful"
+                message: "remove like successful", result: result
+
             })
             return
         } catch (err: any) {
@@ -173,9 +173,10 @@ export default class PostController {
             let user = req.session['user'].id
             // console.log('user:', user, 'update Like from', 'post:', post,)
 
-            await this.service.updateLike(user, Number(post));
+            let result = (await this.service.updateLike(user, Number(post)))
             res.status(200).json({
-                message: "remove like successful"
+                message: "remove like successful",
+                result: result
             })
             return
         } catch (err: any) {

@@ -94,10 +94,9 @@ function left(id) {
 }
 
 async function loadPosts(page) {
-    console.log(page)
+
     const pageRes = await fetch('/post')
     const pageLength = Math.ceil((await pageRes.json()) / 6)
-    console.log("pageLength", pageLength)
     const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
     // console.log(data)
@@ -234,7 +233,7 @@ async function loadPosts(page) {
             postContainer.innerHTML += `
             <div class=pageControl>Page:</div>
             `
-            for (i = 1; i <= pageLength; i++) {
+            for (i = 1; i < pageLength; i++) {
                 postContainer.querySelector(".pageControl").innerHTML += `
                 <div class="pageNumber" id="page${i}" onclick="loadPosts(${i})">${i}</div>
                 `
@@ -273,12 +272,14 @@ async function loadPosts(page) {
                 con.style.display = "none"
             })
             likeBtn.addEventListener('click', async (e) => {
+                likeBtn.style.pointerEvents = 'none'
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
                 let likesData = (await likeCountRes.json()).data.results
                 for (let like of likesData) {
                     if (like.user_id == userID && like.is_deleted == true) {
+                        console.log("update like")
                         const res = await fetch(`/post/update-like/${postID}`, {
                             method: 'POST',
                             body: JSON.stringify({
@@ -292,6 +293,7 @@ async function loadPosts(page) {
 
                         })
                         if (res.ok) {
+                            likeBtn.style.pointerEvents = "all"
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
                             let likesCount = 0
@@ -323,6 +325,7 @@ async function loadPosts(page) {
                         return
                     }
                 }
+                console.log("here")
                 const res = await fetch(`/post/like/${postID}`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -361,9 +364,11 @@ async function loadPosts(page) {
                     }
                     likedBy = likedByContainer
                 }
+
             })
 
             likedBtn.addEventListener('click', async (e) => {
+                likedBtn.style.pointerEvents = 'none'
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
@@ -383,11 +388,14 @@ async function loadPosts(page) {
 
                         })
                         if (res.ok) {
-
+                            console.log("remove like")
+                            likedBtn.style.pointerEvents = "all"
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
+
                             let likesCount = 0
                             for (let like of likesData) {
+
                                 if (like.user_id == userID && like.is_deleted == true) {
                                     likeBtn.style.display = "block"
                                     likedBtn.style.display = "none"
@@ -397,13 +405,18 @@ async function loadPosts(page) {
                                     likedBtn.style.display = "block"
                                 }
                                 if (like.is_deleted == false) {
+                                    console.log('yesy')
                                     likesCount++
                                 }
                             }
+                            console.log(likesCount)
+                            if (likesCount == 0) { likes.innerHTML = ''; return }
                             if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
                             if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')
+                            likedByContainer.innerHTML = ''
                             for (let like of likesData) {
+                                console.log(like)
                                 if (like.is_deleted == false) {
                                     likedByContainer.innerHTML += `
                                      <div class="user">
@@ -414,6 +427,7 @@ async function loadPosts(page) {
                         }
                     }
                 }
+                likeBtn.style.pointerEvents = 'all'
             }
             )
 
@@ -731,7 +745,7 @@ async function publicizePost(postId) {
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
-        loadPosts()
+        loadPosts(1)
     })
 
 }
