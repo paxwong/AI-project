@@ -175,6 +175,8 @@ export default class PostService {
     }
 
     async updateLike(user: number, post: number) {
+        // let boolean = (await this.knex.raw(`select is_deleted from likes where user_id=(?) and post_id=(?)`, [user, post])).rows[0]
+        // console.log(boolean)
         return (await this.knex.raw(
             `update likes set is_deleted='f' where user_id=(?) and post_id=(?)`, [user, post]
         ))
