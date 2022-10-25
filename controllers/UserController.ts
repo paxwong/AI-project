@@ -170,11 +170,19 @@ export default class UserController {
 
             const changeType = req.body.changeType
             const changeData = req.body.changeData
+            const newUsername = req.body.newUsername
             const sessionEmail = req.session["user"].email
             const usernameValidation = req.body.usernameValidation
 
             if (changeType == 'username' && usernameValidation == false) {
                 res.status(400).json({ message: "Invalid Username Input" })
+                return
+            }
+            let checkName = await this.service.checkName(newUsername)
+            if (checkName) {
+                res.status(400).json({
+                    message: 'This username is already in use'
+                })
                 return
             }
 
@@ -213,6 +221,7 @@ export default class UserController {
             const changeType = req.body.changeType
             const changeData = req.body.changeData
             const sessionEmail = req.session["user"].email
+            const newUsername = req.body.newUsername
             const needHash = true
             const emailValidation = req.body.emailValidation
             const passwordValidation = req.body.passwordValidation
@@ -233,6 +242,14 @@ export default class UserController {
 
             if (changeType == 'password' && passwordValidation == false) {
                 res.status(400).json({ message: "Invalid Password Input" })
+                return
+            }
+
+            let checkName = await this.service.checkName(newUsername)
+            if (checkName) {
+                res.status(400).json({
+                    message: 'This username is already in use'
+                })
                 return
             }
 

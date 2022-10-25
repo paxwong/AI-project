@@ -274,6 +274,7 @@ async function addListenerToGoogleSetting() {
 
                 "changeType": changeType,
                 "changeData": changeData,
+                "newUsername": newUsername,
                 "usernameValidation": usernameValidation
             })
         })
@@ -325,6 +326,7 @@ async function addListenerToSetting() {
                 "oldPassword": oldPassword,
                 "changeType": changeType,
                 "changeData": changeData,
+                "newUsername": newUsername,
                 "emailValidation": emailValidation,
                 "passwordValidation": passwordValidation,
                 "usernameValidation": usernameValidation
