@@ -7,6 +7,8 @@ import Converted_image from "../models/ConvertedModel";
 import Comment from "../models/CommentModel";
 import Like from "../models/LikeModel";
 import e from "express";
+import console from "console";
+const fs = require('fs')
 const download = require('image-downloader')
 export default class PostService {
     constructor(private knex: Knex) { }
@@ -199,11 +201,38 @@ export default class PostService {
             let result = (await this.knex.raw(
                 /*sql*/
                 `update posts set is_deleted = true where id = (?)`, [postId]))
+
+            let rawFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let rawFile of rawFiles) {
+                try { fs.unlinkSync(`./uploads/${rawFile.image}`) } catch (err) { console.error(err) }
+            }
+
+            let convertedFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let convertedFile of convertedFiles) {
+                try { fs.unlinkSync(`./uploads/${convertedFile.image}`) } catch (err) { console.error(err) }
+            }
             return result
         } else {
             let result = (await this.knex.raw(
                 /*sql*/
                 `update posts set is_deleted = true where id = (?) and user_id=(?)`, [postId, userId]))
+            let rawFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let rawFile of rawFiles) {
+                try { fs.unlinkSync(`./uploads/${rawFile.image}`) } catch (err) { console.error(err) }
+            }
+
+            let convertedFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let convertedFile of convertedFiles) {
+                try { fs.unlinkSync(`./uploads/${convertedFile.image}`) } catch (err) { console.error(err) }
+            }
             return result
         }
 
