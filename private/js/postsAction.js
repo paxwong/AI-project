@@ -98,6 +98,7 @@ async function loadPosts() {
     const data = await res.json()
     // console.log(data)
     let counter = 0
+
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
         postContainer.innerHTML = ''
@@ -134,8 +135,8 @@ async function loadPosts() {
                     <div class="user">
                     ${post.nickname}
                     </div>
-                    <div class="content">
-                        ${post.caption}
+                    <div class="content" id="post${post.id}-caption">
+                        
                     </div>
                 </div>
                     </div>
@@ -165,7 +166,7 @@ async function loadPosts() {
 
 
             `
-
+                document.getElementById(`post${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
                 // console.log(commentData.data.comment)
