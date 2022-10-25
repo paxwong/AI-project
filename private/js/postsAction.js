@@ -171,6 +171,7 @@ async function loadPosts() {
                 // console.log(commentData.data.comment)
                 let currentPost = document.getElementById(`post${post.id}`)
                 let commentContainer = currentPost.querySelector('.comment')
+                let i = 0
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
                     commentContainer.innerHTML += `
@@ -179,10 +180,12 @@ async function loadPosts() {
                 
                 ${comment.nickname}
                 </div>
-                <div class="content">
-                    ${comment.content}
+                <div class="content" id="post${post.id}comment${i}">
+                   
                 </div>
                 `
+                    document.getElementById(`post${post.id}comment${i}`).textContent = comment.content
+                    i++
                 }
 
                 const likes = await fetch(`/post/like-count/${post.id}`)

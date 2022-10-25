@@ -165,6 +165,7 @@ async function loadMyPosts() {
                 // console.log(commentData.data.comment)
                 let currentPost = document.getElementById(`myPost${post.id}`)
                 let commentContainer = currentPost.querySelector('.comment')
+                let i = 0
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
                     commentContainer.innerHTML += `
@@ -173,10 +174,12 @@ async function loadMyPosts() {
                 
                 ${comment.nickname}
                 </div>
-                <div class="content">
-                    ${comment.content}
+                <div class="content" id="myPost${post.id}comment${i}">
+                   
                 </div>
                 `
+                    document.getElementById(`myPost${post.id}comment${i}`).textContent = comment.content
+                    i++
                 }
                 if (post.status == "public") {
                     currentPost.querySelector(".buttons-container").innerHTML += `
