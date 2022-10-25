@@ -116,9 +116,10 @@ async function loadMyPosts() {
            <div>▐▌░░░░░░░░░░▀▄░░░░░░▄▀</div>
            <div>▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀</div>
            <div>▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄</div>
-          
-            </div > <div style="font-size:5rem">NO POST YET~</div>
-            <div class="clickHere"><div id="beProductive"onclick="create()">Click here to be productive</div></div>
+           
+           <div id="noPostYet">NO POST YET~</div>
+           <div class="clickHere"><div id="beProductive"onclick="create()">Click here to be productive</div></div>
+            </div > 
              `
         }
         for (let post of data) {
