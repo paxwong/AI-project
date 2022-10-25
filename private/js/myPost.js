@@ -127,8 +127,8 @@ async function loadMyPosts() {
                         <div class="user">
                          ${post.nickname}
                         </div>
-                        <div class="content">
-                        ${post.caption}
+                        <div class="content" id="myPost${post.id}-caption">
+                        
                          </div>
                     </div>
                     <div class="post-status">${post.status}</div>
@@ -159,7 +159,7 @@ async function loadMyPosts() {
                 </div>
 
             `
-
+                document.getElementById(`myPost${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
                 // console.log(commentData.data.comment)
