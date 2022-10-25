@@ -3,10 +3,23 @@ let blurDiv = document.querySelector("#blur")
 let popUpDiv = document.querySelector("#pop-up-container")
 let crossButton = document.querySelector("#pop-up-container .bi-x-lg")
 
-settingButton.addEventListener("click", function (e) {
-    openPopUp()
-    returnProfileContainer()
-})
+async function changeSettingButton() {
+    const res = await fetch('/user/getMyInfo')
+    let result = await res.json()
+    console.log("session result", result)
+    if (result.is_google == true) {
+        settingButton.addEventListener("click", function (e) {
+            openPopUp()
+            changeGoogleContainer()
+        })
+    } else
+
+        settingButton.addEventListener("click", function (e) {
+            openPopUp()
+            returnProfileContainer()
+        })
+}
+
 
 blurDiv.addEventListener("click", function (e) {
     closePopUp()
@@ -52,6 +65,32 @@ async function getUser() {
     }
 }
 
+function changeGoogleSetting(attribute) {
+    let old = ""
+    let type = "text"
+    let upperCase = attribute.substring(0, 1).toUpperCase() + attribute.slice(1)
+    if (attribute === "password") {
+        old = "Old"
+        type = "password"
+    }
+    document.querySelector('.profile-button-container').innerHTML =
+        `
+        <form id="setting-form">
+            <div class="field">
+                <input name="new${upperCase}" type="${type}" required autocomplete="off" id="reg-${old}${attribute}">
+                    <label for="reg-${old}${attribute}" title="New ${upperCase}" data-title="New ${upperCase}"></label>
+            </div>
+           
+            <input id="setting-type" name="type" value="${attribute}">
+                <br>
+                    <input type="submit" value="Submit" class="submit-return-button">
+                        <input onclick="changeGoogleContainer()" type="button" value="Back" class="submit-return-button">
+
+                        </form>
+        `
+    addListenerToGoogleSetting()
+}
+
 function changeSetting(attribute) {
     let old = ""
     let type = "text"
@@ -80,7 +119,37 @@ function changeSetting(attribute) {
         `
     addListenerToSetting()
 }
+async function changeGoogleContainer() {
+    document.querySelector(".profile-button-container").innerHTML =
+        `
+    <div onclick="changeGoogleProfilePicture()" class="profile-button" id="change-picture">Change Profile Picture</div>
+    <div onclick="changeGoogleSetting('username')" class="profile-button" id="change-nickname">Change Nickname
+    </div>
+    `
 
+}
+function changeGoogleProfilePicture() {
+    document.querySelector('.profile-button-container').innerHTML =
+        `
+        <form id="setting-form">
+            <div>Upload new profile picture here:</div>
+            <div id="upload-picture-container">
+            <input type="file" id="upload-picture-btn" name="image" hidden />
+            <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
+            </div>
+          
+
+            <br>
+                <input type="submit" value="Submit" class="submit-return-button">
+                    <input onclick="changeGoogleContainer()" type="button" value="Back" class="submit-return-button">
+
+                    </form>
+    `
+    document.querySelector("#upload-picture-btn").addEventListener('change', function () {
+        document.querySelector("#upload-picture-label").textContent = this.files[0].name
+    })
+    addListenerToGoogleSettingPicture()
+}
 function changeProfilePicture() {
     document.querySelector('.profile-button-container').innerHTML =
         `
@@ -110,6 +179,7 @@ function changeProfilePicture() {
 async function addListenerToSettingPicture() {
     let setting = document.querySelector('#setting-form')
     setting.addEventListener('submit', async (event) => {
+        console.log("submit")
         event.preventDefault();
         const formData = new FormData(event.target)
         const res = await fetch('/user/changePicture', {
@@ -138,6 +208,38 @@ async function addListenerToSettingPicture() {
     })
 }
 
+async function addListenerToGoogleSettingPicture() {
+    let setting = document.querySelector('#setting-form')
+    setting.addEventListener('submit', async (event) => {
+        console.log("submit")
+        event.preventDefault();
+        const formData = new FormData(event.target)
+        const res = await fetch('/user/changeGooglePicture', {
+            method: 'POST',
+            body: formData
+        })
+        let result = await res.json();
+        if (res.ok) {
+            document.querySelector(".message").textContent = "Setting changed successfully!"
+            document.querySelector(".message").style.color = "greenyellow"
+            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    changeGoogleContainer()
+                    getUser()
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }
+        if (!res.ok) {
+            document.querySelector('.message').textContent = result.message
+            document.querySelector(".message").style.color = "red"
+            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }
+    })
+}
+
 function ValidateEmail(inputText) {
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     return mailformat.test(inputText)
@@ -151,6 +253,50 @@ function ValidatePassword(password) {
 function ValidateUsername(username) {
     let usernameFormat = /^[0-9a-zA-Z]+$/
     return usernameFormat.test(username)
+}
+
+async function addListenerToGoogleSetting() {
+    let setting = document.querySelector('#setting-form')
+    setting.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const changeType = event.target.type.value
+        const newUsername = event.target.newUsername ? event.target.newUsername.value : '';
+        let usernameValidation = ValidateUsername(newUsername)
+
+        const changeData = newUsername
+        const res = await fetch('/user/changeGoogleSetting', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+
+                "changeType": changeType,
+                "changeData": changeData,
+                "usernameValidation": usernameValidation
+            })
+        })
+        let result = await res.json();
+        if (res.ok) {
+            document.querySelector(".message").textContent = "Setting changed successfully!"
+            document.querySelector(".message").style.color = "greenyellow"
+            document.querySelector(".gradient-border").setAttribute(`id`, `success-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    changeGoogleContainer()
+                    getUser()
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }
+        if (!res.ok) {
+            document.querySelector('.message').textContent = result.message
+            document.querySelector(".message").style.color = "red"
+            document.querySelector(".gradient-border").setAttribute(`id`, `fail-border`)
+            setTimeout(`document.querySelector(".gradient-border").setAttribute('id','')
+                    document.querySelector(".message").textContent = ""
+                    `, 2000)
+        }
+    })
+
 }
 
 async function addListenerToSetting() {
@@ -216,6 +362,6 @@ async function returnProfileContainer() {
     </div>`
 }
 
-
+changeSettingButton()
 addListenerToDropdown()
 getUser()
