@@ -98,10 +98,10 @@ async function loadPosts() {
     const data = await res.json()
     // console.log(data)
     let counter = 0
-
+    const postContainer = document.querySelector('.post-container')
+    postContainer.innerHTML = ''
     if (res.ok) {
-        const postContainer = document.querySelector('.post-container')
-        postContainer.innerHTML = ''
+
         for (let post of data) {
             // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
