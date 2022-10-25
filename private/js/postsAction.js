@@ -94,7 +94,10 @@ function left(id) {
 }
 
 async function loadPosts(page) {
-
+    if (!page) {
+        console.log("no param")
+        return
+    }
     const pageRes = await fetch('/post')
     const pageLength = Math.ceil((await pageRes.json()) / 6)
     const res = await fetch(`/post/page/${page}`)
