@@ -424,6 +424,7 @@ async function loadMyPosts() {
                                     likesCount++
                                 }
                             }
+                            if (likesCount == 0) { likes.innerHTML = ''; return }
                             if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
                             if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')

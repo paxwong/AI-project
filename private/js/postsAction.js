@@ -272,7 +272,7 @@ async function loadPosts(page) {
                 con.style.display = "none"
             })
             likeBtn.addEventListener('click', async (e) => {
-                likeBtn.style.pointerEvents = 'none'
+
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
@@ -364,11 +364,10 @@ async function loadPosts(page) {
                     }
                     likedBy = likedByContainer
                 }
-
+                loadMyPosts()
             })
 
             likedBtn.addEventListener('click', async (e) => {
-                likedBtn.style.pointerEvents = 'none'
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
@@ -405,7 +404,6 @@ async function loadPosts(page) {
                                     likedBtn.style.display = "block"
                                 }
                                 if (like.is_deleted == false) {
-                                    console.log('yesy')
                                     likesCount++
                                 }
                             }
@@ -427,7 +425,7 @@ async function loadPosts(page) {
                         }
                     }
                 }
-                likeBtn.style.pointerEvents = 'all'
+                loadMyPosts()
             }
             )
 
