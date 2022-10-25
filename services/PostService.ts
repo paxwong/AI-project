@@ -8,6 +8,7 @@ import Comment from "../models/CommentModel";
 import Like from "../models/LikeModel";
 import e from "express";
 import console from "console";
+import { off } from "process";
 const fs = require('fs')
 const download = require('image-downloader')
 export default class PostService {
@@ -74,10 +75,22 @@ export default class PostService {
     }
 
 
+    async getPostsLength() {
+        let result = (await this.knex.raw(
+            `
+           SELECT COUNT(id) from posts where is_deleted='F'
+    `
+        )).rows[0].count
+        return result
+    }
 
 
+    async getPosts(page: number) {
+        let offset = (page - 1) * 6
+        // if (offset) {
+        //     offset = 0
+        // }
 
-    async getPosts() {
         let result = (await this.knex.raw(
             /*sql*/`
         select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, posts.is_deleted, raw.image as raw_image, con.image as con_image 
@@ -85,7 +98,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where is_deleted = false and status='public' ORDER BY created_at DESC`)).rows
+        where is_deleted = false and status='public' ORDER BY created_at DESC LIMIT 6 OFFSET ${offset}`)).rows
 
         return result
 
@@ -152,6 +165,10 @@ export default class PostService {
         return result
     }
     async addLike(user: number, post: number) {
+        let checking = (await this.knex.raw(`select * from likes where user_id=(?) and post_id=(?)`, [user, post])).rows
+        if (checking.length > 0) {
+            return
+        }
         return (await this.knex.insert({ user_id: user, post_id: post }).into('likes').returning('*'))[0] as Like;
 
     }
@@ -162,6 +179,8 @@ export default class PostService {
     }
 
     async updateLike(user: number, post: number) {
+        // let boolean = (await this.knex.raw(`select is_deleted from likes where user_id=(?) and post_id=(?)`, [user, post])).rows[0]
+        // console.log(boolean)
         return (await this.knex.raw(
             `update likes set is_deleted='f' where user_id=(?) and post_id=(?)`, [user, post]
         ))

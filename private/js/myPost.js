@@ -259,7 +259,11 @@ async function loadMyPosts() {
             <div class="place-holder"></div>
             `
         }
-
+        if (myPostContainer.querySelectorAll(".myPost").length + myPostContainer.querySelectorAll(".place-holder").length % 3 != 0) {
+            myPostContainer.innerHTML += `
+            <div class="place-holder"></div>
+            `
+        }
 
 
         // add event listener
@@ -420,6 +424,7 @@ async function loadMyPosts() {
                                     likesCount++
                                 }
                             }
+                            if (likesCount == 0) { likes.innerHTML = ''; return }
                             if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
                             if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')
@@ -494,7 +499,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 }
@@ -519,7 +524,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 })
@@ -543,7 +548,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 })

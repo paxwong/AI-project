@@ -93,13 +93,22 @@ function left(id) {
 
 }
 
-async function loadPosts() {
-    const res = await fetch('/post')
+async function loadPosts(page) {
+    if (!page) {
+        console.log("no param")
+        return
+    }
+    const pageRes = await fetch('/post')
+    const pageLength = Math.ceil((await pageRes.json()) / 6)
+    const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
     // console.log(data)
     let counter = 0
     const postContainer = document.querySelector('.post-container')
+    // postContainerParent.removeChild(postContainer)
     postContainer.innerHTML = ''
+    postContainer.style.opacity = 0
+    let loader = document.getElementById("postLoading")
     if (res.ok) {
 
         for (let post of data) {
@@ -166,6 +175,7 @@ async function loadPosts() {
 
 
             `
+
                 document.getElementById(`post${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
@@ -220,13 +230,23 @@ async function loadPosts() {
                 if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
-        if (document.querySelectorAll(".post").length % 2 != 0 && document.querySelectorAll(".post").length != 1) {
+        loader.style.opacity = 0
+        postContainer.style.opacity = 1
+        if (pageLength > 1) {
             postContainer.innerHTML += `
-            <div class="place-holder"></div>
+            <div class=pageControl>Page:</div>
             `
+            for (i = 1; i < pageLength; i++) {
+                postContainer.querySelector(".pageControl").innerHTML += `
+                <div class="pageNumber" id="page${i}" onclick="loadPosts(${i})">${i}</div>
+                `
+            }
+            document.getElementById(`page${page}`).style.animation = 'fontcolor 1s linear infinite'
+            document.getElementById(`page${page}`).style.pointerEvents = 'none'
         }
 
 
+        // postContainerParent.appendChild(postContainer)
 
         // add event listener
         const posts = document.querySelectorAll('.post')
@@ -255,12 +275,14 @@ async function loadPosts() {
                 con.style.display = "none"
             })
             likeBtn.addEventListener('click', async (e) => {
+
                 const element = e.target
                 const data_index = element.getAttribute('data_index')
                 const likeCountRes = await fetch(`/post/like-count/${postID}`)
                 let likesData = (await likeCountRes.json()).data.results
                 for (let like of likesData) {
                     if (like.user_id == userID && like.is_deleted == true) {
+                        console.log("update like")
                         const res = await fetch(`/post/update-like/${postID}`, {
                             method: 'POST',
                             body: JSON.stringify({
@@ -274,6 +296,7 @@ async function loadPosts() {
 
                         })
                         if (res.ok) {
+                            likeBtn.style.pointerEvents = "all"
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
                             let likesCount = 0
@@ -343,6 +366,7 @@ async function loadPosts() {
                     }
                     likedBy = likedByContainer
                 }
+                loadMyPosts()
             })
 
             likedBtn.addEventListener('click', async (e) => {
@@ -365,11 +389,14 @@ async function loadPosts() {
 
                         })
                         if (res.ok) {
-
+                            console.log("remove like")
+                            likedBtn.style.pointerEvents = "all"
                             const res = await fetch(`/post/like-count/${postID}`)
                             let likesData = (await res.json()).data.results
+
                             let likesCount = 0
                             for (let like of likesData) {
+
                                 if (like.user_id == userID && like.is_deleted == true) {
                                     likeBtn.style.display = "block"
                                     likedBtn.style.display = "none"
@@ -382,10 +409,14 @@ async function loadPosts() {
                                     likesCount++
                                 }
                             }
+                            console.log(likesCount)
+                            if (likesCount == 0) { likes.innerHTML = ''; return }
                             if (likesCount > 1) { likes.innerHTML = likesCount + ' likes' + `<div class="liked-by" style="display:none">` }
                             if (likesCount == 1) { likes.innerHTML = likesCount + ' like' + `<div class="liked-by" style="display:none">` }
                             let likedByContainer = likes.querySelector('.liked-by')
+                            likedByContainer.innerHTML = ''
                             for (let like of likesData) {
+                                console.log(like)
                                 if (like.is_deleted == false) {
                                     likedByContainer.innerHTML += `
                                      <div class="user">
@@ -396,6 +427,7 @@ async function loadPosts() {
                         }
                     }
                 }
+                loadMyPosts()
             }
             )
 
@@ -434,7 +466,7 @@ async function loadPosts() {
 
                     if (res.ok) {
                         removeTab()
-                        loadPosts()
+                        loadPosts(1)
                     }
                 })
             })
@@ -713,7 +745,7 @@ async function publicizePost(postId) {
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
-        loadPosts()
+        loadPosts(1)
     })
 
 }

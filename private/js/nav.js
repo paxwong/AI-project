@@ -36,4 +36,4 @@ function clearForm() {
                             </div>`
 }
 document.getElementById("defaultOpen").click();
-loadPosts()
+loadPosts(1)

@@ -509,7 +509,8 @@ small {
     padding: 5px;
     position: absolute;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: auto;
     height: 80px;
     top: -75px;
@@ -520,6 +521,27 @@ small {
     border-radius: 5px;
     box-shadow: 0 24px 38px 3px rgba(100, 100, 100, 0.14),
         0 9px 46px 8px rgba(100, 100, 100, 0.12), 0 11px 15px -7px rgba(100, 100, 100, 0.2);
+}
+
+/* width */
+.liked-by::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.liked-by::-webkit-scrollbar-track {
+    background-color: #444444;
+    box-shadow: inset 0 0 5px #444444;
+    border-radius: 10px;
+
+}
+
+.liked-by::-webkit-scrollbar-thumb {
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    border: 3px solid #EDEDED;
+    /* creates padding around scroll thumb */
 }
 
 .likes:hover {
@@ -557,7 +579,9 @@ small {
     min-width: 70%;
     font-size: 1rem;
     color: #aaaaaa;
-
+    height: 21px;
+    overflow: hidden;
+    width: 400px;
 }
 
 .like {
@@ -1155,4 +1179,32 @@ form {
     margin: 0 auto;
     user-select: none;
     z-index: +1000;
+}
+
+.posts {
+    position: relative;
+}
+
+#postLoading {
+    position: fixed;
+    top: 20%;
+    left: 45%
+}
+
+.pageControl {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.pageNumber {
+    padding: 0 5px;
+
+}
+
+.pageNumber:hover {
+    cursor: pointer;
+
 }
