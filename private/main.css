@@ -1156,3 +1156,13 @@ form {
     user-select: none;
     z-index: +1000;
 }
+
+.posts {
+    position: relative;
+}
+
+#postLoading {
+    position: fixed;
+    top: 20%;
+    left: 45%
+}

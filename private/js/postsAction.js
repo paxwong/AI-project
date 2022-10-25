@@ -100,11 +100,10 @@ async function loadPosts() {
     // console.log(data)
     let counter = 0
     const postContainer = document.querySelector('.post-container')
-    const postContainerParent = postContainer.parentNode
-    console.log(postContainerParent)
     // postContainerParent.removeChild(postContainer)
     postContainer.innerHTML = ''
     postContainer.style.opacity = 0
+    let loader = document.getElementById("postLoading")
     if (res.ok) {
 
         for (let post of data) {
@@ -226,7 +225,9 @@ async function loadPosts() {
                 if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
         }
+        loader.style.opacity = 0
         postContainer.style.opacity = 1
+
         if (document.querySelectorAll(".post").length % 2 != 0 && document.querySelectorAll(".post").length != 1) {
             postContainer.innerHTML += `
             <div class="place-holder"></div>
