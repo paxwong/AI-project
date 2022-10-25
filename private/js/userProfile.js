@@ -253,8 +253,15 @@ function ValidatePassword(password) {
 }
 
 function ValidateUsername(username) {
-    let usernameFormat = /^[0-9a-zA-Z]+$/
-    return usernameFormat.test(username)
+    let usernameFormat = /^[0-9a-zA-Z_.]+$/
+    if (username.length > 10) {
+        return false
+    } else if (usernameFormat.test(username) == false) {
+        return false
+    }
+    else { return true }
+
+
 }
 
 async function addListenerToGoogleSetting() {
@@ -264,7 +271,12 @@ async function addListenerToGoogleSetting() {
         const changeType = event.target.type.value
         const newUsername = event.target.newUsername ? event.target.newUsername.value : '';
         let usernameValidation = ValidateUsername(newUsername)
-
+        if (passwordValidation == false) {
+            alert("Password must has\nAt least 8 characters.\nA mixture of both uppercase and lowercase letters.\nA mixture of letters and numbers.\nInclusion of at least one special character, e.g.!@#$%^&*")
+        }
+        if (usernameValidation == false) {
+            alert("The username must be between 1 and 10 characters.\nPlease use only letters(a-z)(A-Z), number and special characters(._)")
+        }
         const changeData = newUsername
         const res = await fetch('/user/changeGoogleSetting', {
             method: 'POST',
@@ -314,7 +326,12 @@ async function addListenerToSetting() {
         let emailValidation = ValidateEmail(newEmail)
         let passwordValidation = ValidatePassword(newPassword)
         let usernameValidation = ValidateUsername(newUsername)
-
+        if (passwordValidation == false) {
+            alert("Password must has\nAt least 8 characters.\nA mixture of both uppercase and lowercase letters.\nA mixture of letters and numbers.\nInclusion of at least one special character, e.g.!@#$%^&*")
+        }
+        if (usernameValidation == false) {
+            alert("The username must be between 1 and 10 characters.\nPlease use only letters(a-z)(A-Z), number and special characters(._)")
+        }
 
 
         const changeData = newPassword + newEmail + newUsername
