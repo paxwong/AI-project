@@ -583,7 +583,7 @@ async function init() {
     // let commentDetails = await getPost()
     // let owner = await getOwner(commentDetails.user_id)
     postListFormElement.addEventListener("submit", createPosts);
-    loadPosts()
+
 
 
 }
