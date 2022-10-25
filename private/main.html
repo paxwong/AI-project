@@ -77,9 +77,6 @@
                     onclick="openTab(event, '+Create'),clearForm()">+Create</a>
             </li>
             <div class="profile-container">
-                <div id="credit">
-                    <div class="credit">Remaining Credits: <span id="credit-amount"></span></div>
-                </div>
                 <div id="profile"><img id="profile-picture"><span id="profile-name">GUEST</span>
                     <div class="dropdown-content">
                         <a href="#" class="tablinks" onclick="openTab(event, 'MyPosts')">My
@@ -123,6 +120,9 @@
                 <div class="edit-setting-panel">
                     <div class="edit-setting-container">
                         <div class="preview-title">Preview Setting</div>
+                        <div id="credit">
+                            <div class="credit">Remaining Credits: </div><div class ="credit" id="credit-amount"></div>
+                        </div>
                         <form class="create-form">
                             <div id="upload-picture-container">
                                 <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image"
@@ -137,6 +137,7 @@
                                 <div class="submit-container"><button type="submit" class="btn btn-b submit">Submit</button></div>
                             </div>
                         </form>
+                        
                         <div id="edit-setting-message"></div>
                     </div>
                 </div>
