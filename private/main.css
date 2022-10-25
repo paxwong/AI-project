@@ -637,6 +637,8 @@ small {
     transform: translateX(-10px) translateY(-50%);
     width: 155px;
     overflow: hidden;
+    text-align: end;
+
 }
 
 
@@ -1141,4 +1143,16 @@ form {
     }
 
 
+}
+
+.confetti {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    margin: 0 auto;
+    user-select: none;
+    z-index: +1000;
 }

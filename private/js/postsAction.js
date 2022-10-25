@@ -704,8 +704,12 @@ async function changePublic(postId) {
 }
 
 async function publicizePost(postId) {
-    setTimeout(`document.querySelector("#blur").style.display = "block"
+    await setTimeout(`document.querySelector("#blur").style.display = "block"
     popUpFinish.style.display = 'block'`, 2000)
+    await setTimeout(() => {
+        initConfetti()
+        render()
+    }, 2000)
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
