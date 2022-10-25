@@ -127,13 +127,14 @@
                             <div id="upload-picture-container">
                                 <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image"
                                     multiple required />
+                                <label id="upload-picture-label2" for="upload-picture-btn">Choose file</label>
                                 <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
                             </div>
                             <div id="upload-caption-container">
                                 <label id="upload-caption-label" class="name" for="text">Caption:</label>
                                 <textarea required id="upload-caption-box" type="text" name="caption" minlength=""
                                     maxlength="100" class="form-control" placeholder="Caption"></textarea>
-                                <button type="submit" class="btn btn-b submit">Submit</button>
+                                <div class="submit-container"><button type="submit" class="btn btn-b submit">Submit</button></div>
                             </div>
                         </form>
                         <div id="edit-setting-message"></div>
