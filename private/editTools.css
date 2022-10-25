@@ -28,6 +28,8 @@
     background: #666666;
     height: 100%;
     width: var(--settingWidth);
+    min-width: 250px;
+
 }
 
 .edit-setting-container {
