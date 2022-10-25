@@ -98,8 +98,10 @@ async function loadPosts(page) {
         console.log("no param")
         return
     }
+
     const pageRes = await fetch('/post')
     const pageLength = Math.ceil((await pageRes.json()) / 6)
+    console.log(pageLength)
     const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
     // console.log(data)
@@ -236,7 +238,7 @@ async function loadPosts(page) {
             postContainer.innerHTML += `
             <div class=pageControl>Page:</div>
             `
-            for (i = 1; i < pageLength; i++) {
+            for (i = 1; i < pageLength + 1; i++) {
                 postContainer.querySelector(".pageControl").innerHTML += `
                 <div class="pageNumber" id="page${i}" onclick="loadPosts(${i})">${i}</div>
                 `
