@@ -23,6 +23,7 @@
 * {
     font-family: 'Chakra Petch', sans-serif;
     color: white;
+    box-sizing: border-box;
 }
 
 .title {
@@ -444,7 +445,7 @@ small {
 .place-holder {
     width: 600px;
     height: 800px;
-    margin: 20px;
+    margin: 30px;
 }
 
 
