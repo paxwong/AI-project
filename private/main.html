@@ -25,7 +25,7 @@
 
 <body>
     <!-- <div class="comment-pop-up-container"></div> -->
-    <div id="blur"></div>
+    <div id="blur"> <canvas class="confetti" id="canvas"></canvas></div>
     <div id="pop-up-container">
         <div class="outerContainer">
             <div class="account container gradient-border">
@@ -121,9 +121,11 @@
                     <div class="edit-setting-container">
                         <div class="preview-title">Preview Setting</div>
                         <div id="credit">
-                            <div class="credit">Remaining Credits: </div><div class ="credit" id="credit-amount"></div>
+                            <div class="credit">Remaining Credits: </div>
+                            <div class="credit" id="credit-amount"></div>
                         </div>
                         <form class="create-form">
+
                             <div id="upload-picture-container">
                                 <input onchange="loadFile(event)" type="file" id="upload-picture-btn" name="image"
                                     multiple required />
@@ -136,18 +138,15 @@
                                     maxlength="100" class="form-control" placeholder="Caption"></textarea>
                                 <div class="submit-container"><button type="submit"
                                         class="btn btn-b submit">Submit</button></div>
+
                             </div>
                         </form>
-                        
+
                         <div id="edit-setting-message"></div>
                     </div>
                 </div>
             </div>
     </nav>
-    <left></left>
-    <main></main>
-    <right></right>
-
     <footer>
         <div>
             <a href="https://student.tecky.io" class="white-text" target="_blank">&copy; Developed by MangA.I. CLS
@@ -158,6 +157,7 @@
 </body>
 
 <!-- <script src="..//js/index.js"></script> -->
+<script src="./js/confetti.js"></script>
 <script src="./js/nav.js"></script>
 <script src="./js/userProfile.js"></script>
 <script src="./js/postsAction.js"></script>
