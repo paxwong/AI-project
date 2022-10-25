@@ -93,9 +93,12 @@ function left(id) {
 
 }
 
-async function loadPosts() {
-
-    const res = await fetch('/post')
+async function loadPosts(page) {
+    console.log(page)
+    const pageRes = await fetch('/post')
+    const pageLength = Math.ceil((await pageRes.json()) / 6)
+    console.log("pageLength", pageLength)
+    const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
     // console.log(data)
     let counter = 0
@@ -227,18 +230,17 @@ async function loadPosts() {
         }
         loader.style.opacity = 0
         postContainer.style.opacity = 1
-
-        if (document.querySelectorAll(".post").length % 2 != 0 && document.querySelectorAll(".post").length != 1) {
+        if (pageLength > 1) {
             postContainer.innerHTML += `
-            <div class="place-holder"></div>
+            <div class=pageControl>Page:</div>
             `
-
-        }
-
-        if (postContainer.querySelectorAll(".post").length + postContainer.querySelectorAll(".place-holder").length % 3 != 0) {
-            postContainer.innerHTML += `
-            <div class="place-holder"></div>
-            `
+            for (i = 1; i <= pageLength; i++) {
+                postContainer.querySelector(".pageControl").innerHTML += `
+                <div class="pageNumber" id="page${i}" onclick="loadPosts(${i})">${i}</div>
+                `
+            }
+            document.getElementById(`page${page}`).style.animation = 'fontcolor 1s linear infinite'
+            document.getElementById(`page${page}`).style.pointerEvents = 'none'
         }
 
 
@@ -450,7 +452,7 @@ async function loadPosts() {
 
                     if (res.ok) {
                         removeTab()
-                        loadPosts()
+                        loadPosts(1)
                     }
                 })
             })

@@ -185,11 +185,16 @@ export default class PostController {
         }
     }
     getPosts = async (req: Request, res: Response) => {
-        const postsResult = await this.service.getPosts();
+        let page = Number(req.params.pageNumber)
+        const postsResult = await this.service.getPosts(page);
         res.json(postsResult)
         return
     }
-
+    getPostsLength = async (req: Request, res: Response) => {
+        const result = await this.service.getPostsLength()
+        res.json(result)
+        return
+    }
     addComment = async (req: Request, res: Response) => {
         try {
             let user = req.session['user'].id
