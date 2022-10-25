@@ -64,9 +64,9 @@ initializePostRoutes(knex, io)
 app.use('/user', userRoutes)
 app.use('/post', postRoutes)
 
-app.get('/session', function(req, res) {
+app.get('/session', function (req, res) {
 	let session = req.session
-	res.status(200).json({session})
+	res.status(200).json({ session })
 })
 
 fs.mkdirSync(uploadDir, { recursive: true })

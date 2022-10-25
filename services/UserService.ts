@@ -53,6 +53,6 @@ export default class UserService {
 
 
     async googleAddUser(email: string, username: string) {
-        return (await this.knex.insert({ nickname: username, password: "", email: email, is_admin: false }).into("users").returning("*"))[0] as User;
+        return (await this.knex.insert({ nickname: username, password: "", email: email, is_admin: false, is_google: true }).into("users").returning("*"))[0] as User;
     }
 }
