@@ -168,13 +168,14 @@ function login() {
             failLogin(result)
         }
         if (res.ok) {
-            successLogin()
+            successLogin(result.user.nickname)
         }
     })
 }
 login()
 
-function successLogin() {
+function successLogin(userNickname) {
+    document.querySelector(".header").innerHTML += ` ${userNickname}`
     document.querySelector(".loader").style.display = 'none'
     document.querySelector(".message").textContent = "You have logged in!"
     document.querySelector(".message").style.color = "greenyellow"

@@ -36,6 +36,10 @@
     font-size: 60px;
 }
 
+#login:hover {
+    cursor: pointer;
+}
+
 .wave {
 
     padding-left: 15px;

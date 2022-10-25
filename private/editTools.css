@@ -28,6 +28,8 @@
     background: #666666;
     height: 100%;
     width: var(--settingWidth);
+    min-width: 250px;
+
 }
 
 .edit-setting-container {
@@ -117,13 +119,36 @@
     opacity: 0;
 }
 
-#upload-picture-label {
+#upload-picture-label2{
     padding: 5px;
-
     position: absolute;
     top: 0;
     width: fit-content;
     text-align: center;
+    background-color: rgba(0,0,0,0.5);
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#upload-picture-label {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    width: fit-content;
+    text-align: center;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#upload-picture-label2:active {
+    border-right: 2px solid rgb(30, 30, 30);
+    border-bottom: 2px solid rgb(30, 30, 30);
+    border-top: 2px solid rgb(107, 107, 107);
+    border-left: 2px solid rgb(107, 107, 107);
 }
 
 #upload-picture-label:active {
@@ -141,7 +166,10 @@
 
 #upload-caption-container .btn {
     position: unset;
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 
 }
 
@@ -223,3 +251,11 @@
     height: 90%;
 
 }
+
+.submit-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

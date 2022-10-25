@@ -4,10 +4,8 @@ import PostService from '../services/PostService';
 import { logger } from '../logger'
 import { formParse } from '../upload';
 import { deepaiImage } from '../deepai';
-import { request } from 'http';
-import { add } from 'winston';
-
 const download = require('image-downloader')
+const fs = require('fs')
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
     addPost = async (req: Request, res: Response) => {
@@ -41,7 +39,26 @@ export default class PostController {
 
 
             const { filename, fields } = await formParse(req)
-            // console.log("FILENAME", filename)
+            console.log("FILENAME", filename)
+            if (Array.isArray(filename)) {
+                for (let i = 0; i < filename.length; i++) {
+                    if (filename[i].indexOf('.HEIC') > -1) {
+                        try { fs.unlinkSync(`./uploads/${filename[i]}`) } catch (err) { console.error(err) }
+                        res.status(400).json({
+                            message: 'HEIC image not supported'
+                        })
+                        return
+                    }
+                    if (filename[i].indexOf('.HEIF') > -1) {
+                        try { fs.unlinkSync(`./uploads/${filename[i]}`) } catch (err) { console.error(err) }
+                        res.status(400).json({
+                            message: 'HEIF image not supported'
+                        })
+                        return
+                    }
+                }
+            }
+
             // console.log({ filename, text })
             let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {

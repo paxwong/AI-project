@@ -524,6 +524,10 @@ async function createPosts(e) {
     if (!res.ok) {
         ringSwitch.classList.remove('lds-ring')
         document.querySelector("#edit-setting-message").textContent = result.message
+        setTimeout(() => {
+            clearForm()
+            document.querySelector("#edit-setting-message").textContent = ""
+        }, 3000)
         return
     }
     if (res.ok) {
@@ -697,7 +701,7 @@ async function changePublic(postId) {
 
 async function publicizePost(postId) {
     setTimeout(`document.querySelector("#blur").style.display = "block"
-    popUpFinish.style.display = 'block'`,5000)
+    popUpFinish.style.display = 'block'`, 5000)
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()
