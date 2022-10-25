@@ -499,7 +499,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 }
@@ -524,7 +524,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 })
@@ -548,7 +548,7 @@ async function loadMyPosts() {
                     }
                     )
                     if (res.ok) {
-                        loadPosts()
+                        loadPosts(1)
                         loadMyPosts()
                     }
                 })
