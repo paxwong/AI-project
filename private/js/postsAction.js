@@ -468,7 +468,29 @@ async function loadPosts(page) {
 
                     if (res.ok) {
                         removeTab()
-                        loadPosts(1)
+                        const comment = await fetch(`/post/comment/${postID}`)
+                        let commentData = await comment.json()
+                        // console.log(commentData.data.comment)
+                        let currentPost = document.getElementById(`post${postID}`)
+                        let commentContainer = currentPost.querySelector('.comment')
+                        commentContainer.innerHTML = ''
+                        let i = 0
+                        for (let comment of commentData.data.comment) {
+                            // console.log(comment)
+                            commentContainer.innerHTML += `
+
+                <div class="user">
+                
+                ${comment.nickname}
+                </div>
+                <div class="content" id="post${postID}comment${i}">
+                   
+                </div>
+                `
+                            document.getElementById(`post${postID}comment${i}`).textContent = comment.content
+                            i++
+                        }
+                        // loadPosts(1)
                     }
                 })
             })
