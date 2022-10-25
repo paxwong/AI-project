@@ -72,7 +72,9 @@ app.get('/session', function (req, res) {
 fs.mkdirSync(uploadDir, { recursive: true })
 
 app.use(express.static('public'))
-app.use(express.static('private')) //for now
+app.use(express.static('private'))
+
+ //for now
 app.use('/uploads', express.static('uploads')) // auto to do next()
 io.on('connection', function (socket) {
 	console.log('new socket connected: ', socket.id)

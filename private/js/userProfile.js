@@ -135,6 +135,7 @@ function changeGoogleProfilePicture() {
             <div>Upload new profile picture here:</div>
             <div id="upload-picture-container">
             <input type="file" id="upload-picture-btn" name="image" hidden />
+            <label id="upload-picture-label2" for="upload-picture-btn">Choose file</label>
             <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
             </div>
           
@@ -157,6 +158,7 @@ function changeProfilePicture() {
             <div>Upload new profile picture here:</div>
             <div id="upload-picture-container">
             <input type="file" id="upload-picture-btn" name="image" hidden />
+            <label id="upload-picture-label2" for="upload-picture-btn">Choose file</label>
             <label id="upload-picture-label" for="upload-picture-btn">Choose file</label>
             </div>
             <div class="field">
@@ -273,6 +275,7 @@ async function addListenerToGoogleSetting() {
 
                 "changeType": changeType,
                 "changeData": changeData,
+                "newUsername": newUsername,
                 "usernameValidation": usernameValidation
             })
         })
@@ -324,6 +327,7 @@ async function addListenerToSetting() {
                 "oldPassword": oldPassword,
                 "changeType": changeType,
                 "changeData": changeData,
+                "newUsername": newUsername,
                 "emailValidation": emailValidation,
                 "passwordValidation": passwordValidation,
                 "usernameValidation": usernameValidation

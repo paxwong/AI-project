@@ -639,24 +639,6 @@ small {
     overflow: hidden;
 }
 
-#credit {
-    display: none;
-}
-
-.credit {
-    /* border: 2px solid white; */
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
-    border-radius: 5px;
-    /* width: 180px; */
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    margin: 0 10px;
-}
 
 #profile:hover .dropdown-content {
     display: block;
@@ -871,7 +853,8 @@ form {
 }
 
 .profile-button:hover {
-    /* something */
+    background-color: #444444;
+    color: #EDEDED;
 }
 
 .profile-title {
@@ -879,6 +862,8 @@ form {
     text-align: center;
     font-size: 3.5rem;
 }
+
+
 
 .submit-return-button {
     font-size: medium;
@@ -895,6 +880,8 @@ form {
 
 .submit-return-button:hover {
     cursor: pointer;
+    background-color: #EDEDED;
+    color: #444444;
 }
 
 .profile-svg-container {
