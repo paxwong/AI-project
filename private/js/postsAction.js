@@ -1,5 +1,5 @@
 const postListFormElement = document.querySelector(".create-form");
-const blurDiv = document.querySelector("#blur")
+// const blurDiv = document.querySelector("#blur")
 
 async function getUserInfo() {
     const res = await fetch('/user/getMyInfo')
@@ -650,7 +650,7 @@ crossButton2.addEventListener("click", function () {
     closePopUp2()
 })
 
-blurDiv.addEventListener("click", function (e) {
+document.querySelector("#blur").addEventListener("click", function (e) {
     closePopUp2()
 })
 
