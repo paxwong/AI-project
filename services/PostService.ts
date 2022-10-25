@@ -165,6 +165,10 @@ export default class PostService {
         return result
     }
     async addLike(user: number, post: number) {
+        let checking = (await this.knex.raw(`select * from likes where user_id=(?) and post_id=(?)`, [user, post])).rows
+        if (checking.length > 0) {
+            return
+        }
         return (await this.knex.insert({ user_id: user, post_id: post }).into('likes').returning('*'))[0] as Like;
 
     }

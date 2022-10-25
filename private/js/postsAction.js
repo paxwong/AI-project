@@ -325,7 +325,6 @@ async function loadPosts(page) {
                         return
                     }
                 }
-                console.log("here")
                 const res = await fetch(`/post/like/${postID}`, {
                     method: 'POST',
                     body: JSON.stringify({
