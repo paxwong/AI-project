@@ -80,6 +80,10 @@ function myPostLeft(id) {
     })
 
 }
+
+function create() {
+    document.getElementById("create").click()
+}
 async function loadMyPosts() {
     const res = await fetch('/post/my-posts')
     const data = await res.json()
@@ -90,7 +94,32 @@ async function loadMyPosts() {
         let myPostContainer = myPost.querySelector('.my-post-container')
         myPostContainer.innerHTML = ''
         if (data.length == 0) {
-            myPostContainer.innerHTML = '<div class="no-post">¯|_( ͡° ͜ʖ ͡°)_/¯ NO POST YET</div>'
+            myPostContainer.innerHTML = `<div class="no-post">
+            <div>       ▄▀▀▀▀▀▀▀▀▀▀▄▄</div>
+            <div>    ▄▀▀░░░░░░░░░░░░░▀▄</div>
+            <div>  ▄▀░░░░░░░░░░░░░░░░░░▀▄</div>
+           <div>  █░░░░░░░░░░░░░░░░░░░░░▀▄</div>
+           <div>▐▌░░░░░░░░▄▄▄▄▄▄▄░░░░░░░▐▌</div>
+           <div>█░░░░░░░░░░░▄▄▄▄░░▀▀▀▀▀░░█</div>
+           <div>▐▌░░░░░░░▀▀▀▀░░░░░▀▀▀▀▀░░░▐▌</div>
+           <div>█░░░░░░░░░▄▄▀▀▀▀▀░░░░▀▀▀▀▄░█</div>
+           <div>█░░░░░░░░░░░░░░░░▀░░░▐░░░░░▐▌</div>
+           <div>▐▌░░░░░░░░░▐▀▀██▄░░░░░░▄▄▄░▐▌</div>
+           <div>█░░░░░░░░░░░▀▀▀░░░░░░▀▀██░░█</div>
+           <div>▐▌░░░░▄░░░░░░░░░░░░░▌░░░░░░█</div>
+           <div>▐▌░░▐░░░░░░░░░░░░░░▀▄░░░░░█</div>
+           <div>█░░░▌░░░░░░░░▐▀░░░░▄▀░░░▐▌</div>
+           <div>▐▌░░▀▄░░░░░░░░▀░▀░▀▀░░░▄▀</div>
+           <div>▐▌░░▐▀▄░░░░░░░░░░░░░░░░█</div>
+           <div>▐▌░░░▌░▀▄░░░░▀▀▀▀▀▀░░░█</div>
+           <div>█░░░▀░░░░▀▄░░░░░░░░░░▄▀</div>
+           <div>▐▌░░░░░░░░░░▀▄░░░░░░▄▀</div>
+           <div>▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀</div>
+           <div>▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄</div>
+          
+            </div > <div style="font-size:5rem">NO POST YET~</div>
+            <div class="clickHere"><div id="beProductive"onclick="create()">Click here to be productive</div></div>
+             `
         }
         for (let post of data) {
             // console.log(post)
