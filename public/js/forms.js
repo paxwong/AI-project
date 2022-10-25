@@ -48,7 +48,7 @@ function signupForm() {
     <div class="header">Welcome</div>
     <form id="signupForm" name = "signUpForm">
     <div class="field">
-    <input name="username" type="text" required autocomplete="off" id="reg-username">
+    <input name="username" type="text" maxlength="10" required autocomplete="off" id="reg-username">
     <label for="reg-username" title="Username" data-title="Username"></label>
 </div>
     <div class="field">
@@ -121,7 +121,10 @@ function register() {
         let passwordValidation = ValidatePassword(event.target.password.value)
         let usernameValidation = ValidateUsername(event.target.username.value)
         if (passwordValidation == false) {
-            alert("Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)")
+            alert("Password must has\nAt least 8 characters.\nA mixture of both uppercase and lowercase letters.\nA mixture of letters and numbers.\nInclusion of at least one special character, e.g.!@#$%^&*")
+        }
+        if (usernameValidation == false) {
+            alert("The username must be between 1 and 10 characters.\nPlease use only letters(a-z)(A-Z), number and special characters(._)")
         }
 
         const res = await fetch('/user/register', {

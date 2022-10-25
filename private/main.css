@@ -581,7 +581,7 @@ small {
     /* margin-left: 20px; */
     border: 2px solid white;
     border-radius: 25px 5px 5px 25px;
-    width: 180px;
+    width: 230px;
     height: 50px;
     position: relative;
     /* display: flex; */
@@ -632,7 +632,7 @@ small {
     top: 50%;
     right: 0;
     transform: translateX(-10px) translateY(-50%);
-    width: 120px;
+    width: 155px;
     overflow: hidden;
 }
 
