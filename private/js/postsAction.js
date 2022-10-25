@@ -710,7 +710,6 @@ async function publicizePost(postId) {
         await changePublic(postId)
         loadMyPosts()
         loadPosts()
-        // blurDiv.innerHTML = `<img src="../../uploads/nice.gif">`
     })
 
 }
