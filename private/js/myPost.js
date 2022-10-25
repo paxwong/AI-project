@@ -80,6 +80,10 @@ function myPostLeft(id) {
     })
 
 }
+
+function create() {
+    document.getElementById("create").click()
+}
 async function loadMyPosts() {
     const res = await fetch('/post/my-posts')
     const data = await res.json()
@@ -88,8 +92,36 @@ async function loadMyPosts() {
     if (res.ok) {
         let myPost = document.querySelector('#MyPosts')
         let myPostContainer = myPost.querySelector('.my-post-container')
-
         myPostContainer.innerHTML = ''
+        if (data.length == 0) {
+            myPostContainer.innerHTML = `<div class="no-post">
+            <div>       ▄▀▀▀▀▀▀▀▀▀▀▄▄</div>
+            <div>    ▄▀▀░░░░░░░░░░░░░▀▄</div>
+            <div>  ▄▀░░░░░░░░░░░░░░░░░░▀▄</div>
+           <div>  █░░░░░░░░░░░░░░░░░░░░░▀▄</div>
+           <div>▐▌░░░░░░░░▄▄▄▄▄▄▄░░░░░░░▐▌</div>
+           <div>█░░░░░░░░░░░▄▄▄▄░░▀▀▀▀▀░░█</div>
+           <div>▐▌░░░░░░░▀▀▀▀░░░░░▀▀▀▀▀░░░▐▌</div>
+           <div>█░░░░░░░░░▄▄▀▀▀▀▀░░░░▀▀▀▀▄░█</div>
+           <div>█░░░░░░░░░░░░░░░░▀░░░▐░░░░░▐▌</div>
+           <div>▐▌░░░░░░░░░▐▀▀██▄░░░░░░▄▄▄░▐▌</div>
+           <div>█░░░░░░░░░░░▀▀▀░░░░░░▀▀██░░█</div>
+           <div>▐▌░░░░▄░░░░░░░░░░░░░▌░░░░░░█</div>
+           <div>▐▌░░▐░░░░░░░░░░░░░░▀▄░░░░░█</div>
+           <div>█░░░▌░░░░░░░░▐▀░░░░▄▀░░░▐▌</div>
+           <div>▐▌░░▀▄░░░░░░░░▀░▀░▀▀░░░▄▀</div>
+           <div>▐▌░░▐▀▄░░░░░░░░░░░░░░░░█</div>
+           <div>▐▌░░░▌░▀▄░░░░▀▀▀▀▀▀░░░█</div>
+           <div>█░░░▀░░░░▀▄░░░░░░░░░░▄▀</div>
+           <div>▐▌░░░░░░░░░░▀▄░░░░░░▄▀</div>
+           <div>▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀</div>
+           <div>▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄</div>
+           
+           <div id="noPostYet">NO POST YET~</div>
+           <div class="clickHere"><div id="beProductive"onclick="create()">Click here to be productive</div></div>
+            </div > 
+             `
+        }
         for (let post of data) {
             // console.log(post)
             if (document.getElementById(`myPost${post.id}`)) {
@@ -125,8 +157,8 @@ async function loadMyPosts() {
                         <div class="user">
                          ${post.nickname}
                         </div>
-                        <div class="content">
-                        ${post.caption}
+                        <div class="content" id="myPost${post.id}-caption">
+                        
                          </div>
                     </div>
                     <div class="post-status">${post.status}</div>
@@ -157,12 +189,13 @@ async function loadMyPosts() {
                 </div>
 
             `
-
+                document.getElementById(`myPost${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
                 // console.log(commentData.data.comment)
                 let currentPost = document.getElementById(`myPost${post.id}`)
                 let commentContainer = currentPost.querySelector('.comment')
+                let i = 0
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
                     commentContainer.innerHTML += `
@@ -171,10 +204,12 @@ async function loadMyPosts() {
                 
                 ${comment.nickname}
                 </div>
-                <div class="content">
-                    ${comment.content}
+                <div class="content" id="myPost${post.id}comment${i}">
+                   
                 </div>
                 `
+                    document.getElementById(`myPost${post.id}comment${i}`).textContent = comment.content
+                    i++
                 }
                 if (post.status == "public") {
                     currentPost.querySelector(".buttons-container").innerHTML += `

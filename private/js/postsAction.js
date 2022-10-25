@@ -98,6 +98,7 @@ async function loadPosts() {
     const data = await res.json()
     // console.log(data)
     let counter = 0
+
     if (res.ok) {
         const postContainer = document.querySelector('.post-container')
         postContainer.innerHTML = ''
@@ -134,8 +135,8 @@ async function loadPosts() {
                     <div class="user">
                     ${post.nickname}
                     </div>
-                    <div class="content">
-                        ${post.caption}
+                    <div class="content" id="post${post.id}-caption">
+                        
                     </div>
                 </div>
                     </div>
@@ -165,12 +166,13 @@ async function loadPosts() {
 
 
             `
-
+                document.getElementById(`post${post.id}-caption`).textContent = post.caption
                 const comment = await fetch(`/post/comment/${post.id}`)
                 let commentData = await comment.json()
                 // console.log(commentData.data.comment)
                 let currentPost = document.getElementById(`post${post.id}`)
                 let commentContainer = currentPost.querySelector('.comment')
+                let i = 0
                 for (let comment of commentData.data.comment) {
                     // console.log(comment)
                     commentContainer.innerHTML += `
@@ -179,10 +181,12 @@ async function loadPosts() {
                 
                 ${comment.nickname}
                 </div>
-                <div class="content">
-                    ${comment.content}
+                <div class="content" id="post${post.id}comment${i}">
+                   
                 </div>
                 `
+                    document.getElementById(`post${post.id}comment${i}`).textContent = comment.content
+                    i++
                 }
 
                 const likes = await fetch(`/post/like-count/${post.id}`)
@@ -524,6 +528,10 @@ async function createPosts(e) {
     if (!res.ok) {
         ringSwitch.classList.remove('lds-ring')
         document.querySelector("#edit-setting-message").textContent = result.message
+        setTimeout(() => {
+            clearForm()
+            document.querySelector("#edit-setting-message").textContent = ""
+        }, 3000)
         return
     }
     if (res.ok) {
@@ -697,7 +705,7 @@ async function changePublic(postId) {
 
 async function publicizePost(postId) {
     setTimeout(`document.querySelector("#blur").style.display = "block"
-    popUpFinish.style.display = 'block'`,5000)
+    popUpFinish.style.display = 'block'`, 2000)
     document.querySelector("#public-post-button").addEventListener("click", async function () {
         await changePublic(postId)
         loadMyPosts()

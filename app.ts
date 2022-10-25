@@ -64,15 +64,17 @@ initializePostRoutes(knex, io)
 app.use('/user', userRoutes)
 app.use('/post', postRoutes)
 
-app.get('/session', function(req, res) {
+app.get('/session', function (req, res) {
 	let session = req.session
-	res.status(200).json({session})
+	res.status(200).json({ session })
 })
 
 fs.mkdirSync(uploadDir, { recursive: true })
 
 app.use(express.static('public'))
-app.use(express.static('private')) //for now
+app.use(express.static('private'))
+
+ //for now
 app.use('/uploads', express.static('uploads')) // auto to do next()
 io.on('connection', function (socket) {
 	console.log('new socket connected: ', socket.id)

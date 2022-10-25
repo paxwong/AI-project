@@ -4,10 +4,8 @@ import PostService from '../services/PostService';
 import { logger } from '../logger'
 import { formParse } from '../upload';
 import { deepaiImage } from '../deepai';
-import { request } from 'http';
-import { add } from 'winston';
-
 const download = require('image-downloader')
+const fs = require('fs')
 export default class PostController {
     constructor(private service: PostService, private io: SocketIO.Server) { }
     addPost = async (req: Request, res: Response) => {
@@ -41,7 +39,26 @@ export default class PostController {
 
 
             const { filename, fields } = await formParse(req)
-            // console.log("FILENAME", filename)
+            console.log("FILENAME", filename)
+            if (Array.isArray(filename)) {
+                for (let i = 0; i < filename.length; i++) {
+                    if (filename[i].indexOf('.HEIC') > -1) {
+                        try { fs.unlinkSync(`./uploads/${filename[i]}`) } catch (err) { console.error(err) }
+                        res.status(400).json({
+                            message: 'HEIC image not supported'
+                        })
+                        return
+                    }
+                    if (filename[i].indexOf('.HEIF') > -1) {
+                        try { fs.unlinkSync(`./uploads/${filename[i]}`) } catch (err) { console.error(err) }
+                        res.status(400).json({
+                            message: 'HEIF image not supported'
+                        })
+                        return
+                    }
+                }
+            }
+
             // console.log({ filename, text })
             let addPostResult: any = await this.service.addPost(fields.caption, filename, user);
             // this.io.emit('new-memo', {
@@ -86,7 +103,7 @@ export default class PostController {
                 }
             }
 
-            res.status(200).json({ message: results , postId: postId })
+            res.status(200).json({ message: results, postId: postId })
         } catch (e) {
             console.log(e)
             res.status(400).send('Upload Fail')
@@ -212,6 +229,7 @@ export default class PostController {
     }
 
     getMyPosts = async (req: Request, res: Response) => {
+        let is_admin = req.session['isAdmin']
         try {
             if (!req.session || !req.session["user"]) {
                 res.status(400).json({ message: 'User not found' })
@@ -219,7 +237,7 @@ export default class PostController {
             }
             let userId = req.session['user'].id
 
-            const myPostsResult = await this.service.getMyPosts(Number(userId));
+            const myPostsResult = await this.service.getMyPosts(Number(userId), is_admin);
 
             res.json(myPostsResult)
         }
@@ -235,18 +253,25 @@ export default class PostController {
     deleteMyPosts = async (req: Request, res: Response) => {
         try {
             const postId = req.body.postId
-
+            let userId = req.session['user'].id
+            let is_admin = req.session['isAdmin']
             if (!postId || !Number(postId)) {
                 res.status(400).json({
                     message: 'index is invalid'
                 })
                 return
             }
-            const deleteResult = await this.service.deleteMyPosts(Number(postId));
+            const deleteResult = await this.service.deleteMyPosts(Number(postId), Number(userId), is_admin);
 
-            res.json({
-                message: 'del success'
-            })
+            if (deleteResult.rowCount == 1) {
+                res.json({
+                    message: 'Delete success'
+                })
+            } else {
+                res.json({
+                    message: 'Not your post'
+                })
+            }
         } catch (e) {
             console.log('error : ' + e)
             res.status(500).json({
@@ -258,6 +283,7 @@ export default class PostController {
     changePostStatus = async (req: Request, res: Response) => {
         try {
             let userId = req.session['user'].id
+            let is_admin = req.session['isAdmin']
             const postId = req.body.postId
             const status = req.body.postStatus
             if (!postId || !Number(postId)) {
@@ -266,7 +292,7 @@ export default class PostController {
                 })
                 return
             }
-            const statusResult = await this.service.changePostStatus(Number(userId), Number(postId), status)
+            const statusResult = await this.service.changePostStatus(Number(userId), Number(postId), status, is_admin)
             console.log(statusResult)
             if (statusResult.rowCount == 1) {
                 res.json({

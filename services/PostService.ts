@@ -6,6 +6,9 @@ import Raw_image from '../models/RawModel';
 import Converted_image from "../models/ConvertedModel";
 import Comment from "../models/CommentModel";
 import Like from "../models/LikeModel";
+import e from "express";
+import console from "console";
+const fs = require('fs')
 const download = require('image-downloader')
 export default class PostService {
     constructor(private knex: Knex) { }
@@ -82,7 +85,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where is_deleted = false and status='public'`)).rows
+        where is_deleted = false and status='public' ORDER BY created_at DESC`)).rows
 
         return result
 
@@ -163,8 +166,21 @@ export default class PostService {
             `update likes set is_deleted='f' where user_id=(?) and post_id=(?)`, [user, post]
         ))
     }
-    async getMyPosts(userId: number) {
-        let result = (await this.knex.raw(
+    async getMyPosts(userId: number, is_admin: boolean) {
+        if (is_admin) {
+            let result = (await this.knex.raw(
+                /*sql*/`
+            select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, posts.is_deleted, raw.image as raw_image, con.image as con_image 
+            from posts 
+            inner join users on users.id = posts.user_id 
+            inner join raw_images raw on raw.post_id = posts.id 
+            inner join converted_images con on con.raw_id = raw.id
+            where is_deleted = false
+            ORDER BY created_at DESC
+            `)).rows
+            return result
+        } else {
+            let result = (await this.knex.raw(
             /*sql*/`
         select posts.id, posts.caption, posts.status, posts.user_id, users.nickname,users.icon, posts.created_at, posts.is_deleted, raw.image as raw_image, con.image as con_image 
         from posts 
@@ -174,24 +190,67 @@ export default class PostService {
         where posts.user_id = (?) and is_deleted = false
         ORDER BY created_at DESC
         `,
-            [userId])).rows
-        return result
-    }
-
-    async deleteMyPosts(postId: number) {
-
-        let result = (await this.knex.raw(
-            /*sql*/
-            `update posts set is_deleted = true where id = (?)`, [postId]))
+                [userId])).rows
+            return result
+        }
 
     }
 
-    async changePostStatus(userId: number, postId: number, status: string) {
+    async deleteMyPosts(postId: number, userId: number, is_admin: boolean) {
+        if (is_admin) {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set is_deleted = true where id = (?)`, [postId]))
 
-        let result = (await this.knex.raw(
-            /*sql*/
-            `update posts set status = (?) where id = (?) and user_id =(?)`, [status, postId, userId]))
-        return result
+            let rawFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let rawFile of rawFiles) {
+                try { fs.unlinkSync(`./uploads/${rawFile.image}`) } catch (err) { console.error(err) }
+            }
+
+            let convertedFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let convertedFile of convertedFiles) {
+                try { fs.unlinkSync(`./uploads/${convertedFile.image}`) } catch (err) { console.error(err) }
+            }
+            return result
+        } else {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set is_deleted = true where id = (?) and user_id=(?)`, [postId, userId]))
+            let rawFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let rawFile of rawFiles) {
+                try { fs.unlinkSync(`./uploads/${rawFile.image}`) } catch (err) { console.error(err) }
+            }
+
+            let convertedFiles = (await this.knex.raw(
+                `select image from raw_images where post_id=(?)`, [postId]
+            )).rows
+            for (let convertedFile of convertedFiles) {
+                try { fs.unlinkSync(`./uploads/${convertedFile.image}`) } catch (err) { console.error(err) }
+            }
+            return result
+        }
+
+
+    }
+
+    async changePostStatus(userId: number, postId: number, status: string, is_admin: boolean) {
+        if (is_admin) {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set status = (?) where id = (?)`, [status, postId]))
+            return result
+        } else {
+            let result = (await this.knex.raw(
+                /*sql*/
+                `update posts set status = (?) where id = (?) and user_id =(?)`, [status, postId, userId]))
+            return result
+        }
     }
 
 }

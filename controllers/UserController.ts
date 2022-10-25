@@ -113,7 +113,7 @@ export default class UserController {
             } = dbUser
 
             req.session["user"] = sessionUser
-
+            req.session["isAdmin"] = is_admin
             res.status(200).json({
                 message: 'Success login',
                 user: sessionUser
@@ -153,12 +153,62 @@ export default class UserController {
             let icon = req.session["user"].icon
             let credit = req.session["user"].credit
             let userId = req.session["user"].id
-            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit, "id": userId })
+            let isGoogle = req.session["user"].is_google
+            res.status(200).json({ "nickname": nickname, "icon": icon, "credit": credit, "id": userId, "is_google": isGoogle })
         } catch (err) {
             console.log(err)
             res.status(500).json({ message: 'Internal Server Error' })
         }
     }
+
+    changeGoogleSetting = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'Invalid Session' })
+                return
+            }
+
+            const changeType = req.body.changeType
+            const changeData = req.body.changeData
+            const newUsername = req.body.newUsername
+            const sessionEmail = req.session["user"].email
+            const usernameValidation = req.body.usernameValidation
+
+            if (changeType == 'username' && usernameValidation == false) {
+                res.status(400).json({ message: "Invalid Username Input" })
+                return
+            }
+            let checkName = await this.service.checkName(newUsername)
+            if (checkName) {
+                res.status(400).json({
+                    message: 'This username is already in use'
+                })
+                return
+            }
+
+            let dbUser = await this.service.getUser(sessionEmail)
+
+            let updatedUser = await this.service.changeSetting(dbUser.id, changeType, changeData)
+
+            let {
+                password: hashPassword,
+                is_admin,
+                created_at,
+                updated_at,
+                ...sessionUser
+            } = updatedUser
+
+
+            req.session["user"] = sessionUser
+            res.status(200).json({ message: 'Successfully changed' })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
+
+    }
+
 
     changeSetting = async (req: Request, res: Response) => {
         try {
@@ -171,6 +221,7 @@ export default class UserController {
             const changeType = req.body.changeType
             const changeData = req.body.changeData
             const sessionEmail = req.session["user"].email
+            const newUsername = req.body.newUsername
             const needHash = true
             const emailValidation = req.body.emailValidation
             const passwordValidation = req.body.passwordValidation
@@ -194,6 +245,14 @@ export default class UserController {
                 return
             }
 
+            let checkName = await this.service.checkName(newUsername)
+            if (checkName) {
+                res.status(400).json({
+                    message: 'This username is already in use'
+                })
+                return
+            }
+
             let dbUser = await this.service.getUser(sessionEmail)
             let isMatched = await checkPassword(oldPassword, dbUser.password)
 
@@ -212,6 +271,37 @@ export default class UserController {
                 ...sessionUser
             } = updatedUser
 
+
+            req.session["user"] = sessionUser
+            res.status(200).json({ message: 'Successfully changed' })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
+
+    }
+
+    changeGooglePicture = async (req: Request, res: Response) => {
+        try {
+            if (!req.session || !req.session["user"]) {
+                res.status(400).json({ message: 'Invalid Session' })
+                return
+            }
+            const { filename } = await formParsePFP(req)
+
+
+
+            const dbUserID = req.session["user"].id
+            const updatedUser = await this.service.changePicture(filename, dbUserID);
+
+            let {
+                password: hashPassword,
+                is_admin,
+                created_at,
+                updated_at,
+                ...sessionUser
+            } = updatedUser
 
             req.session["user"] = sessionUser
             res.status(200).json({ message: 'Successfully changed' })
@@ -266,7 +356,8 @@ export default class UserController {
 
         // fetch google API, 拎 user profile
         const fetchRes = await fetch(
-            'https://www.googleapis.com/oauth2/v2/userinfo',
+            'https://www.googleapis.com/oauth2/v2/userinfo'
+            ,
             {
                 method: 'get',
                 headers: {
@@ -279,7 +370,7 @@ export default class UserController {
         let email = await this.service.googleLogin(googleProfile.email)
 
         if (!email) {
-            email = await this.service.googleAddUser(googleProfile.email, googleProfile.family_name,)
+            email = await this.service.googleAddUser(googleProfile.email, googleProfile.given_name,)
         }
 
         let dbUser = await this.service.getUser(googleProfile.email)
