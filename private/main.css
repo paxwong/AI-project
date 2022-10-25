@@ -868,7 +868,8 @@ form {
 }
 
 .profile-button:hover {
-    /* something */
+    background-color: #444444;
+    color: #EDEDED;
 }
 
 .profile-title {
@@ -876,6 +877,8 @@ form {
     text-align: center;
     font-size: 3.5rem;
 }
+
+
 
 .submit-return-button {
     font-size: medium;
@@ -892,6 +895,8 @@ form {
 
 .submit-return-button:hover {
     cursor: pointer;
+    background-color: #EDEDED;
+    color: #444444;
 }
 
 .profile-svg-container {
