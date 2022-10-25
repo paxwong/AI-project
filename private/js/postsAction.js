@@ -1,5 +1,5 @@
 const postListFormElement = document.querySelector(".create-form");
-
+const blurDiv = document.querySelector("#blur")
 
 async function getUserInfo() {
     const res = await fetch('/user/getMyInfo')

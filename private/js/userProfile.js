@@ -271,9 +271,7 @@ async function addListenerToGoogleSetting() {
         const changeType = event.target.type.value
         const newUsername = event.target.newUsername ? event.target.newUsername.value : '';
         let usernameValidation = ValidateUsername(newUsername)
-        if (passwordValidation == false) {
-            alert("Password must has\nAt least 8 characters.\nA mixture of both uppercase and lowercase letters.\nA mixture of letters and numbers.\nInclusion of at least one special character, e.g.!@#$%^&*")
-        }
+
         if (usernameValidation == false) {
             alert("The username must be between 1 and 10 characters.\nPlease use only letters(a-z)(A-Z), number and special characters(._)")
         }
