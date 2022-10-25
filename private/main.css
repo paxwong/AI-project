@@ -637,6 +637,8 @@ small {
     transform: translateX(-10px) translateY(-50%);
     width: 155px;
     overflow: hidden;
+    text-align: end;
+
 }
 
 
