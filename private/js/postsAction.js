@@ -231,6 +231,13 @@ async function loadPosts() {
             postContainer.innerHTML += `
             <div class="place-holder"></div>
             `
+
+        }
+
+        if (postContainer.querySelectorAll(".post").length + postContainer.querySelectorAll(".place-holder").length % 3 != 0) {
+            postContainer.innerHTML += `
+            <div class="place-holder"></div>
+            `
         }
 
 

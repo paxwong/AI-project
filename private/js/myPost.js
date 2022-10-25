@@ -259,7 +259,11 @@ async function loadMyPosts() {
             <div class="place-holder"></div>
             `
         }
-
+        if (myPostContainer.querySelectorAll(".myPost").length + myPostContainer.querySelectorAll(".place-holder").length % 3 != 0) {
+            myPostContainer.innerHTML += `
+            <div class="place-holder"></div>
+            `
+        }
 
 
         // add event listener
