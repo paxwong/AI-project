@@ -200,37 +200,38 @@ async function loadPosts(page) {
                     document.getElementById(`post${post.id}comment${i}`).textContent = comment.content
                     i++
                 }
-            }
 
-            const likes = await fetch(`/post/like-count/${post.id}`)
-            let likesData = (await likes.json()).data.results
-            let likesCount = 0
-            let likesContainer = currentPost.querySelector('.likes')
-            let likeBtn = currentPost.querySelector('.like')
-            let likedBtn = currentPost.querySelector('.liked')
 
-            let likedByContainer = currentPost.querySelector('.liked-by')
-            for (let like of likesData) {
+                const likes = await fetch(`/post/like-count/${post.id}`)
+                let likesData = (await likes.json()).data.results
+                let likesCount = 0
+                let likesContainer = currentPost.querySelector('.likes')
+                let likeBtn = currentPost.querySelector('.like')
+                let likedBtn = currentPost.querySelector('.liked')
 
-                if (like.user_id == userID && like.is_deleted == true) {
-                    likeBtn.style.display = "block"
-                    likedBtn.style.display = "none"
-                }
+                let likedByContainer = currentPost.querySelector('.liked-by')
+                for (let like of likesData) {
 
-                if (like.user_id == userID && like.is_deleted == false) {
-                    likeBtn.style.display = "none"
-                    likedBtn.style.display = "block"
-                }
-                if (like.is_deleted == false) {
-                    likesCount++
-                    likedByContainer.innerHTML += `
+                    if (like.user_id == userID && like.is_deleted == true) {
+                        likeBtn.style.display = "block"
+                        likedBtn.style.display = "none"
+                    }
+
+                    if (like.user_id == userID && like.is_deleted == false) {
+                        likeBtn.style.display = "none"
+                        likedBtn.style.display = "block"
+                    }
+                    if (like.is_deleted == false) {
+                        likesCount++
+                        likedByContainer.innerHTML += `
                     <div class="user">
                     ${like.nickname}
                      </div>`}
 
+                }
+                if (likesCount > 1) { likesContainer.innerHTML += likesCount + ' likes' }
+                if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
             }
-            if (likesCount > 1) { likesContainer.innerHTML += likesCount + ' likes' }
-            if (likesCount == 1) { likesContainer.innerHTML += likesCount + ' like' }
         }
     }
     loader.style.opacity = 0
