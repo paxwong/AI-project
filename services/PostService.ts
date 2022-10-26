@@ -78,7 +78,7 @@ export default class PostService {
     async getPostsLength() {
         let result = (await this.knex.raw(
             `
-           SELECT COUNT(id) from posts where is_deleted='F'
+           SELECT COUNT(id) from posts where is_deleted='f' and status='public'
     `
         )).rows[0].count
         return result
