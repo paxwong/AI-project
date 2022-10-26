@@ -187,6 +187,7 @@ export default class PostController {
     }
     getPosts = async (req: Request, res: Response) => {
         let page = Number(req.params.pageNumber)
+
         // if (page) {
         const postsResult = await this.service.getPosts(page);
         res.json(postsResult)

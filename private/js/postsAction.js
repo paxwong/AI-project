@@ -100,8 +100,9 @@ async function loadPosts(page) {
     }
 
     const pageRes = await fetch('/post')
-    const pageLength = Math.ceil((await pageRes.json()) / 6)
-    console.log(pageLength)
+    const postsLength = await pageRes.json()
+    const pageLength = await postsLength / 6
+
     const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
     // console.log(data)
@@ -116,7 +117,6 @@ async function loadPosts(page) {
         for (let post of data) {
             // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
-
                 let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1
                 imgContainer.innerHTML += `
@@ -234,6 +234,7 @@ async function loadPosts(page) {
         }
         loader.style.opacity = 0
         postContainer.style.opacity = 1
+
         if (pageLength > 1) {
             postContainer.innerHTML += `
             <div class=pageControl>Page:</div>
