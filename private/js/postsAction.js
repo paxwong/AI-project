@@ -93,6 +93,7 @@ function left(id) {
 
 }
 
+
 async function loadPosts(page) {
     if (!page) {
         console.log("no param")
@@ -101,11 +102,13 @@ async function loadPosts(page) {
 
     const pageRes = await fetch('/post')
     const postsLength = await pageRes.json()
-    const pageLength = await postsLength / 6
+    const pageLength = Math.ceil(await postsLength / 6)
 
     const res = await fetch(`/post/page/${page}`)
     const data = await res.json()
-    // console.log(data)
+
+
+    console.log(data)
     let counter = 0
     const postContainer = document.querySelector('.post-container')
     // postContainerParent.removeChild(postContainer)
@@ -115,7 +118,7 @@ async function loadPosts(page) {
     if (res.ok) {
 
         for (let post of data) {
-            console.log(post)
+            // console.log(post)
             if (document.getElementById(`post${post.id}`)) {
                 let imgContainer = document.getElementById(`post${post.id}`).querySelector('.img-container')
                 var numberOfImg = imgContainer.getElementsByTagName('img').length / 2 + 1

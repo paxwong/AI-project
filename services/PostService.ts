@@ -95,7 +95,7 @@ export default class PostService {
         let posts = (await this.knex.raw(`
         select id from posts where is_deleted ='f' and status='public' 
         ORDER BY created_at DESC LIMIT 6 OFFSET ${offset}`)).rows
-        console.log(posts)
+        // console.log(posts)
         let idList = ''
         for (let i = 0; i < posts.length; i++) {
             idList += (posts[i].id)
@@ -112,7 +112,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where id in (${idList}) ORDER BY posts.created_at DESC  `)).rows
+        where posts.id in (${idList}) ORDER BY posts.created_at DESC  `)).rows
 
         return result
 
