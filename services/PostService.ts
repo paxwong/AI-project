@@ -112,7 +112,7 @@ export default class PostService {
         inner join users on users.id = posts.user_id 
         inner join raw_images raw on raw.post_id = posts.id 
         inner join converted_images con on con.raw_id = raw.id
-        where user_id in (${idList}) ORDER BY created_at DESC  `)).rows
+        where user_id in (${idList}) ORDER BY posts.created_at DESC  `)).rows
 
         return result
 
