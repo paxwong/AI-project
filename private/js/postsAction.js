@@ -499,7 +499,7 @@ async function loadPosts(page) {
     }
 
 }
-}
+
 
 function getPostIdInQuery() {
     let search = new URLSearchParams(window.location.search)
